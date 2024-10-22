@@ -1,5 +1,6 @@
 import { UseMutationResult, useMutation } from "@tanstack/react-query";
-import { instance, paths } from "../apis";
+import { paths } from "@/constants";
+import { instance } from "../apis";
 
 type apiType = "post" | "patch" | "delete" | "put";
 

@@ -1,26 +1,23 @@
-import { Icon, View } from "@/Components";
-import { useColor } from "@/hooks";
-import { Platform } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Home } from "@/Screens/Home";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Notice, Apply } from "@/Screens";
+import { Platform } from "react-native";
+import { HomeStack } from "./HomeStack";
+import { AllStack } from "./AllStack";
+import { Icon } from "@/Components";
+import { useTheme } from "@/hooks";
 
 const { Navigator, Screen } = createBottomTabNavigator();
-
-const TestComponent = () => {
-  const { color } = useColor();
-  return <View style={{ flex: 1, backgroundColor: color("bg") }}></View>;
-};
+const getColor = (focused: boolean) => (focused ? "main" : "gray");
 
 export const MainTabs = () => {
   const { bottom } = useSafeAreaInsets();
-  const { color } = useColor();
-  const getColor = (focused: boolean) =>
-    focused ? color("main", 500, true) : color("gray", 500, true);
+  const { color } = useTheme();
 
   return (
     <Navigator
       screenOptions={{
+        unmountOnBlur: true,
         headerShown: false,
         tabBarActiveTintColor: color("main", 500, true),
         tabBarLabelStyle: {
@@ -28,7 +25,10 @@ export const MainTabs = () => {
           fontFamily: "Medium",
         },
         tabBarStyle: {
-          backgroundColor: color("bg", 0, true),
+          backgroundColor: "transparent",
+          position: "absolute",
+          elevation: 0,
+          zIndex: 9999,
           borderColor: color("gray", 100, true),
           height: (Platform.OS === "ios" ? 50 : 60) + bottom,
           paddingBottom: (Platform.OS === "ios" ? 0 : 10) + bottom,
@@ -37,37 +37,47 @@ export const MainTabs = () => {
     >
       <Screen
         name="홈"
-        component={Home}
+        component={HomeStack}
         options={{
-          tabBarIcon: ({ focused }) => <Icon name="Home" color={getColor(focused)} />,
+          tabBarIcon: ({ focused }) => (
+            <Icon name="Home" colorType={getColor(focused)} colorLevel={500} />
+          ),
         }}
       />
       <Screen
         name="급식"
-        component={TestComponent}
+        component={Notice}
         options={{
-          tabBarIcon: ({ focused }) => <Icon name="Meal" color={getColor(focused)} />,
+          tabBarIcon: ({ focused }) => (
+            <Icon name="Meal" colorType={getColor(focused)} colorLevel={500} />
+          ),
         }}
       />
       <Screen
         name="신청"
-        component={TestComponent}
+        component={Apply}
         options={{
-          tabBarIcon: ({ focused }) => <Icon name="Check" color={getColor(focused)} />,
+          tabBarIcon: ({ focused }) => (
+            <Icon name="Check" colorType={getColor(focused)} colorLevel={500} />
+          ),
         }}
       />
       <Screen
         name="일정"
-        component={TestComponent}
+        component={Apply}
         options={{
-          tabBarIcon: ({ focused }) => <Icon name="Calander" color={getColor(focused)} />,
+          tabBarIcon: ({ focused }) => (
+            <Icon name="Calander" colorType={getColor(focused)} colorLevel={500} />
+          ),
         }}
       />
       <Screen
         name="전체"
-        component={TestComponent}
+        component={AllStack}
         options={{
-          tabBarIcon: ({ focused }) => <Icon name="All" color={getColor(focused)} />,
+          tabBarIcon: ({ focused }) => (
+            <Icon name="All" colorType={getColor(focused)} colorLevel={500} />
+          ),
         }}
       />
     </Navigator>

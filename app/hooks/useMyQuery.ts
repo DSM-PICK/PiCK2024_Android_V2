@@ -1,5 +1,6 @@
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
-import { instance, paths } from "../apis";
+import { paths } from "@/constants";
+import { instance } from "../apis";
 
 export const useMyQuery = <T>(pathname: keyof typeof paths, url: string): UseQueryResult<T> => {
   return useQuery<T>({

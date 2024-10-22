@@ -1,12 +1,12 @@
-import { ILoginInput, ILoginOutput } from "@/apis";
 import { Button, Layout, Text, TextInput, View } from "@/Components";
+import { IUserLoginIn, IUserLoginOut } from "@/apis";
 import { useMyMutation } from "@/hooks";
 import { bulkSetItem } from "@/utils";
 import { AxiosError } from "axios";
 import { useState } from "react";
 
 export const Login = ({ navigation }) => {
-  const { mutate } = useMyMutation<ILoginInput, ILoginOutput>("post", "user", "/login");
+  const { mutate } = useMyMutation<IUserLoginIn, IUserLoginOut>("post", "user", "/login");
 
   const [data, setData] = useState({
     account_id: "",
@@ -26,13 +26,13 @@ export const Login = ({ navigation }) => {
   return (
     <Layout style={{ gap: 40 }} bottomPad>
       <View style={{ width: "100%", marginTop: 80 }}>
-        <Text type="heading" fontLevel={2} color="normal" level="black">
-          <Text type="heading" fontLevel={2} color="main" level={500}>
+        <Text fontType="heading" fontLevel={2} colorType="normal" colorLevel="black">
+          <Text fontType="heading" fontLevel={2} colorType="main" colorLevel={500}>
             PICK
           </Text>
           에 로그인하기
         </Text>
-        <Text type="body" fontLevel={1} color="gray" level={600}>
+        <Text fontType="body" fontLevel={1} colorType="gray" colorLevel={600}>
           스퀘어 계정으로 로그인 해 주세요.
         </Text>
       </View>

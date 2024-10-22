@@ -1,78 +1,94 @@
 export const fontTable = {
   heading: {
     1: {
-      size: 42,
-      weight: "SemiBold",
+      fontSize: 42,
+      fontFamily: "SemiBold",
+      lineHeight: 50,
     },
     2: {
-      size: 32,
-      weight: "SemiBold",
+      fontSize: 32,
+      fontFamily: "SemiBold",
+      lineHeight: 38,
     },
     3: {
-      size: 24,
-      weight: "SemiBold",
+      fontSize: 24,
+      fontFamily: "SemiBold",
+      lineHeight: 29,
     },
     4: {
-      size: 20,
-      weight: "SemiBold",
+      fontSize: 20,
+      fontFamily: "SemiBold",
+      lineHeight: 24,
     },
   },
   subTitle: {
     1: {
-      size: 18,
-      weight: "SemiBold",
+      fontSize: 18,
+      fontFamily: "SemiBold",
+      lineHeight: 21,
     },
     2: {
-      size: 16,
-      weight: "SemiBold",
+      fontSize: 16,
+      fontFamily: "SemiBold",
+      lineHeight: 19,
     },
     3: {
-      size: 14,
-      weight: "SemiBold",
+      fontSize: 14,
+      fontFamily: "SemiBold",
+      lineHeight: 17,
     },
   },
   body: {
     1: {
-      size: 14,
-      weight: "Medium",
+      fontSize: 14,
+      fontFamily: "Medium",
+      lineHeight: 17,
     },
     2: {
-      size: 12,
-      weight: "Medium",
+      fontSize: 12,
+      fontFamily: "Medium",
+      lineHeight: 14,
     },
     3: {
-      size: 10,
-      weight: "Medium",
+      fontSize: 10,
+      fontFamily: "Medium",
+      lineHeight: 12,
     },
   },
   caption: {
     1: {
-      size: 16,
-      weight: "Regular",
+      fontSize: 16,
+      fontFamily: "Regular",
+      lineHeight: 19,
     },
     2: {
-      size: 12,
-      weight: "Regular",
+      fontSize: 12,
+      fontFamily: "Regular",
+      lineHeight: 14,
     },
   },
   label: {
     1: {
-      size: 16,
-      weight: "Medium",
+      fontSize: 16,
+      fontFamily: "Medium",
+      lineHeight: 19,
     },
     2: {
-      size: 12,
-      weight: "Medium",
+      fontSize: 12,
+      fontFamily: "Medium",
+      lineHeight: 14,
     },
   },
   button: {
     1: {
-      size: 16,
-      weight: "SemiBold",
+      fontSize: 16,
+      fontFamily: "SemiBold",
+      lineHeight: 19,
     },
     2: {
-      size: 12,
-      weight: "SemiBold",
+      fontSize: 12,
+      fontFamily: "SemiBold",
+      lineHeight: 14,
     },
   },
 };

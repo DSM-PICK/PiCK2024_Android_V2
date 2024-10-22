@@ -1,26 +1,32 @@
+import { IColorProp, useTheme } from "@/hooks";
 import { SvgProps } from "react-native-svg";
 import * as Icons from "@/assets";
-import { Animated } from "react-native";
 
 const rotateTable = {
   up: "0deg",
   down: "180deg",
-  right: "-90deg",
-  left: "90deg",
+  right: "90deg",
+  left: "-90deg",
 };
 
 export type iconType = keyof typeof Icons;
-type rotateType = keyof typeof rotateTable;
 
-interface IProp extends Omit<SvgProps, "color"> {
+interface IProp extends Omit<SvgProps, "color">, IColorProp {
   name: iconType;
-  rotate?: rotateType;
-  color?: string | Animated.AnimatedInterpolation<string | number>;
+  rotate?: keyof typeof rotateTable;
   size?: number;
 }
 
-export const Icon = ({ name, rotate = "up", color = "#8C8A8F", size = 36, ...props }: IProp) => {
-  const _Icon = Animated.createAnimatedComponent(Icons[name]);
+export const Icon = ({
+  colorLevel,
+  colorType,
+  name,
+  rotate = "up",
+  size = 36,
+  ...props
+}: IProp) => {
+  const _Icon = Icons[name];
+  const { color } = useTheme();
 
   return (
     <_Icon
@@ -28,8 +34,14 @@ export const Icon = ({ name, rotate = "up", color = "#8C8A8F", size = 36, ...pro
       hitSlop={{ top: 10, bottom: 10, right: 10, left: 10 }}
       width={size}
       height={size}
-      //@ts-expect-error
-      style={{ transform: [{ rotate: rotateTable[rotate] }], color }}
+      style={[
+        props.style,
+        {
+          transform: [{ rotate: rotateTable[rotate] }],
+          //@ts-expect-error
+          color: color(colorType || "gray", colorLevel || 400, true),
+        },
+      ]}
     />
   );
 };

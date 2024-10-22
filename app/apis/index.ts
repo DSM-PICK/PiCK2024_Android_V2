@@ -1,6 +1,6 @@
+import { bulkSetItem, getItem } from "@/utils";
 import axios from "axios";
 export * from "./types";
-export * from "./paths";
 
 export const instance = axios.create({
   baseURL: process.env.EXPO_PUBLIC_BASE_URL,
@@ -8,15 +8,39 @@ export const instance = axios.create({
 });
 
 instance.interceptors.request.use(
-  (res) => res,
+  async (res) => {
+    const token = await getItem("access_token");
+    if (token && res.url !== "/user/login" && res.url !== "/user/refresh") {
+      res.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return res;
+  },
   (err) => {
+    console.log(err);
     throw err;
   }
 );
 
 instance.interceptors.response.use(
   (res) => res,
-  (err) => {
-    throw err;
+  async (err) => {
+    console.log(err);
+    if (err.response.status === 401) {
+      try {
+        const token = await getItem("refresh_token");
+        instance
+          .put("/user/refresh", null, { headers: { "X-Refresh-Token": token } })
+          .then(({ data: { access_token, refresh_token } }) => {
+            bulkSetItem([
+              ["access_token", access_token],
+              ["refresh_token", refresh_token],
+            ]);
+          });
+      } catch {
+        throw err;
+      }
+    } else {
+      throw err;
+    }
   }
 );

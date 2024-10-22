@@ -1,14 +1,15 @@
-import { useColor, useTheme } from "@/hooks";
 import { Animated, Image } from "react-native";
 import { View } from "@/Components";
+import { useTheme } from "@/hooks";
+import { useEffect } from "react";
+import { delItem } from "@/utils";
 
 interface IProp {
   fade: Animated.Value;
 }
 
 export const Splash = ({ fade }: IProp) => {
-  const { color } = useColor();
-  const { theme } = useTheme();
+  const { color, getTheme } = useTheme();
 
   return (
     <View
@@ -29,9 +30,9 @@ export const Splash = ({ fade }: IProp) => {
       <Image
         style={{ width: 250, height: 250 }}
         source={
-          theme === "light"
-            ? require("@/assets/SplashLight.gif")
-            : require("@/assets/SplashDark.gif")
+          getTheme() === "light"
+            ? require("@/assets/images/SplashLight.gif")
+            : require("@/assets/images/SplashDark.gif")
         }
       />
     </View>

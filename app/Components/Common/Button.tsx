@@ -1,6 +1,6 @@
 import { GestureResponderEvent, TouchableOpacityProps, StyleSheet } from "react-native";
 import { TouchableOpacity } from "./AnimatedComponents";
-import { useColor } from "@/hooks";
+import { useTheme } from "@/hooks";
 import { Text } from "./Text";
 
 interface IProp extends TouchableOpacityProps {
@@ -10,7 +10,7 @@ interface IProp extends TouchableOpacityProps {
 }
 
 export const Button = ({ onPress, disabled, children, ...props }: IProp) => {
-  const { color } = useColor();
+  const { color } = useTheme();
   return (
     <TouchableOpacity
       {...props}
@@ -22,7 +22,7 @@ export const Button = ({ onPress, disabled, children, ...props }: IProp) => {
       onPress={onPress}
       activeOpacity={0.6}
     >
-      <Text color="normal" level="white" type="button" fontLevel={1}>
+      <Text colorType="normal" colorLevel="white" fontType="button" fontLevel={1}>
         {children}
       </Text>
     </TouchableOpacity>

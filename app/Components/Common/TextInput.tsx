@@ -1,7 +1,6 @@
 import { View as AnimView, NativeInput } from "./AnimatedComponents";
 import { TextInputProps, View, StyleSheet } from "react-native";
-import { useColor } from "@/hooks";
-import { Hidden } from "./Hidden";
+import { useTheme } from "@/hooks";
 import { useState } from "react";
 import { Icon } from "./Icon";
 import { Text } from "./Text";
@@ -34,21 +33,21 @@ export const TextInput = ({
 }: IProp) => {
   const [visible, setVisible] = useState(false);
   const [focus, setFocus] = useState(false);
-  const { color } = useColor();
+  const { color } = useTheme();
   const height = !!multiLine ? multiLine * 30 : 40;
 
   return (
     <View style={styles.container}>
-      <Hidden data={label}>
-        <Text color="normal" level="black" type="label" fontLevel={1}>
+      {label && (
+        <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={1}>
           {label}
-          <Hidden data={required}>
-            <Text color="error" type="label" fontLevel={1}>
+          {required && (
+            <Text colorType="error" fontType="label" fontLevel={1}>
               *
             </Text>
-          </Hidden>
+          )}
         </Text>
-      </Hidden>
+      )}
       <AnimView
         style={{
           ...styles.inputContainer,
@@ -57,7 +56,7 @@ export const TextInput = ({
           alignItems: !!multiLine ? "flex-start" : "center",
         }}
       >
-        <Hidden data={error || focus}>
+        {(error || focus) && (
           <AnimView
             pointerEvents="none"
             style={{
@@ -66,7 +65,7 @@ export const TextInput = ({
               borderColor: !!error ? color("error") : focus && color("main", 500),
             }}
           />
-        </Hidden>
+        )}
         <NativeInput
           {...props}
           onBlur={() => setFocus(false)}
@@ -81,19 +80,21 @@ export const TextInput = ({
           style={[props.style, styles.input, { color: color("normal", "black") }]}
           placeholderTextColor={color("gray", 400)}
         />
-        <Hidden data={password}>
+        {password && (
           <Icon
             name={visible ? "Eye" : "EyeOff"}
             size={24}
+            colorType="gray"
+            colorLevel={900}
             onPress={() => setVisible((prev) => !prev)}
           />
-        </Hidden>
+        )}
       </AnimView>
-      <Hidden data={error}>
-        <Text color="error" type="body" fontLevel={1} style={{ alignSelf: "flex-end" }}>
+      {error && (
+        <Text colorType="error" fontType="body" fontLevel={1} style={{ alignSelf: "flex-end" }}>
           {error}
         </Text>
-      </Hidden>
+      )}
     </View>
   );
 };

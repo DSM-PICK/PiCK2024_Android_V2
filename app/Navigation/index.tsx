@@ -1,5 +1,5 @@
-import { Onboard, Login } from "@/Screens";
 import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
+import { Onboard, Login } from "@/Screens";
 import { MainTabs } from "./MainTabs";
 
 const { SlideFromRightIOS } = TransitionPresets;

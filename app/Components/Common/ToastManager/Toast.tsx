@@ -1,12 +1,12 @@
 import { ActivityIndicator, Animated, StyleSheet } from "react-native";
-import { typeType, useToast, useColor } from "@/hooks";
+import { typeType, useToast, useTheme } from "@/hooks";
 import { useEffect, useRef } from "react";
 import { Text } from "../Text";
 import { Icon } from "../Icon";
 
 const typeTable: Record<typeType, React.ReactElement> = {
-  success: <Icon name="ToastCheck" color="#9650FA" size={20} />,
-  error: <Icon name="ToastX" color="#FF3B32" size={20} />,
+  success: <Icon name="ToastCheck" colorType="main" colorLevel={500} size={20} />,
+  error: <Icon name="ToastX" colorType="error" size={20} />,
   wait: <ActivityIndicator size={20} />,
 };
 
@@ -19,7 +19,7 @@ interface IProp {
 
 export const Toast = ({ id, type, message, wasWait }: IProp) => {
   const pos = useRef(new Animated.Value(wasWait ? -80 : 100, { useNativeDriver: true })).current;
-  const { color } = useColor();
+  const { color } = useTheme();
   const { close } = useToast();
 
   let timer: any;
@@ -62,7 +62,7 @@ export const Toast = ({ id, type, message, wasWait }: IProp) => {
       }}
     >
       {typeTable[type]}
-      <Text color="normal" level="black" type="body" fontLevel={1}>
+      <Text colorType="normal" colorLevel="black" fontType="body" fontLevel={1}>
         {message}
       </Text>
     </Animated.View>

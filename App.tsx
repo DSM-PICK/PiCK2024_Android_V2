@@ -1,14 +1,19 @@
+import {
+  setPositionAsync,
+  setBackgroundColorAsync,
+  setButtonStyleAsync,
+} from "expo-navigation-bar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NavigationContainer } from "@react-navigation/native";
-import { setBackgroundColorAsync } from "expo-navigation-bar";
 import { useEffect, useRef, useState } from "react";
+import { Animated, StatusBar } from "react-native";
 import { getItem, isAndroid } from "@/utils";
-import { useColor, useTheme } from "@/hooks";
+import { useTheme } from "@/hooks";
 import { Navigation } from "@/Navigation";
-import { StatusBar } from "@/Components";
-import { Animated } from "react-native";
 import { useFonts } from "expo-font";
+import * as ImagePicker from "expo-image-picker";
 import { Splash } from "@/Screens";
+import { ToastManager } from "@/Components";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,8 +26,8 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
-  const { color } = useColor();
-  const { theme } = useTheme();
+  const { getTheme, theme } = useTheme();
+  const [imageStatus, imageRequest] = ImagePicker.useMediaLibraryPermissions();
 
   const [token, setToken] = useState<null | string>(null);
   const fade = useRef(new Animated.Value(1)).current;
@@ -35,8 +40,18 @@ export default function App() {
   });
 
   useEffect(() => {
-    isAndroid && setBackgroundColorAsync(color("bg", 0, true));
+    if (isAndroid) {
+      setPositionAsync("absolute");
+      setBackgroundColorAsync("#ffffff00");
+      setButtonStyleAsync("dark");
+    }
   }, [theme]);
+
+  useEffect(() => {
+    if (!imageStatus?.granted) {
+      imageRequest();
+    }
+  }, [imageStatus]);
 
   useEffect(() => {
     getItem("access_token").then((res) => setToken(res));
@@ -53,9 +68,11 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <NavigationContainer>
+        <ToastManager />
         <StatusBar
-          backgroundColor={color("bg")}
-          barStyle={theme === "dark" ? "light-content" : "dark-content"}
+          translucent
+          backgroundColor="transparent"
+          barStyle={getTheme() === "dark" ? "light-content" : "dark-content"}
         />
         {fontsLoaded && <Navigation token={token} />}
         {splash && <Splash fade={fade} />}

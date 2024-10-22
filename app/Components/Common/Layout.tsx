@@ -1,43 +1,93 @@
+import { Platform, ScrollViewProps, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Platform, StyleSheet, ViewProps } from "react-native";
-import { View } from "./AnimatedComponents";
-import { useColor } from "@/hooks";
-import { Hidden } from "./Hidden";
+import { View, ScrollView } from "./AnimatedComponents";
+import { useTheme } from "@/hooks";
 
-interface IProp extends ViewProps {
+interface IProp extends ScrollViewProps {
   children: React.ReactElement | React.ReactElement[];
   Header?: React.ReactElement;
   bottomPad?: boolean;
+  scrollAble?: boolean;
 }
 
-export const Layout = ({ children, Header, bottomPad, ...props }: IProp) => {
-  const { color } = useColor();
+export const Layout = ({ children, Header, bottomPad, scrollAble, ...props }: IProp) => {
   const { top, bottom } = useSafeAreaInsets();
+  const { color } = useTheme();
 
   return (
-    <View
-      {...props}
-      style={[
-        props.style,
-        {
-          ...styles.container,
-          paddingTop: top + (Platform.OS === "android" ? 10 : 10),
-          paddingBottom: !!bottomPad ? bottom : 0,
+    <>
+      <View
+        style={{
+          height: top,
+          width: "100%",
           backgroundColor: color("bg"),
-        },
-      ]}
-    >
-      <Hidden data={Header}>{Header}</Hidden>
-      {children}
-    </View>
+        }}
+      />
+      {scrollAble ? (
+        <ScrollView
+          {...props}
+          style={{
+            flex: 1,
+            paddingBottom: !!bottomPad ? bottom : 0,
+            backgroundColor: color("bg"),
+          }}
+        >
+          <View style={styles.scrollContainer}>
+            {Header}
+            <View style={[styles.childrenContainer, props.style]}>{children}</View>
+          </View>
+        </ScrollView>
+      ) : (
+        <View
+          {...props}
+          style={{
+            ...styles.container,
+            paddingBottom: !!bottomPad ? bottom : 0,
+            backgroundColor: color("bg"),
+            ...(props.style as object),
+          }}
+        >
+          {Header}
+          <View style={[styles.childrenContainer, props.style]}>{children}</View>
+        </View>
+      )}
+      {!!!bottomPad && (
+        <View
+          style={{
+            ...styles.bottomPad,
+            height: (Platform.OS === "ios" ? 50 : 60) + bottom,
+            backgroundColor: color("bg"),
+          }}
+        />
+      )}
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    gap: 32,
+    alignItems: "center",
+  },
+  scrollContainer: {
+    gap: 32,
+    width: "100%",
+    paddingBottom: 32,
+  },
+  childrenContainer: {
+    position: "relative",
+    width: "100%",
+    height: "100%",
     paddingHorizontal: 24,
     alignItems: "center",
-    flexDirection: "column",
+    flexShrink: 1,
+    gap: 32,
+  },
+  bottomPad: {
+    bottom: 0,
+    width: "100%",
+    zIndex: 10,
+    flexShrink: 0,
   },
 });

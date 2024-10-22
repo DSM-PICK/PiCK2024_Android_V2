@@ -1,34 +1,33 @@
-import { colorTable, fontTable } from "@/constants";
 import { NativeText } from "./AnimatedComponents";
+import { IColorProp, useTheme } from "@/hooks";
 import { TextProps } from "react-native";
-import { useColor } from "@/hooks";
+import { fontTable } from "@/constants";
 
-interface IProp extends Omit<TextProps, "children"> {
-  color: keyof typeof colorTable;
-  level?: number | "white" | "black";
-  type: keyof typeof fontTable;
+interface IProp extends Omit<TextProps, "children">, IColorProp {
+  fontType: keyof typeof fontTable;
   fontLevel?: number;
   children: string | (string | React.ReactElement)[];
 }
 
 export const Text = ({
-  color,
-  level,
-  type,
+  colorType,
+  colorLevel,
+  fontType,
   fontLevel,
   children,
   ...props
 }: IProp): React.ReactElement => {
-  const { color: getColor } = useColor();
-  const font = fontTable[type][fontLevel];
+  const { color: getColor } = useTheme();
+  const fontStyle = fontTable[fontType][fontLevel];
 
   return (
     <NativeText
       {...props}
-      style={[
-        props.style,
-        { fontFamily: font.weight, fontSize: font.size, color: getColor(color, level) },
-      ]}
+      style={{
+        ...fontStyle,
+        color: getColor(colorType, colorLevel),
+        ...(props?.style as object),
+      }}
     >
       {children}
     </NativeText>

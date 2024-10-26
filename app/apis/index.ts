@@ -16,7 +16,6 @@ instance.interceptors.request.use(
     return res;
   },
   (err) => {
-    console.log(err);
     throw err;
   }
 );
@@ -24,7 +23,6 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (res) => res,
   async (err) => {
-    console.log(err);
     if (err.response.status === 401) {
       try {
         const token = await getItem("refresh_token");
@@ -40,6 +38,7 @@ instance.interceptors.response.use(
         throw err;
       }
     } else {
+      console.log(err);
       throw err;
     }
   }

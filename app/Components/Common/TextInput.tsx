@@ -34,7 +34,7 @@ export const TextInput = ({
   const [visible, setVisible] = useState(false);
   const [focus, setFocus] = useState(false);
   const { color } = useTheme();
-  const height = !!multiLine ? multiLine * 30 : 40;
+  const height = !!multiLine ? multiLine * 18.8 + 20 : 42.8;
 
   return (
     <View style={styles.container}>
@@ -127,7 +127,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: "Regular",
     width: "100%",
-    height: "100%",
     flexShrink: 1,
   },
 });

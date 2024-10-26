@@ -9,6 +9,8 @@ interface IProp extends Omit<TextProps, "children">, IColorProp {
   children: string | (string | React.ReactElement)[];
 }
 
+export interface ITextProp extends Partial<IProp> {}
+
 export const Text = ({
   colorType,
   colorLevel,

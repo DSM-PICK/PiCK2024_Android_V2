@@ -1,8 +1,9 @@
 import { Header, Layout, SlideMenu, Text } from "@/Components";
+export * from "./WeekendMeal";
 
-export const Apply = () => {
+export const Apply = ({ navigation }) => {
   return (
-    <Layout Header={<Header />} style={{ gap: 20 }}>
+    <Layout Header={<Header navigation={navigation.getParent()} />} style={{ gap: 20 }}>
       <Text
         colorType="normal"
         colorLevel="black"
@@ -17,7 +18,7 @@ export const Apply = () => {
         title="주말 급식 신청"
         content="지금은 주말급식 신청 기간입니다.\n주말 급식 신청은 매달 한 번 한정된 기간에 합니다."
         buttonContent="신청하기"
-        onPressButton={() => {}}
+        onPressButton={() => navigation.navigate("주말급식")}
       />
       <SlideMenu
         icon="People"

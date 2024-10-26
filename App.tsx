@@ -1,19 +1,15 @@
-import {
-  setPositionAsync,
-  setBackgroundColorAsync,
-  setButtonStyleAsync,
-} from "expo-navigation-bar";
+import { setPositionAsync, setBackgroundColorAsync } from "expo-navigation-bar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ModalManager } from "@/Components/Common/ModalManager";
 import { NavigationContainer } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import { Animated, StatusBar } from "react-native";
+import { useOptions, useTheme } from "@/hooks";
 import { getItem, isAndroid } from "@/utils";
-import { useTheme } from "@/hooks";
+import { ToastManager } from "@/Components";
 import { Navigation } from "@/Navigation";
 import { useFonts } from "expo-font";
-import * as ImagePicker from "expo-image-picker";
 import { Splash } from "@/Screens";
-import { ToastManager } from "@/Components";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,8 +22,8 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
-  const { getTheme, theme } = useTheme();
-  const [imageStatus, imageRequest] = ImagePicker.useMediaLibraryPermissions();
+  const { getTheme, theme, load: loadTheme } = useTheme();
+  const { load: loadOptions } = useOptions();
 
   const [token, setToken] = useState<null | string>(null);
   const fade = useRef(new Animated.Value(1)).current;
@@ -40,18 +36,16 @@ export default function App() {
   });
 
   useEffect(() => {
-    if (isAndroid) {
-      setPositionAsync("absolute");
-      setBackgroundColorAsync("#ffffff00");
-      setButtonStyleAsync("dark");
-    }
-  }, [theme]);
+    loadTheme();
+    loadOptions();
+  }, []);
 
   useEffect(() => {
-    if (!imageStatus?.granted) {
-      imageRequest();
+    if (isAndroid) {
+      setPositionAsync("absolute");
+      setBackgroundColorAsync("#ffffff01");
     }
-  }, [imageStatus]);
+  }, [theme]);
 
   useEffect(() => {
     getItem("access_token").then((res) => setToken(res));
@@ -68,7 +62,6 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <NavigationContainer>
-        <ToastManager />
         <StatusBar
           translucent
           backgroundColor="transparent"
@@ -76,6 +69,8 @@ export default function App() {
         />
         {fontsLoaded && <Navigation token={token} />}
         {splash && <Splash fade={fade} />}
+        <ToastManager />
+        <ModalManager />
       </NavigationContainer>
     </QueryClientProvider>
   );

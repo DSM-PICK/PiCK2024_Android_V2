@@ -1,5 +1,5 @@
-import { View, Text, Icon, TouchableOpacity, iconType } from "./Common";
-import { Animated, StyleSheet } from "react-native";
+import { View, Text, Icon, TouchableOpacity, iconType, Button } from "./Common";
+import { Animated, Easing, StyleSheet } from "react-native";
 import { useRef, useState } from "react";
 import { useTheme } from "@/hooks";
 
@@ -30,7 +30,8 @@ export const SlideMenu = ({
   const start = () => {
     Animated.timing(heightAnim, {
       toValue: opened ? 0 : 1,
-      duration: 300,
+      duration: 600,
+      easing: Easing.out(Easing.exp),
       useNativeDriver: false,
     }).start(() => heightAnim.setValue(opened ? 0 : 1));
     Animated.timing(borderAnim, {
@@ -75,19 +76,9 @@ export const SlideMenu = ({
         <Text colorType="gray" colorLevel={800} fontType="body" fontLevel={2}>
           {content.replace(/\\n/g, "\n")}
         </Text>
-        <TouchableOpacity
-          disabled={disabled}
-          style={{
-            ...styles.button,
-            backgroundColor: disabled ? color("main", 100) : color("main", 500),
-          }}
-          onPress={onPressButton}
-          activeOpacity={0.6}
-        >
-          <Text colorType="normal" colorLevel="white" fontType="button" fontLevel={1}>
-            {buttonContent}
-          </Text>
-        </TouchableOpacity>
+        <Button style={{ height: 36, borderRadius: 8 }} onPress={onPressButton}>
+          {buttonContent}
+        </Button>
       </View>
     </TouchableOpacity>
   );
@@ -111,12 +102,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 20,
     gap: 16,
-  },
-  button: {
-    width: "100%",
-    height: 36,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 8,
   },
 });

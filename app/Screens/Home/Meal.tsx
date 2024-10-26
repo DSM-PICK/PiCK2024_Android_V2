@@ -36,7 +36,7 @@ export const Meal = () => {
               fontLevel={1}
               style={{ width: 116 }}
             >
-              {item.menu.join("\n")}
+              {!!item.menu.length ? item.menu.join("\n") : "메뉴가 없습니다"}
             </Text>
             <View
               style={{
@@ -45,7 +45,7 @@ export const Meal = () => {
               }}
             >
               <Text colorType="normal" colorLevel="white" fontType="body" fontLevel={1}>
-                {item.cal}
+                {!!item.menu.length ? item.cal : "0 Kcal"}
               </Text>
             </View>
           </View>
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 12,
     paddingVertical: 6,
-    width: 95,
+    width: 100,
     alignItems: "center",
   },
 });

@@ -31,7 +31,7 @@ export const Icon = ({
   return (
     <_Icon
       {...props}
-      hitSlop={{ top: 10, bottom: 10, right: 10, left: 10 }}
+      hitSlop={{ top: 5, bottom: 5, right: 5, left: 5 }}
       width={size}
       height={size}
       style={[

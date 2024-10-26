@@ -1,7 +1,6 @@
 import { Icon, Text, TouchableOpacity, View } from "@/Components";
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet } from "react-native";
-import { useTheme } from "@/hooks";
 import { getDiff } from "@/utils";
 
 interface IProp {
@@ -13,19 +12,19 @@ interface IProp {
 
 export const Item = ({ id, title, showNew, date }: IProp) => {
   const navigate = useNavigation();
-  const { color } = useTheme();
+  const formedTitle = title?.length > 30 ? title.slice(0, 30) + "..." : title;
 
   return (
     <TouchableOpacity
       style={styles.container}
       activeOpacity={0.6}
-      onPress={() => navigate.navigate(...(["상세보기", { id }] as never))}
+      onPress={() => navigate.navigate(...(["상세보기", { id, title: formedTitle }] as never))}
     >
       <Icon name="Chat" size={40} colorType="main" colorLevel={600} />
       <View style={{ gap: 4 }}>
         <View style={styles.titleContainer}>
           <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={1}>
-            {title?.length > 30 ? title.slice(0, 30) + "..." : title}
+            {formedTitle}
           </Text>
           {showNew && <Icon name="New" size={20} colorType="main" colorLevel={300} />}
         </View>

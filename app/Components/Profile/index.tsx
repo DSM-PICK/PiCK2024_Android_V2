@@ -1,14 +1,16 @@
+import { StyleSheet, ViewProps } from "react-native";
 import { ProfileImage } from "./ProfileImage";
-import { StyleSheet } from "react-native";
+
 import { Text, View } from "../Common";
 import { useMyQuery } from "@/hooks";
 import { IUserSimple } from "@/apis";
+export * from "./ProfileImage";
 
-export const Profile = () => {
+export const Profile = (props: ViewProps) => {
   const { data: userData } = useMyQuery<IUserSimple>("user", "/simple");
 
   return (
-    <View style={styles.container}>
+    <View {...props} style={[styles.container, props.style]}>
       <ProfileImage uri={userData?.profile} size={70} />
       <Text
         colorType="normal"

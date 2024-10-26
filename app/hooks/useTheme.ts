@@ -1,4 +1,5 @@
 import { colorTable } from "@/constants";
+import { getItem, setItem } from "@/utils";
 import { Animated } from "react-native";
 import { create } from "zustand";
 
@@ -7,6 +8,7 @@ interface ITheme {
   noAnimTheme: number;
   getTheme: () => "light" | "dark";
   toggleTheme: () => void;
+  load: () => void;
   color: (
     type: keyof typeof colorTable,
     index?: "white" | "black" | number,
@@ -23,9 +25,9 @@ const themeTable: ["light", "dark"] = ["light", "dark"]; // 0: light, 1: dark
 let lock = false;
 
 export const useTheme = create<ITheme>((set, get) => ({
-  theme: new Animated.Value(1),
-  noAnimTheme: 1,
-  getTheme: () => themeTable[Number(JSON.stringify(get().noAnimTheme))],
+  theme: new Animated.Value(0),
+  noAnimTheme: 0,
+  getTheme: () => themeTable[get().noAnimTheme],
   toggleTheme: () => {
     if (!lock) {
       lock = true;
@@ -38,7 +40,10 @@ export const useTheme = create<ITheme>((set, get) => ({
         toValue: theme ? 0 : 1,
         duration: 300,
         useNativeDriver: false,
-      }).start(() => set({ theme: new Animated.Value(+!theme) }));
+      }).start(async () => {
+        set({ theme: new Animated.Value(+!theme) });
+        await setItem("theme", themeTable[get().noAnimTheme]);
+      });
     }
   },
   color: (type, index, noAnim) => {
@@ -62,6 +67,14 @@ export const useTheme = create<ITheme>((set, get) => ({
         inputRange: [0, 1],
         outputRange: [colorTable[type]["light"][index], colorTable[type]["dark"][index]],
       });
+    }
+  },
+  load: async () => {
+    const theme = await getItem("theme");
+    if (theme === "dark") {
+      set({ theme: new Animated.Value(1), noAnimTheme: 1 });
+    } else {
+      set({ theme: new Animated.Value(0), noAnimTheme: 0 });
     }
   },
 }));

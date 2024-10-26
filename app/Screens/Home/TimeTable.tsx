@@ -1,15 +1,19 @@
 import { LabelLayout, Text, View } from "@/Components";
+import { useMyQuery, useTheme } from "@/hooks";
 import { timeTableTodayType } from "@/apis";
-import { useMyQuery } from "@/hooks";
 import { Image } from "react-native";
 
 export const TimeTable = () => {
   const { data: timeTableData } = useMyQuery<timeTableTodayType>("timeTable", "/today");
+  const { color } = useTheme();
 
-  return (
+  return !!timeTableData?.timetables.length ? (
     <LabelLayout label="오늘의 시간표" padding>
       {timeTableData?.timetables.map(({ period, subject_name, image }) => (
-        <View style={{ flexDirection: "row", gap: 24, paddingVertical: 8, alignItems: "center" }}>
+        <View
+          style={{ flexDirection: "row", gap: 24, paddingVertical: 8, alignItems: "center" }}
+          key={period}
+        >
           <Text colorType="normal" colorLevel="black" fontType="subTitle" fontLevel={2}>
             <Text colorType="main" colorLevel={500} fontType="subTitle" fontLevel={2}>
               {period + ""}
@@ -25,5 +29,22 @@ export const TimeTable = () => {
         </View>
       ))}
     </LabelLayout>
+  ) : (
+    <View style={{ width: "100%", paddingHorizontal: 24 }}>
+      <View
+        style={{
+          width: "100%",
+          paddingHorizontal: 35,
+          paddingVertical: 20,
+          backgroundColor: color("gray", 50),
+          borderRadius: 8,
+          alignItems: "center",
+        }}
+      >
+        <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={1}>
+          오늘은 시간표가 없습니다
+        </Text>
+      </View>
+    </View>
   );
 };

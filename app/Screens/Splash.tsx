@@ -21,7 +21,7 @@ export const Splash = ({ fade }: IProp) => {
         left: 0,
         width: "100%",
         height: "100%",
-        backgroundColor: color("bg"),
+        backgroundColor: color("bg", null, true),
         alignItems: "center",
         justifyContent: "center",
         zIndex: 50,

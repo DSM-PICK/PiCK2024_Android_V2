@@ -4,11 +4,12 @@ import { StyleSheet } from "react-native";
 import { INoticeDetail } from "@/apis";
 
 export const Detail = ({ route }) => {
-  const { data: detailData } = useMyQuery<INoticeDetail>("notice", `/${route.params.id}`);
+  const { id, title } = route.params;
+  const { data: detailData } = useMyQuery<INoticeDetail>("notice", `/${id}`);
   const { color } = useTheme();
 
   return (
-    <Layout Header={<PrevHedaer title="상세보기" />} style={styles.container}>
+    <Layout Header={<PrevHedaer title={title} />} style={styles.container} scrollAble>
       <View
         style={{
           ...styles.titleContainer,
@@ -27,8 +28,14 @@ export const Detail = ({ route }) => {
           </Text>
         </View>
       </View>
-      <Text colorType="normal" colorLevel="black" fontType="body" fontLevel={1}>
-        {detailData?.content}
+      <Text
+        colorType="normal"
+        colorLevel="black"
+        fontType="body"
+        fontLevel={1}
+        style={{ paddingHorizontal: 24 }}
+      >
+        {detailData?.content}{" "}
       </Text>
     </Layout>
   );
@@ -38,12 +45,14 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "flex-start",
     gap: 28,
+    paddingHorizontal: 0,
   },
   titleContainer: {
+    paddingHorizontal: 24,
     width: "100%",
     gap: 12,
     borderBottomWidth: 1,
-    paddingBottom: 12,
+    paddingBottom: 18,
   },
   titleInformContainer: {
     width: "100%",

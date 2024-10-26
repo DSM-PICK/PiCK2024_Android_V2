@@ -1,11 +1,12 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Notice, Apply } from "@/Screens";
+import { ApplyStack } from "./ApplyStack";
 import { Platform } from "react-native";
 import { HomeStack } from "./HomeStack";
 import { AllStack } from "./AllStack";
 import { Icon } from "@/Components";
 import { useTheme } from "@/hooks";
+import { Notice } from "@/Screens";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 const getColor = (focused: boolean) => (focused ? "main" : "gray");
@@ -55,7 +56,7 @@ export const MainTabs = () => {
       />
       <Screen
         name="신청"
-        component={Apply}
+        component={ApplyStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <Icon name="Check" colorType={getColor(focused)} colorLevel={500} />
@@ -64,7 +65,7 @@ export const MainTabs = () => {
       />
       <Screen
         name="일정"
-        component={Apply}
+        component={ApplyStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <Icon name="Calander" colorType={getColor(focused)} colorLevel={500} />

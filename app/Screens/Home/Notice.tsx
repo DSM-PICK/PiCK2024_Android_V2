@@ -25,7 +25,7 @@ export const Notice = () => {
       }
     >
       {noticeData?.slice(0, 3).map(({ title, id, create_at }, index) => (
-        <View style={{ paddingVertical: 12 }}>
+        <View style={{ paddingVertical: 12 }} key={id}>
           <NoticeItem title={title} id={id} date={create_at} showNew={!!!index} />
         </View>
       ))}

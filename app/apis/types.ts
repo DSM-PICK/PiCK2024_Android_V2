@@ -32,6 +32,10 @@ export interface IWeekendMealPeriod {
   end: string;
 }
 
+export interface IWeekendMeal {
+  status: "OK" | "NO";
+}
+
 export type weekendMealChangeStatusIn = "OK" | "NO";
 
 // selfStudy

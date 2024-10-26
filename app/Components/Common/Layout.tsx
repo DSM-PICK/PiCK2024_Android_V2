@@ -24,19 +24,20 @@ export const Layout = ({ children, Header, bottomPad, scrollAble, ...props }: IP
         }}
       />
       {scrollAble ? (
-        <ScrollView
-          {...props}
+        <View
           style={{
             flex: 1,
             paddingBottom: !!bottomPad ? bottom : 0,
             backgroundColor: color("bg"),
           }}
         >
-          <View style={styles.scrollContainer}>
-            {Header}
-            <View style={[styles.childrenContainer, props.style]}>{children}</View>
-          </View>
-        </ScrollView>
+          {Header}
+          <ScrollView>
+            <View {...props} style={[styles.childrenContainer, props.style]}>
+              {children}
+            </View>
+          </ScrollView>
+        </View>
       ) : (
         <View
           {...props}
@@ -70,11 +71,6 @@ const styles = StyleSheet.create({
     gap: 32,
     alignItems: "center",
   },
-  scrollContainer: {
-    gap: 32,
-    width: "100%",
-    paddingBottom: 32,
-  },
   childrenContainer: {
     position: "relative",
     width: "100%",
@@ -83,6 +79,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexShrink: 1,
     gap: 32,
+    paddingVertical: 24,
   },
   bottomPad: {
     bottom: 0,

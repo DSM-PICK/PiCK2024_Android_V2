@@ -31,10 +31,9 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     width: "100%",
-    height: 32,
     alignItems: "center",
     position: "relative",
-    paddingVertical: 4,
+    paddingVertical: 8,
     justifyContent: "center",
   },
   icon: {

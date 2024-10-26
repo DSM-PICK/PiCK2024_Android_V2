@@ -26,17 +26,7 @@
       ],
       [
         "expo-image-picker",
-        {
-          "photosPermission": "프로필 사진을 변경하거나, 버그 제보시에 사진을 올리는 데 사용됩니다."
-        }
-      ],
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "flipper": false
-          }
-        }
+        { "photosPermission": "프로필 사진 변경 및 버그 제보 이미지 업로드에 사용됩니다." }
       ]
     ],
     "ios": {

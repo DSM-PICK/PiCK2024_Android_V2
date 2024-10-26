@@ -18,7 +18,7 @@ interface IProp {
 }
 
 export const Toast = ({ id, type, message, wasWait }: IProp) => {
-  const pos = useRef(new Animated.Value(wasWait ? -80 : 100, { useNativeDriver: true })).current;
+  const pos = useRef(new Animated.Value(wasWait ? -80 : 100, { useNativeDriver: false })).current;
   const { color } = useTheme();
   const { close } = useToast();
 
@@ -37,7 +37,7 @@ export const Toast = ({ id, type, message, wasWait }: IProp) => {
     Animated.timing(pos, {
       toValue: -80,
       duration: 200,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start(() => type !== "wait" && debounce(hideT, 1000));
   };
 
@@ -45,7 +45,7 @@ export const Toast = ({ id, type, message, wasWait }: IProp) => {
     Animated.timing(pos, {
       toValue: 100,
       duration: 400,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start(() => close(id));
   };
 
@@ -80,6 +80,6 @@ const styles = StyleSheet.create({
     bottom: 1,
     zIndex: 100,
     alignSelf: "center",
-    elevation: 1,
+    elevation: 0.5,
   },
 });

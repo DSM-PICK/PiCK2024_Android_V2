@@ -27,6 +27,7 @@ export const Bug = ({ navigation }) => {
   });
   const { mutate: bugMutate } = useMyMutation<IBugIn, null>("post", "bug", "/message");
 
+  const [image, setImage] = useState([]);
   const [data, setData] = useState<IBugIn>({
     title: "",
     content: "",
@@ -67,6 +68,12 @@ export const Bug = ({ navigation }) => {
 
       bugImageMutate(formData, {
         onSuccess: ({ data: res }) => {
+          setImage([
+            ...image,
+            ...assets.map(({ uri }, index) => {
+              return { uri, file_name: res[index] };
+            }),
+          ]);
           setData({ ...data, file_name: [...data.file_name, ...res] });
         },
       });
@@ -110,7 +117,7 @@ export const Bug = ({ navigation }) => {
             data={data.file_name}
             horizontal
             contentContainerStyle={{ gap: 10 }}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <View style={styles.imageContainer}>
                 <TouchableOpacity
                   activeOpacity={0.3}
@@ -120,17 +127,23 @@ export const Bug = ({ navigation }) => {
                     colorType="error"
                     fontType="caption"
                     fontLevel={2}
-                    onPress={() =>
-                      setData({ ...data, file_name: data.file_name.filter((i) => i !== item) })
-                    }
+                    onPress={() => {
+                      setData({
+                        ...data,
+                        file_name: data.file_name.filter((i, index) => {
+                          if (i === item) {
+                            image.filter((_, innerIndex) => innerIndex !== index);
+                          }
+                          return i !== item;
+                        }),
+                      });
+                      setImage(image.filter((i) => i.file_name !== item));
+                    }}
                   >
                     삭제
                   </Text>
                 </TouchableOpacity>
-                <Image
-                  style={{ width: 100, height: 100 }}
-                  source={require("@/assets/images/SplashDark.gif")}
-                />
+                <Image style={{ width: 100, height: 100 }} source={{ uri: image[index].uri }} />
               </View>
             )}
           />

@@ -107,11 +107,12 @@ export interface IClassRoomPass {
   end: number;
 }
 
-export interface IClassRoomMoveIn extends Omit<IClassRoomPass, "user_name"> {
+export interface IClassRoomMoveIn extends Omit<IClassRoomPass, "user_name" | "classroom"> {
   floor: number;
+  classroom_name: string;
 }
 
-// classRoom
+// bug
 export type bugFileTypeIn = FormData;
 
 export interface IBugIn {

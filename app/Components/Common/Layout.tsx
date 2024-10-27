@@ -6,11 +6,12 @@ import { useTheme } from "@/hooks";
 interface IProp extends ScrollViewProps {
   children: React.ReactElement | React.ReactElement[];
   Header?: React.ReactElement;
+  Footer?: React.ReactElement;
   bottomPad?: boolean;
   scrollAble?: boolean;
 }
 
-export const Layout = ({ children, Header, bottomPad, scrollAble, ...props }: IProp) => {
+export const Layout = ({ children, Header, Footer, bottomPad, scrollAble, ...props }: IProp) => {
   const { top, bottom } = useSafeAreaInsets();
   const { color } = useTheme();
 
@@ -37,6 +38,7 @@ export const Layout = ({ children, Header, bottomPad, scrollAble, ...props }: IP
               {children}
             </View>
           </ScrollView>
+          {Footer}
         </View>
       ) : (
         <View
@@ -50,6 +52,7 @@ export const Layout = ({ children, Header, bottomPad, scrollAble, ...props }: IP
         >
           {Header}
           <View style={[styles.childrenContainer, props.style]}>{children}</View>
+          {Footer}
         </View>
       )}
       {!!!bottomPad && (

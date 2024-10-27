@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   childrenContainer: {
     position: "relative",
     width: "100%",
-    height: "100%",
+    flex: 1,
     paddingHorizontal: 24,
     alignItems: "center",
     flexShrink: 1,

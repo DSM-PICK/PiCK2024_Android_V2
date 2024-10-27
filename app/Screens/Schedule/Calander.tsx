@@ -4,7 +4,7 @@ import { getToday } from "@/utils";
 import { useState } from "react";
 import { monthTable } from "@/constants";
 import { scheduleType } from "@/apis";
-import { FlatList } from "react-native-gesture-handler";
+import { FlatList } from "react-native";
 
 const { year, month, fullDay } = getToday();
 
@@ -24,7 +24,12 @@ export const Calander = () => {
   );
 
   return (
-    <View style={{ paddingHorizontal: 24, gap: 24 }}>
+    <View
+      style={{
+        paddingHorizontal: 24,
+        gap: 24,
+      }}
+    >
       <NativeCalander
         onMonthChange={setDate}
         onSelect={setDay}
@@ -47,24 +52,44 @@ export const Calander = () => {
           {filteredItem?.length ? `${filteredItem.length}개의 일정이 있습니다.` : "일정이 없습니다"}
         </Text>
       </View>
-      <FlatList
-        data={filteredItem}
-        contentContainerStyle={{ gap: 10 }}
-        renderItem={({ item }) => (
-          <View
-            style={{
-              paddingHorizontal: 24,
-              paddingVertical: 16,
-              borderLeftColor: color("main", 500, true),
-              borderLeftWidth: 3,
-            }}
-          >
-            <Text colorType="normal" colorLevel="black" fontType="subTitle" fontLevel={2}>
-              {item.event_name}
-            </Text>
-          </View>
-        )}
-      />
+      <View
+        style={{
+          height: "25%",
+        }}
+      >
+        <FlatList
+          data={filteredItem}
+          contentContainerStyle={{ gap: 10 }}
+          renderItem={({ item }) => (
+            <View style={{ gap: 10 }}>
+              <View
+                style={{
+                  paddingHorizontal: 24,
+                  paddingVertical: 16,
+                  borderLeftColor: color("main", 500, true),
+                  borderLeftWidth: 3,
+                }}
+              >
+                <Text colorType="normal" colorLevel="black" fontType="subTitle" fontLevel={2}>
+                  {item.event_name}
+                </Text>
+              </View>
+              <View
+                style={{
+                  paddingHorizontal: 24,
+                  paddingVertical: 16,
+                  borderLeftColor: color("main", 500, true),
+                  borderLeftWidth: 3,
+                }}
+              >
+                <Text colorType="normal" colorLevel="black" fontType="subTitle" fontLevel={2}>
+                  {item.event_name}
+                </Text>
+              </View>
+            </View>
+          )}
+        />
+      </View>
     </View>
   );
 };

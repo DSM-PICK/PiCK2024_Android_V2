@@ -10,7 +10,7 @@ export const My = () => {
   const { color } = useTheme();
   const { data: userData, refetch: userRefetch } = useMyQuery<IUserDetails>("user", "/details");
   const { refetch: userSimpleRefetch } = useMyQuery<IUserSimple>("user", "/simple");
-  const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
+  const [status] = ImagePicker.useMediaLibraryPermissions();
   const { error } = useToast();
   const { mutate: profileMutate } = useMutation({
     mutationFn: async (data: FormData) =>
@@ -20,13 +20,9 @@ export const My = () => {
   const { success } = useToast();
 
   const update = async () => {
-    if (!status.granted) {
-      requestPermission().then(() => {
-        if (!status.granted) {
-          error("사진 권한을 취득할 수 없습니다.");
-          return;
-        }
-      });
+    if (!status?.granted) {
+      error("갤러리 접근 권한을 허용한 후 다시 시도하세요");
+      return;
     }
     let { canceled, assets } = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,

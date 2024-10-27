@@ -14,6 +14,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetManager } from "@/Components/Common/BottomSheetManager";
 import { enableScreens } from "react-native-screens";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import * as ImagePicker from "expo-image-picker";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,6 +34,7 @@ export default function App() {
   const [token, setToken] = useState<null | string>(null);
   const fade = useRef(new Animated.Value(1)).current;
   const [splash, setSplash] = useState(true);
+  const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 
   const [fontsLoaded] = useFonts({
     Medium: require("./app/assets/font/Medium.ttf"),
@@ -43,6 +45,12 @@ export default function App() {
   useEffect(() => {
     loadTheme();
     loadOptions();
+  }, []);
+
+  useEffect(() => {
+    if (!status?.granted) {
+      requestPermission();
+    }
   }, []);
 
   useEffect(() => {

@@ -20,7 +20,7 @@ import {
 export const Bug = ({ navigation }) => {
   const { color } = useTheme();
   const { error, success } = useToast();
-  const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
+  const [status] = ImagePicker.useMediaLibraryPermissions();
   const { mutate: bugImageMutate } = useMutation({
     mutationFn: async (data: FormData) =>
       instance.post("/bug/upload", data, { headers: { "Content-Type": "multipart/form-data" } }),
@@ -40,13 +40,9 @@ export const Bug = ({ navigation }) => {
   };
 
   const handleImageChange = async () => {
-    if (!status.granted) {
-      requestPermission().then(() => {
-        if (!status.granted) {
-          error("사진 권한을 취득할 수 없습니다.");
-          return;
-        }
-      });
+    if (!status?.granted) {
+      error("갤러리 접근 권한을 허용한 후 다시 시도하세요");
+      return;
     }
     let { canceled, assets } = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,

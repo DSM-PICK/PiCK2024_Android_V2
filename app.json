@@ -1,7 +1,7 @@
 {
   "expo": {
     "jsEngine": "hermes",
-    "name": "PiCK2024_V2_Refreshed",
+    "name": "PiCK",
     "slug": "PICK",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -14,11 +14,7 @@
     },
     "packagerOpts": {
       "config": "metro.config.js",
-      "sourceExts": [
-        "js",
-        "jsx",
-        "svg"
-      ]
+      "sourceExts": ["js", "jsx", "svg"]
     },
     "plugins": [
       [

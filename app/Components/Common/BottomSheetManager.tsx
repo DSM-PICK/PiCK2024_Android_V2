@@ -8,7 +8,7 @@ import { StyleSheet } from "react-native";
 export const BottomSheetManager = () => {
   const { color } = useTheme();
   const { isOpened, component, set } = useBottomSheet();
-  const snapPoints = useMemo(() => ["1%", "50%"], []);
+  const snapPoints = useMemo(() => ["1%", "55%"], []);
   const { bottom } = useSafeAreaInsets();
 
   const ref = useRef<BottomSheet>(null);

@@ -2,6 +2,7 @@ export * from "./BottomSheetManager";
 export * from "./AnimatedComponents";
 export * from "./ToastManager";
 export * from "./ScrollPicker";
+export * from "./ToggleSlide";
 export * from "./TextInput";
 export * from "./Calander";
 export * from "./Button";

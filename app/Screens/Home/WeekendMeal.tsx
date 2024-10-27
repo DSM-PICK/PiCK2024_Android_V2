@@ -10,7 +10,6 @@ export const WeekendMeal = () => {
   const { data: weekendMealDateData } = useMyQuery<IWeekendMealPeriod>("weekendMeal", "/period");
   const canApply =
     (weekendMealDateData?.start || 1 < date) && (weekendMealDateData?.end || 7 > date);
-  console.log(weekendMealDateData, canApply);
 
   return (
     canApply && (

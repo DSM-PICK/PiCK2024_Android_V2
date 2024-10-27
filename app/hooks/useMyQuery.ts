@@ -9,5 +9,6 @@ export const useMyQuery = <T>(pathname: keyof typeof paths, url: string): UseQue
       const res = await instance.get(paths[pathname] + url);
       return res.data;
     },
+    placeholderData: (prev) => prev,
   });
 };

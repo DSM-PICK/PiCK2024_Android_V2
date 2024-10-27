@@ -67,7 +67,6 @@ export const Bug = ({ navigation }) => {
 
       bugImageMutate(formData, {
         onSuccess: ({ data: res }) => {
-          console.log(data);
           setData({ ...data, file_name: [...data.file_name, ...res] });
         },
       });

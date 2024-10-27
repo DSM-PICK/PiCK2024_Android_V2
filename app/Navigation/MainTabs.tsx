@@ -1,12 +1,12 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Meal, Schedule } from "@/Screens";
 import { ApplyStack } from "./ApplyStack";
 import { Platform } from "react-native";
 import { HomeStack } from "./HomeStack";
 import { AllStack } from "./AllStack";
 import { Icon } from "@/Components";
 import { useTheme } from "@/hooks";
-import { Notice } from "@/Screens";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 const getColor = (focused: boolean) => (focused ? "main" : "gray");
@@ -18,7 +18,6 @@ export const MainTabs = () => {
   return (
     <Navigator
       screenOptions={{
-        unmountOnBlur: true,
         headerShown: false,
         tabBarActiveTintColor: color("main", 500, true),
         tabBarLabelStyle: {
@@ -47,7 +46,7 @@ export const MainTabs = () => {
       />
       <Screen
         name="급식"
-        component={Notice}
+        component={Meal}
         options={{
           tabBarIcon: ({ focused }) => (
             <Icon name="Meal" colorType={getColor(focused)} colorLevel={500} />
@@ -65,7 +64,7 @@ export const MainTabs = () => {
       />
       <Screen
         name="일정"
-        component={ApplyStack}
+        component={Schedule}
         options={{
           tabBarIcon: ({ focused }) => (
             <Icon name="Calander" colorType={getColor(focused)} colorLevel={500} />

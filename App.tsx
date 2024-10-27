@@ -10,6 +10,10 @@ import { ToastManager } from "@/Components";
 import { Navigation } from "@/Navigation";
 import { useFonts } from "expo-font";
 import { Splash } from "@/Screens";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { BottomSheetManager } from "@/Components/Common/BottomSheetManager";
+import { enableScreens } from "react-native-screens";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,6 +28,7 @@ const queryClient = new QueryClient({
 export default function App() {
   const { getTheme, theme, load: loadTheme } = useTheme();
   const { load: loadOptions } = useOptions();
+  enableScreens(true);
 
   const [token, setToken] = useState<null | string>(null);
   const fade = useRef(new Animated.Value(1)).current;
@@ -60,18 +65,23 @@ export default function App() {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <NavigationContainer>
-        <StatusBar
-          translucent
-          backgroundColor="transparent"
-          barStyle={getTheme() === "dark" ? "light-content" : "dark-content"}
-        />
-        {fontsLoaded && <Navigation token={token} />}
-        {splash && <Splash fade={fade} />}
-        <ToastManager />
-        <ModalManager />
-      </NavigationContainer>
-    </QueryClientProvider>
+    <GestureHandlerRootView>
+      <QueryClientProvider client={queryClient}>
+        <SafeAreaProvider>
+          <NavigationContainer>
+            <StatusBar
+              translucent
+              backgroundColor="transparent"
+              barStyle={getTheme() === "dark" ? "light-content" : "dark-content"}
+            />
+            {fontsLoaded && <Navigation token={token} />}
+            {splash && <Splash fade={fade} />}
+            <ToastManager />
+            <ModalManager />
+            <BottomSheetManager />
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </QueryClientProvider>
+    </GestureHandlerRootView>
   );
 }

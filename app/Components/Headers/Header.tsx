@@ -16,12 +16,12 @@ export const Header = ({ navigation }) => {
           colorLevel="black"
           onPress={() => toggleTheme()}
         />
-        <Icon
+        {/* <Icon
           name="Bell"
           colorType="normal"
           colorLevel="black"
           onPress={() => navigation.getParent().navigate("알림")}
-        />
+        /> */}
       </View>
     </View>
   );

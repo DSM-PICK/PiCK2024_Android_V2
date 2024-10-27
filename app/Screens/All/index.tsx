@@ -24,9 +24,9 @@ export const All = ({ navigation }) => {
         <Item icon="Custom" onPress={() => navigation.navigate("커스텀")}>
           커스텀
         </Item>
-        <Item icon="Bell" onPress={() => navigation.navigate("알림설정")}>
+        {/* <Item icon="Bell" onPress={() => navigation.navigate("알림설정")}>
           알림 설정
-        </Item>
+        </Item> */}
       </LabelLayout>
       <LabelLayout label="기타 기능">
         <Item icon="Person" onPress={() => navigation.navigate("마이페이지")}>

@@ -1,4 +1,4 @@
-const days = ["일", "월", "화", "수", "목", "금", "토"];
+export const days = ["일", "월", "화", "수", "목", "금", "토"];
 
 const curr = new Date();
 const utc = curr.getTime() + curr.getTimezoneOffset() * 60 * 1000;

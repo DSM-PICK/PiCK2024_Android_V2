@@ -1,6 +1,7 @@
 import { UseMutationResult, useMutation } from "@tanstack/react-query";
 import { paths } from "@/constants";
 import { instance } from "../apis";
+import { AxiosError } from "axios";
 
 type apiType = "post" | "patch" | "delete" | "put";
 
@@ -23,7 +24,7 @@ export const useMyMutation = <T, K>(
           return res.data;
         }
       } catch (error) {
-        throw error;
+        return error;
       }
     },
   });

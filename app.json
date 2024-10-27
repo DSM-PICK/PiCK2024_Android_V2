@@ -2,17 +2,24 @@
   "expo": {
     "jsEngine": "hermes",
     "name": "PiCK2024_V2_Refreshed",
-    "slug": "PiCK2024_V2_Refreshed",
+    "slug": "PICK",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./app/assets/images/Logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./app/assets/images/Logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "packagerOpts": { "config": "metro.config.js", "sourceExts": ["js", "jsx", "svg"] },
+    "packagerOpts": {
+      "config": "metro.config.js",
+      "sourceExts": [
+        "js",
+        "jsx",
+        "svg"
+      ]
+    },
     "plugins": [
       [
         "expo-font",
@@ -26,7 +33,9 @@
       ],
       [
         "expo-image-picker",
-        { "photosPermission": "프로필 사진 변경 및 버그 제보 이미지 업로드에 사용됩니다." }
+        {
+          "photosPermission": "프로필 사진 변경 및 버그 제보 이미지 업로드에 사용됩니다."
+        }
       ]
     ],
     "ios": {
@@ -34,11 +43,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./app/assets/images/Logo.png",
         "backgroundColor": "#ffffff"
       },
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "package": "com.sevenstandard.PICK"
     },
+    "extra": {
+      "eas": {
+        "projectId": "342bfabd-2278-47bd-9ac9-a10c9042ccb3"
+      }
+    },
+    "owner": "seven-standard",
     "web": {
       "favicon": "./assets/favicon.png"
     }

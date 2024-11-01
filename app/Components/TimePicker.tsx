@@ -5,7 +5,7 @@ import { useBottomSheet, useTheme, useToast } from "@/hooks";
 const timeTable = {
   hour: Array.from({ length: 24 }, (_, k) => k + 1),
   minute: Array.from({ length: 59 }, (_, k) => k + 1),
-  class: Array.from({ length: 8 }, (_, k) => k + 1),
+  class: Array.from({ length: 10 }, (_, k) => k + 1),
 };
 export type typeType = "time" | "class" | "classMulti";
 export type changePropType = { hour: string; minute: string };

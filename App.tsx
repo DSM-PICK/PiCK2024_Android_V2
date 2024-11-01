@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import { Animated, StatusBar } from "react-native";
 import { useOptions, useTheme } from "@/hooks";
-import { getItem, isAndroid } from "@/utils";
+import { bulkDelItem, getItem, isAndroid } from "@/utils";
 import { ToastManager } from "@/Components";
 import { Navigation } from "@/Navigation";
 import { useFonts } from "expo-font";

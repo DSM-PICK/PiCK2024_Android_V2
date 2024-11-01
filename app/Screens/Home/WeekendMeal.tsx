@@ -9,7 +9,8 @@ export const WeekendMeal = () => {
   const { color } = useTheme();
   const { data: weekendMealDateData } = useMyQuery<IWeekendMealPeriod>("weekendMeal", "/period");
   const canApply =
-    (weekendMealDateData?.start || 1 < date) && (weekendMealDateData?.end || 7 > date);
+    (Number(weekendMealDateData?.start.split("-")[2]) || 1 < date) &&
+    (Number(weekendMealDateData?.end.split("-")[2]) || 7 > date);
 
   return (
     canApply && (
@@ -26,8 +27,8 @@ export const WeekendMeal = () => {
             <Text colorType="main" colorLevel={900} fontType="label" fontLevel={2}>
               주말 급식 신청 기간
             </Text>
-            입니다 ({month + ""}월 {weekendMealDateData?.start || 1 + ""}일 ~ {month + ""}월{" "}
-            {weekendMealDateData?.end || 7 + ""}일)
+            입니다 ({month + ""}월 {weekendMealDateData?.start.split("-")[2] || "01"}일 ~{" "}
+            {month + ""}월 {weekendMealDateData?.end.split("-")[2] || " 07"}일)
           </Text>
         </View>
       </View>

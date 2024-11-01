@@ -41,7 +41,7 @@ export const WeekendMeal = () => {
         }}
       >
         <Text colorType="gray" colorLevel={600} fontType="body" fontLevel={2}>
-          {`${month}월 주말 급식 신청`}
+          {`${month + 1}월 주말 급식 신청`}
         </Text>
         <View style={styles.buttonContainer}>
           <Button

@@ -1,8 +1,6 @@
 import { Animated, Image } from "react-native";
 import { View } from "@/Components";
 import { useTheme } from "@/hooks";
-import { useEffect } from "react";
-import { delItem } from "@/utils";
 
 interface IProp {
   fade: Animated.Value;

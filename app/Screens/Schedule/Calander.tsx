@@ -74,18 +74,6 @@ export const Calander = () => {
                   {item.event_name}
                 </Text>
               </View>
-              <View
-                style={{
-                  paddingHorizontal: 24,
-                  paddingVertical: 16,
-                  borderLeftColor: color("main", 500, true),
-                  borderLeftWidth: 3,
-                }}
-              >
-                <Text colorType="normal" colorLevel="black" fontType="subTitle" fontLevel={2}>
-                  {item.event_name}
-                </Text>
-              </View>
             </View>
           )}
         />

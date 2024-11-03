@@ -24,7 +24,7 @@ export const Login = ({ navigation }) => {
   };
 
   return (
-    <Layout style={{ gap: 40 }} bottomPad>
+    <Layout style={{ gap: 40 }}>
       <View style={{ width: "100%", marginTop: 80 }}>
         <Text fontType="heading" fontLevel={2} colorType="normal" colorLevel="black">
           <Text fontType="heading" fontLevel={2} colorType="main" colorLevel={500}>

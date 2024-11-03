@@ -25,12 +25,22 @@ export const SelfStudy = () => {
           width: "100%",
         }}
       >
-        <Text colorType="normal" colorLevel="black" fontLevel={4} fontType="heading">
-          <Text colorType="main" colorLevel={500} fontLevel={4} fontType="heading">
-            {date === fullDay ? `오늘` : `${date.split("-")[1]}월 ${date.split("-")[2]}일`}
+        {date === fullDay ? (
+          <Text colorType="normal" colorLevel="black" fontLevel={4} fontType="heading">
+            {`${date.split("-")[1]}월 ${date.split("-")[2]}일,\n`}
+            <Text colorType="main" colorLevel={500} fontLevel={4} fontType="heading">
+              오늘의 자습 감독
+            </Text>{" "}
+            선생님입니다
           </Text>
-          의 자습 감독 선생님입니다.
-        </Text>
+        ) : (
+          <Text colorType="main" colorLevel={500} fontLevel={4} fontType="heading">
+            {`${date.split("-")[1]}월 ${date.split("-")[2]}일의\n`}
+            <Text colorType="normal" colorLevel="black" fontLevel={4} fontType="heading">
+              자습감독 선생님입니다.
+            </Text>
+          </Text>
+        )}
         {!!selfStudyData?.length ? (
           selfStudyData?.map(({ floor, teacher_name }) => (
             <Item title={floor + "층"} data={teacher_name + " 선생님"} key={floor} />

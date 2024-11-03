@@ -3,9 +3,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ModalManager } from "@/Components/Common/ModalManager";
 import { NavigationContainer } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
-import { Animated, StatusBar } from "react-native";
-import { useOptions, useTheme } from "@/hooks";
-import { bulkDelItem, getItem, isAndroid } from "@/utils";
+import { Animated, BackHandler, StatusBar } from "react-native";
+import { useBottomSheet, useOptions, useTheme } from "@/hooks";
+import { delItem, getItem, isAndroid } from "@/utils";
 import { ToastManager } from "@/Components";
 import { Navigation } from "@/Navigation";
 import { useFonts } from "expo-font";
@@ -29,6 +29,7 @@ const queryClient = new QueryClient({
 export default function App() {
   const { getTheme, theme, load: loadTheme } = useTheme();
   const { load: loadOptions } = useOptions();
+  const { close, isOpened } = useBottomSheet();
   enableScreens(true);
 
   const [token, setToken] = useState<null | string>(null);
@@ -45,12 +46,10 @@ export default function App() {
   useEffect(() => {
     loadTheme();
     loadOptions();
-  }, []);
-
-  useEffect(() => {
     if (!status?.granted) {
       requestPermission();
     }
+    getItem("access_token").then((res) => setToken(res));
   }, []);
 
   useEffect(() => {
@@ -61,8 +60,16 @@ export default function App() {
   }, [theme]);
 
   useEffect(() => {
-    getItem("access_token").then((res) => setToken(res));
-  }, []);
+    const handleClose = () => {
+      close();
+      return isOpened;
+    };
+
+    BackHandler.addEventListener("hardwareBackPress", handleClose);
+    return () => {
+      BackHandler.removeEventListener("hardwareBackPress", handleClose);
+    };
+  }, [isOpened]);
 
   useEffect(() => {
     setTimeout(() => {

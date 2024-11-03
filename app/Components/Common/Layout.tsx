@@ -1,4 +1,11 @@
-import { Platform, ScrollViewProps, StyleSheet } from "react-native";
+import {
+  Keyboard,
+  Platform,
+  ScrollViewProps,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { View, ScrollView } from "./AnimatedComponents";
 import { useTheme } from "@/hooks";
@@ -16,55 +23,63 @@ export const Layout = ({ children, Header, Footer, bottomPad, scrollAble, ...pro
   const { color } = useTheme();
 
   return (
-    <>
-      <View
-        style={{
-          height: top,
-          width: "100%",
-          backgroundColor: color("bg"),
-        }}
-      />
-      {scrollAble ? (
+    <TouchableOpacity
+      style={{ flex: 1 }}
+      onPress={() => {
+        if (Keyboard.isVisible()) Keyboard.dismiss();
+      }}
+      activeOpacity={1}
+    >
+      <>
         <View
           style={{
-            flex: 1,
-            paddingBottom: !!bottomPad ? bottom : 0,
-            backgroundColor: color("bg"),
-          }}
-        >
-          {Header}
-          <ScrollView>
-            <View {...props} style={[styles.childrenContainer, props.style]}>
-              {children}
-            </View>
-          </ScrollView>
-          {Footer}
-        </View>
-      ) : (
-        <View
-          {...props}
-          style={{
-            ...styles.container,
-            paddingBottom: !!bottomPad ? bottom : 0,
-            backgroundColor: color("bg"),
-            ...(props.style as object),
-          }}
-        >
-          {Header}
-          <View style={[styles.childrenContainer, props.style]}>{children}</View>
-          {Footer}
-        </View>
-      )}
-      {!!!bottomPad && (
-        <View
-          style={{
-            ...styles.bottomPad,
-            height: (Platform.OS === "ios" ? 50 : 60) + bottom,
+            height: top,
+            width: "100%",
             backgroundColor: color("bg"),
           }}
         />
-      )}
-    </>
+        {scrollAble ? (
+          <View
+            style={{
+              flex: 1,
+              paddingBottom: !!!bottomPad ? bottom : 0,
+              backgroundColor: color("bg"),
+            }}
+          >
+            {Header}
+            <ScrollView>
+              <View {...props} style={[styles.childrenContainer, props.style]}>
+                {children}
+              </View>
+            </ScrollView>
+            {Footer}
+          </View>
+        ) : (
+          <View
+            {...props}
+            style={{
+              ...styles.container,
+              paddingBottom: !!!bottomPad ? bottom : 0,
+              backgroundColor: color("bg"),
+              ...(props.style as object),
+            }}
+          >
+            {Header}
+            <View style={[styles.childrenContainer, props.style]}>{children}</View>
+            {Footer}
+          </View>
+        )}
+        {!!bottomPad && (
+          <View
+            style={{
+              ...styles.bottomPad,
+              height: (Platform.OS === "ios" ? 50 : 60) + bottom,
+              backgroundColor: color("bg"),
+            }}
+          />
+        )}
+      </>
+    </TouchableOpacity>
   );
 };
 

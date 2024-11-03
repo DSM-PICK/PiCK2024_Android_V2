@@ -6,6 +6,8 @@ import { useMutation } from "@tanstack/react-query";
 import * as ImagePicker from "expo-image-picker";
 import { Item } from "./Item";
 
+const formats = ["년", "월", "일"];
+
 export const My = () => {
   const { color } = useTheme();
   const { data: userData, refetch: userRefetch } = useMyQuery<IUserDetails>("user", "/details");
@@ -62,7 +64,13 @@ export const My = () => {
       </View>
       <View style={{ width: "100%", gap: 35 }}>
         <Item title="이름" data={userData?.user_name} />
-        <Item title="생년월일" data={userData?.birth_day.split("-").join(". ")} />
+        <Item
+          title="생년월일"
+          data={userData?.birth_day
+            .split("-")
+            .map((i, j) => i + formats[j])
+            .join(" ")}
+        />
         <Item
           title="학번"
           data={`${userData?.grade}학년 ${userData?.class_num}반 ${userData?.num}번`}

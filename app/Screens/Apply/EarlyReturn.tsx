@@ -11,7 +11,6 @@ import {
 } from "@/Components";
 import { TimePickerButton } from "@/Components/TimePickerButton";
 import { useMyMutation, useToast } from "@/hooks";
-import { AxiosError } from "axios";
 import { useState } from "react";
 
 export const EarlyReturn = ({ navigation }) => {
@@ -32,7 +31,7 @@ export const EarlyReturn = ({ navigation }) => {
       <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4}>
         조기 귀가 신청
       </Text>
-      <LabelLayout label="희망 귀가 시간을 선택하세요">
+      <LabelLayout label="희망 귀가 시간을 선택하세요" type="black">
         <TimePickerButton
           title="조기 귀가 시간을 선택하세요"
           type="time"
@@ -42,7 +41,7 @@ export const EarlyReturn = ({ navigation }) => {
           }
         />
       </LabelLayout>
-      <LabelLayout label="조기 귀가 사유를 작성하세요">
+      <LabelLayout label="조기 귀가 사유를 작성하세요" type="black">
         <TextInput
           value={data.reason}
           onChange={(e) => setData({ ...data, reason: e })}

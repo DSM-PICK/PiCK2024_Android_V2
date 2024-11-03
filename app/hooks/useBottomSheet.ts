@@ -24,11 +24,10 @@ const defaultData = {
 export const useBottomSheet = create<IBottomSheet>((set, get) => ({
   ...defaultData,
   open: (component: React.ReactElement) => {
-    if (!get().component && !get().isOpened) set({ component, isOpened: true });
-    else {
-      set({ ...defaultData });
-    }
+    set({ component, isOpened: true });
   },
-  close: () => set({ isOpened: false }),
+  close: () => {
+    set({ isOpened: false });
+  },
   set,
 }));

@@ -26,7 +26,7 @@ export const Notice = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { paddingHorizontal: 0, gap: 24 },
+  container: { paddingHorizontal: 0, gap: 0 },
   noticeContainer: {
     width: "100%",
     height: "auto",

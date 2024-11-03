@@ -14,6 +14,7 @@ export const Home = ({ navigation }) => {
     <Layout
       Header={<Header navigation={navigation.getParent()} />}
       scrollAble
+      bottomPad
       style={{ paddingHorizontal: 0 }}
     >
       <WeekendMeal />

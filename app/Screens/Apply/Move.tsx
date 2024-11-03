@@ -2,7 +2,7 @@ import { IClassRoomMoveIn } from "@/apis";
 import { Button, Layout, PrevHedaer, Text, TimePicker, TouchableOpacity, View } from "@/Components";
 import { moveTable } from "@/constants";
 import { useBottomSheet, useDebounce, useMyMutation, useTheme, useToast } from "@/hooks";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Dimensions, NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 
@@ -13,6 +13,7 @@ export const Move = ({ navigation }) => {
     start: 1,
     end: 1,
   });
+  const ref = useRef(null);
   const { debounce } = useDebounce();
   const { open } = useBottomSheet();
   const { color } = useTheme();
@@ -49,7 +50,7 @@ export const Move = ({ navigation }) => {
       <View>
         <View style={{ width: "100%", flexDirection: "row" }}>
           {moveTable.map((_, index) => (
-            <View
+            <TouchableOpacity
               style={{
                 width: `${100 / moveTable.length}%`,
                 height: 50,
@@ -58,14 +59,23 @@ export const Move = ({ navigation }) => {
                 borderBottomColor: color("main", 400, true),
                 borderBottomWidth: index + 1 === data.floor ? 1 : 0,
               }}
+              onPress={() => {
+                if (ref?.current) {
+                  ref.current.scrollToOffset({ offset: windowWidth * index });
+                }
+              }}
+              activeOpacity={0.6}
             >
               <Text colorType="normal" colorLevel="black" fontType="body" fontLevel={1}>
-                {index + 1 + ""}
+                {index + 1 + "층"}
               </Text>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
         <FlatList
+          initialNumToRender={1}
+          ref={ref}
+          disableIntervalMomentum={true}
           data={moveTable}
           horizontal
           onScroll={handleScroll}
@@ -107,7 +117,7 @@ export const Move = ({ navigation }) => {
         />
       </View>
 
-      <View style={{ width: "100%", position: "absolute", bottom: 30, paddingHorizontal: 20 }}>
+      <View style={{ width: "100%", position: "absolute", bottom: 10, paddingHorizontal: 20 }}>
         <Button
           disabled={!!!data.classroom_name}
           onPress={() =>

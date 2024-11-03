@@ -19,7 +19,7 @@ export const BottomSheetManager = () => {
     } else {
       ref?.current.close();
     }
-  }, [isOpened]);
+  }, [isOpened, component]);
 
   const renderBackdrop = useCallback(
     (props: any) => (
@@ -40,12 +40,12 @@ export const BottomSheetManager = () => {
       ref={ref}
       index={-1}
       snapPoints={snapPoints}
-      onAnimate={(fromIndex) => {
-        if (fromIndex === 1) {
+      onAnimate={(fromIndex, toIndex) => {
+        if (fromIndex === 2 && toIndex <= 0) {
           set({ isOpened: false, component: undefined });
         }
       }}
-      enablePanDownToClose
+      enablePanDownToClose={false}
       handleStyle={{ backgroundColor: color("bg", null, true), borderRadius: 30 }}
       handleIndicatorStyle={{ backgroundColor: color("gray", 300, true) }}
       backgroundStyle={{ backgroundColor: color("bg", null, true) }}

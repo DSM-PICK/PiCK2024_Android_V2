@@ -1,7 +1,7 @@
 import { days, getDates, getToday } from "@/utils";
 import { View } from "../AnimatedComponents";
 import { Text } from "../Text";
-import { useTheme } from "@/hooks";
+import { useBottomSheet, useTheme } from "@/hooks";
 import { StyleSheet } from "react-native";
 import { useState } from "react";
 import { Icon } from "../Icon";
@@ -22,6 +22,7 @@ const { fullDay, year, month, date: todate, dayNum } = getToday();
 export const Calander = ({ selected, pointed, weekOnly, onSelect, onMonthChange }: IProp) => {
   const { color } = useTheme();
   const [date, setDate] = useState([year, month]);
+  const { close, isOpened } = useBottomSheet();
   const { startDay, endDate } = getDates(date);
   const startWeekDays = 7 - startDay;
   const onlyWeekLength = todate < startWeekDays ? startWeekDays : todate - dayNum + 6;
@@ -47,6 +48,11 @@ export const Calander = ({ selected, pointed, weekOnly, onSelect, onMonthChange 
         onMonthChange && onMonthChange([date[0], date[1] + 1]);
       }
     }
+  };
+
+  const handleClick = (event: string) => {
+    if (isOpened) close();
+    onSelect(event);
   };
 
   return (
@@ -120,7 +126,7 @@ export const Calander = ({ selected, pointed, weekOnly, onSelect, onMonthChange 
                     borderWidth: selected === formedDate ? 1 : 0,
                     borderColor: color("main", 100, true),
                   }}
-                  onPress={() => onSelect(formedDate)}
+                  onPress={() => handleClick(formedDate)}
                 >
                   {`${index + 1}`}
                 </Text>
@@ -157,7 +163,7 @@ export const Calander = ({ selected, pointed, weekOnly, onSelect, onMonthChange 
                           borderColor: color("main", 100, true),
                           position: "relative",
                         }}
-                        onPress={() => onSelect(formedDate)}
+                        onPress={() => handleClick(formedDate)}
                       >
                         {`${innerIndex + 1}`}
                       </Text>
@@ -207,7 +213,7 @@ export const Calander = ({ selected, pointed, weekOnly, onSelect, onMonthChange 
                           borderColor: color("main", 100, true),
                           position: "relative",
                         }}
-                        onPress={() => onSelect(formedDate)}
+                        onPress={() => handleClick(formedDate)}
                       >
                         {`${realIndex}`}
                       </Text>

@@ -78,7 +78,7 @@ export const Bug = ({ navigation }) => {
 
   return (
     <Layout Header={<PrevHedaer title="버그 제보" />}>
-      <LabelLayout label="어디서 버그가 발생했나요?">
+      <LabelLayout label="어디서 버그가 발생했나요?" type="black">
         <TextInput
           placeholder="예: 메인, 외출 신청"
           value={data.title}
@@ -86,7 +86,7 @@ export const Bug = ({ navigation }) => {
           onChange={handleChange}
         />
       </LabelLayout>
-      <LabelLayout label="버그에 대해 설명해 주세요">
+      <LabelLayout label="버그에 대해 설명해 주세요" type="black">
         <TextInput
           placeholder="자세히 설명해 주세요"
           value={data.content}
@@ -95,7 +95,7 @@ export const Bug = ({ navigation }) => {
           onChange={handleChange}
         />
       </LabelLayout>
-      <LabelLayout label="버그 사진을 첨부해 주세요">
+      <LabelLayout label="버그 사진을 첨부해 주세요" type="black">
         <View style={styles.imageListContainer}>
           <TouchableOpacity
             activeOpacity={0.6}

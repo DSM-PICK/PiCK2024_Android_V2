@@ -1,10 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Meal, Schedule } from "@/Screens";
-import { ApplyStack } from "./ApplyStack";
+import { All, Apply, Home, Meal, Schedule } from "@/Screens";
 import { Platform } from "react-native";
-import { HomeStack } from "./HomeStack";
-import { AllStack } from "./AllStack";
 import { Icon } from "@/Components";
 import { useTheme } from "@/hooks";
 
@@ -24,6 +21,7 @@ export const MainTabs = () => {
           fontSize: 10,
           fontFamily: "Medium",
         },
+        unmountOnBlur: true,
         tabBarStyle: {
           backgroundColor: "transparent",
           position: "absolute",
@@ -37,7 +35,7 @@ export const MainTabs = () => {
     >
       <Screen
         name="홈"
-        component={HomeStack}
+        component={Home}
         options={{
           tabBarIcon: ({ focused }) => (
             <Icon name="Home" colorType={getColor(focused)} colorLevel={500} />
@@ -55,7 +53,7 @@ export const MainTabs = () => {
       />
       <Screen
         name="신청"
-        component={ApplyStack}
+        component={Apply}
         options={{
           tabBarIcon: ({ focused }) => (
             <Icon name="Check" colorType={getColor(focused)} colorLevel={500} />
@@ -73,7 +71,7 @@ export const MainTabs = () => {
       />
       <Screen
         name="전체"
-        component={AllStack}
+        component={All}
         options={{
           tabBarIcon: ({ focused }) => (
             <Icon name="All" colorType={getColor(focused)} colorLevel={500} />

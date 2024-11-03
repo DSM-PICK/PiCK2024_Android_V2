@@ -28,7 +28,7 @@ export const SelfStudy = () => {
         <View style={{ gap: 12 }}>
           {!teacherData?.length ? (
             <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={2}>
-              오늘은 자습감독이 없습니다.
+              오늘은 자습감독 선생님이 없습니다.
             </Text>
           ) : (
             <>

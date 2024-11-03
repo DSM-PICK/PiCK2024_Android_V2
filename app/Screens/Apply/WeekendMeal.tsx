@@ -3,15 +3,22 @@ import { Button, Layout, PrevHedaer, Text, View } from "@/Components";
 import { IWeekendMeal, weekendMealChangeStatusIn } from "@/apis";
 import { StyleSheet } from "react-native";
 import { getToday } from "@/utils";
+import { useEffect, useState } from "react";
 
-export const WeekendMeal = () => {
+export const WeekendMeal = ({ navigation }) => {
   const { color } = useTheme();
   const { month } = getToday();
   const { success } = useToast();
+  const [data, setData] = useState<weekendMealChangeStatusIn>("NO");
   const { data: weekendMealData, refetch: weekendMealRefetch } = useMyQuery<IWeekendMeal>(
     "weekendMeal",
     "/my"
   );
+
+  useEffect(() => {
+    if (weekendMealData) setData(weekendMealData.status);
+  }, [weekendMealData]);
+
   const { mutate: weekendMealMutate } = useMyMutation<weekendMealChangeStatusIn, null>(
     "patch",
     "weekendMeal",
@@ -20,6 +27,7 @@ export const WeekendMeal = () => {
 
   const onSuccess = () => {
     weekendMealRefetch();
+    navigation.goBack();
     success("성공적으로 변경되었습니다!");
   };
 
@@ -45,16 +53,16 @@ export const WeekendMeal = () => {
         </Text>
         <View style={styles.buttonContainer}>
           <Button
-            type={weekendMealData?.status === "OK" ? "main" : "gray"}
-            onPress={() => weekendMealMutate("OK", { onSuccess })}
+            type={data === "OK" ? "main" : "gray"}
+            onPress={() => setData("OK")}
             textProps={{ fontLevel: 2 }}
             style={styles.button}
           >
             신청
           </Button>
           <Button
-            type={weekendMealData?.status === "NO" ? "main" : "gray"}
-            onPress={() => weekendMealMutate("NO", { onSuccess })}
+            type={data === "NO" ? "main" : "gray"}
+            onPress={() => setData("NO")}
             textProps={{ fontLevel: 2 }}
             style={styles.button}
           >
@@ -62,6 +70,12 @@ export const WeekendMeal = () => {
           </Button>
         </View>
       </View>
+      <Button
+        onPress={() => weekendMealMutate(data, { onSuccess })}
+        style={{ bottom: 30, position: "absolute", alignSelf: "center" }}
+      >
+        저장하기
+      </Button>
     </Layout>
   );
 };

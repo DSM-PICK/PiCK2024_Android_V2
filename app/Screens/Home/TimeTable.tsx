@@ -42,7 +42,7 @@ export const TimeTable = () => {
         }}
       >
         <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={1}>
-          오늘은 시간표가 없습니다
+          오늘은 등록된 시간표가 없습니다
         </Text>
       </View>
     </View>

@@ -7,7 +7,7 @@ export const All = ({ navigation }) => {
   const { open } = useModal();
 
   return (
-    <Layout Header={<Header navigation={navigation.getParent()} />} scrollAble>
+    <Layout Header={<Header navigation={navigation.getParent()} />} scrollAble bottomPad>
       <Profile />
       <LabelLayout label="기타 기능">
         <Item icon="Smile" onPress={() => navigation.navigate("자습감독")}>

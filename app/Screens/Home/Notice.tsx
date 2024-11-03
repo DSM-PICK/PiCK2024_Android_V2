@@ -5,7 +5,7 @@ import { NoticeItem } from "../Notice";
 import { useMyQuery } from "@/hooks";
 
 export const Notice = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation().getParent();
   const { data: noticeData } = useMyQuery<noticeSimpleType>("notice", "/simple");
 
   return (

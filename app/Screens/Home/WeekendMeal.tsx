@@ -1,7 +1,7 @@
 import { Icon, Text, View } from "@/Components";
 import { useMyQuery, useTheme } from "@/hooks";
 import { IWeekendMealPeriod } from "@/apis";
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { getToday } from "@/utils";
 
 const { date, month } = getToday();
@@ -11,7 +11,6 @@ export const WeekendMeal = () => {
   const canApply =
     (Number(weekendMealDateData?.start.split("-")[2]) || 1 < date) &&
     (Number(weekendMealDateData?.end.split("-")[2]) || 7 > date);
-
   return (
     canApply && (
       <View style={{ width: "100%", paddingHorizontal: 24 }}>
@@ -21,8 +20,20 @@ export const WeekendMeal = () => {
             backgroundColor: color("main", 50),
           }}
         >
-          <Icon name="Notice" colorType="normal" colorLevel="black" size={27} />
-          <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={2}>
+          <Icon
+            name="Notice"
+            colorType="normal"
+            colorLevel="black"
+            size={27}
+            style={{ left: -5 }}
+          />
+          <Text
+            colorType="normal"
+            colorLevel="black"
+            fontType="label"
+            fontLevel={2}
+            style={{ maxWidth: 285, textAlign: "center" }}
+          >
             지금은{" "}
             <Text colorType="main" colorLevel={900} fontType="label" fontLevel={2}>
               주말 급식 신청 기간
@@ -40,10 +51,12 @@ const styles = StyleSheet.create({
   barContainer: {
     width: "100%",
     borderRadius: 100,
-
-    padding: 10,
+    justifyContent: "center",
+    minHeight: 50,
     flexDirection: "row",
     alignItems: "center",
-    gap: 15,
+    paddingHorizontal: 30,
+    paddingVertical: 15,
+    gap: 10,
   },
 });

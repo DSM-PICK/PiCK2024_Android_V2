@@ -3,7 +3,7 @@ import { Button, Layout } from "@/Components";
 
 export const Onboard = ({ navigation }) => {
   return (
-    <Layout bottomPad>
+    <Layout>
       <PickMan style={{ marginTop: "auto", marginBottom: "auto" }} />
       <Button
         onPress={() => navigation.navigate("로그인")}

@@ -6,3 +6,4 @@ export * from "./useOptions";
 export * from "./useToast";
 export * from "./useTheme";
 export * from "./useModal";
+export * from "./useMenu";

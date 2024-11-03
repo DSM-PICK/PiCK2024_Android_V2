@@ -36,18 +36,22 @@ export const Meal = () => {
               fontLevel={1}
               style={{ width: 116 }}
             >
-              {!!item.menu.length ? item.menu.join("\n") : "메뉴가 없습니다"}
+              {!!item.menu.length ? item.menu.join("\n") : "급식이 없습니다"}
             </Text>
-            <View
-              style={{
-                ...styles.contentContainer,
-                backgroundColor: color("main", 500),
-              }}
-            >
-              <Text colorType="normal" colorLevel="white" fontType="body" fontLevel={1}>
-                {!!item.menu.length ? item.cal : "0 Kcal"}
-              </Text>
-            </View>
+            {!!item.menu.length ? (
+              <View
+                style={{
+                  ...styles.contentContainer,
+                  backgroundColor: color("main", 500),
+                }}
+              >
+                <Text colorType="normal" colorLevel="white" fontType="body" fontLevel={1}>
+                  {!!item.menu.length ? item.cal : "0 Kcal"}
+                </Text>
+              </View>
+            ) : (
+              <View style={{ width: 100 }}></View>
+            )}
           </View>
         ))}
     </LabelLayout>

@@ -19,6 +19,7 @@ export const Custom = () => {
       </View>
 
       <SlideMenu
+        id="mainConfig"
         icon="Main"
         title="메인페이지 설정"
         content="메인페이지에서 급식 또는 시간표를 볼 수 있어요!\n현재는 시간표으로 설정되어 있어요."
@@ -30,6 +31,7 @@ export const Custom = () => {
         }}
       />
       <SlideMenu
+        id="applyConfig"
         icon="Time"
         title="신청 단위 설정"
         content="픽에서 신청할 때 시간 또는 교시로 설정할 수 있어요!\n현재는 교시로 설정되어 있어요."

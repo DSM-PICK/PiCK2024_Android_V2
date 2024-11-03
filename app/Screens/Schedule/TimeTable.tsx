@@ -24,9 +24,11 @@ export const TimeTable = () => {
   return (
     <View style={{ width: "100%", alignItems: "center" }}>
       <FlatList
+        initialNumToRender={1}
         data={timeTableData}
         onScroll={handleScroll}
         horizontal
+        disableIntervalMomentum={true}
         overScrollMode="never"
         showsHorizontalScrollIndicator={false}
         snapToInterval={windowWidth}

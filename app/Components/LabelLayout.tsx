@@ -8,6 +8,7 @@ interface IProp {
   onlyLabelPadding?: boolean;
   noGap?: boolean;
   children: React.ReactElement | React.ReactElement[];
+  type?: "gray" | "black";
 }
 
 export const LabelLayout = ({
@@ -17,6 +18,7 @@ export const LabelLayout = ({
   onlyLabelPadding,
   noGap,
   children,
+  type = "gray",
 }: IProp) => {
   return (
     <View style={[styles.container, padding && { paddingHorizontal: 24 }, noGap && { gap: 0 }]}>
@@ -27,7 +29,12 @@ export const LabelLayout = ({
           noGap && { marginBottom: 12 },
         ]}
       >
-        <Text colorType="gray" colorLevel={600} fontType="label" fontLevel={1}>
+        <Text
+          colorType={type === "gray" ? "gray" : "normal"}
+          colorLevel={type === "gray" ? 600 : "black"}
+          fontType="label"
+          fontLevel={1}
+        >
           {label}
         </Text>
         {subLabel}

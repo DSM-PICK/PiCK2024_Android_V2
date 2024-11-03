@@ -1,44 +1,40 @@
 import { View, Text, Icon, TouchableOpacity, iconType, Button } from "./Common";
 import { Animated, Easing, StyleSheet } from "react-native";
-import { useRef, useState } from "react";
-import { useTheme } from "@/hooks";
+import { useEffect, useRef, useState } from "react";
+import { useMenu, useTheme } from "@/hooks";
 
 interface IProp {
   icon: iconType;
   title: string;
   content: string;
+  id: string;
   buttonContent: string;
   onPressButton: () => void;
-  disabled?: boolean;
 }
 
-export const SlideMenu = ({
-  icon,
-  title,
-  content,
-  buttonContent,
-  onPressButton,
-  disabled,
-}: IProp) => {
+export const SlideMenu = ({ icon, title, content, id, buttonContent, onPressButton }: IProp) => {
   const height = useRef(0);
-  const [opened, setOpened] = useState(false);
+  const [open, setOpen] = useState(false);
   const { color } = useTheme();
 
   const heightAnim = useRef(new Animated.Value(0)).current;
   const borderAnim = useRef(new Animated.Value(0)).current;
 
+  useEffect(() => {
+    start();
+  }, [open]);
   const start = () => {
     Animated.timing(heightAnim, {
-      toValue: opened ? 0 : 1,
+      toValue: open ? 1 : 0,
       duration: 600,
       easing: Easing.out(Easing.exp),
       useNativeDriver: false,
-    }).start(() => heightAnim.setValue(opened ? 0 : 1));
+    }).start(() => heightAnim.setValue(open ? 1 : 0));
     Animated.timing(borderAnim, {
-      toValue: opened ? 0 : 1,
+      toValue: open ? 1 : 0,
       duration: 300,
       useNativeDriver: false,
-    }).start(() => borderAnim.setValue(opened ? 0 : 1));
+    }).start(() => borderAnim.setValue(open ? 1 : 0));
   };
 
   const heightValue = heightAnim.interpolate({
@@ -58,10 +54,7 @@ export const SlideMenu = ({
         borderColor: borderValue,
       }}
       activeOpacity={1}
-      onPress={() => {
-        setOpened((prev) => !prev);
-        start();
-      }}
+      onPress={() => setOpen((prev) => !prev)}
     >
       <View style={styles.titleContainer}>
         <Icon name={icon} size={34} colorType="gray" colorLevel={800} />
@@ -76,7 +69,13 @@ export const SlideMenu = ({
         <Text colorType="gray" colorLevel={800} fontType="body" fontLevel={2}>
           {content.replace(/\\n/g, "\n")}
         </Text>
-        <Button style={{ height: 36, borderRadius: 8 }} onPress={onPressButton}>
+        <Button
+          style={{ height: 36, borderRadius: 8 }}
+          onPress={() => {
+            setOpen(false);
+            onPressButton();
+          }}
+        >
           {buttonContent}
         </Button>
       </View>

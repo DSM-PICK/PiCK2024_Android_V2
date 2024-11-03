@@ -3,7 +3,7 @@ import { View, Text, Button, ScrollPicker } from "./Common";
 import { useBottomSheet, useTheme, useToast } from "@/hooks";
 
 const timeTable = {
-  hour: Array.from({ length: 24 }, (_, k) => k + 1),
+  hour: Array.from({ length: 17 }, (_, k) => k + 8),
   minute: Array.from({ length: 59 }, (_, k) => k + 1),
   class: Array.from({ length: 10 }, (_, k) => k + 1),
 };

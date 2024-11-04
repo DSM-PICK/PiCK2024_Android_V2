@@ -15,6 +15,11 @@ import { BottomSheetManager } from "@/Components/Common/BottomSheetManager";
 import { enableScreens } from "react-native-screens";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
+import { init, getCurrentScope } from "@sentry/react-native";
+
+init({
+  dsn: "https://69af4e84f735adb3673a42550260e390@o4507229156474880.ingest.us.sentry.io/4507229158113280",
+});
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -50,6 +55,12 @@ export default function App() {
       requestPermission();
     }
     getItem("access_token").then((res) => setToken(res));
+    getItem("user_data").then((res) => {
+      if (res) {
+        const [id, username] = res.split("||");
+        getCurrentScope().setUser({ id, username });
+      }
+    });
   }, []);
 
   useEffect(() => {

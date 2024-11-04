@@ -1,7 +1,8 @@
 import { Button, Layout, Text, TextInput, View } from "@/Components";
-import { IUserLoginIn, IUserLoginOut } from "@/apis";
+import { instance, IUserDetails, IUserLoginIn, IUserLoginOut } from "@/apis";
 import { useMyMutation } from "@/hooks";
-import { bulkSetItem } from "@/utils";
+import { bulkSetItem, setItem } from "@/utils";
+import { getCurrentScope } from "@sentry/react-native";
 import { AxiosError } from "axios";
 import { useState } from "react";
 
@@ -62,6 +63,10 @@ export const Login = ({ navigation }) => {
                 ["access_token", res.access_token],
                 ["refresh_token", res.refresh_token],
               ]);
+              instance.get("/user/details").then(({ data }: { data: IUserDetails }) => {
+                setItem("user_data", `${data.account_id}||${data.user_name}`);
+                getCurrentScope().setUser({ id: data.account_id, username: data.user_name });
+              });
               navigation.reset({ routes: [{ name: "메인" }] });
             },
             onError: ({ response: { data } }: AxiosError) => {

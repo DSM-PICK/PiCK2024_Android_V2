@@ -14,7 +14,11 @@
     },
     "packagerOpts": {
       "config": "metro.config.js",
-      "sourceExts": ["js", "jsx", "svg"]
+      "sourceExts": [
+        "js",
+        "jsx",
+        "svg"
+      ]
     },
     "plugins": [
       [
@@ -31,6 +35,14 @@
         "expo-image-picker",
         {
           "photosPermission": "프로필 사진 변경 및 버그 제보 이미지 업로드에 사용됩니다."
+        }
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "project": "pick-android",
+          "organization": "daedeok-software-meister-hi-76"
         }
       ]
     ],

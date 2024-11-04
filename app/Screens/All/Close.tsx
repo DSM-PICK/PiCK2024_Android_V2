@@ -1,6 +1,7 @@
 import { Button, Text, View } from "@/Components";
 import { useModal, useTheme } from "@/hooks";
 import { bulkDelItem } from "@/utils";
+import { getCurrentScope } from "@sentry/react-native";
 
 export const Close = ({ navigation }) => {
   const { close } = useModal();
@@ -23,7 +24,8 @@ export const Close = ({ navigation }) => {
         <Button
           onPress={() => {
             close();
-            bulkDelItem(["access_token", "refresh_token"]);
+            bulkDelItem(["access_token", "refresh_token", "user_data"]);
+            getCurrentScope().setUser({ id: undefined, username: undefined });
             navigation.getParent().reset({ routes: [{ name: "온보딩" }] });
           }}
           style={{ borderRadius: 4, height: 35 }}

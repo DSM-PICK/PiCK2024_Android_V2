@@ -1,7 +1,7 @@
 import { View, Text, Icon, TouchableOpacity, iconType, Button } from "./Common";
 import { Animated, Easing, StyleSheet } from "react-native";
 import { useEffect, useRef, useState } from "react";
-import { useMenu, useTheme } from "@/hooks";
+import { useTheme } from "@/hooks";
 
 interface IProp {
   icon: iconType;

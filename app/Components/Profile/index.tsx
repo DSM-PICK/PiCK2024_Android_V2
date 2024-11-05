@@ -1,6 +1,5 @@
 import { StyleSheet, ViewProps } from "react-native";
 import { ProfileImage } from "./ProfileImage";
-
 import { Text, View } from "../Common";
 import { useMyQuery } from "@/hooks";
 import { IUserSimple } from "@/apis";

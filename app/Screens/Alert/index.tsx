@@ -1,6 +1,5 @@
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { Layout, PrevHedaer, Text, View } from "@/Components";
-import { getDiff } from "@/utils";
 import { useTheme } from "@/hooks";
 import { Item } from "./Item";
 

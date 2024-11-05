@@ -1,21 +1,21 @@
 import { setPositionAsync, setBackgroundColorAsync } from "expo-navigation-bar";
+import { BottomSheetManager } from "@/Components/Common/BottomSheetManager";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ModalManager } from "@/Components/Common/ModalManager";
-import { NavigationContainer } from "@react-navigation/native";
-import { useEffect, useRef, useState } from "react";
 import { Animated, BackHandler, StatusBar } from "react-native";
 import { useBottomSheet, useOptions, useTheme } from "@/hooks";
-import { delItem, getItem, isAndroid } from "@/utils";
+import { NavigationContainer } from "@react-navigation/native";
+import { useMediaLibraryPermissions } from "expo-image-picker";
+import { init, getCurrentScope } from "@sentry/react-native";
+import { enableScreens } from "react-native-screens";
+import { useEffect, useRef, useState } from "react";
+import { getItem, isAndroid } from "@/utils";
 import { ToastManager } from "@/Components";
 import { Navigation } from "@/Navigation";
 import { useFonts } from "expo-font";
 import { Splash } from "@/Screens";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { BottomSheetManager } from "@/Components/Common/BottomSheetManager";
-import { enableScreens } from "react-native-screens";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import * as ImagePicker from "expo-image-picker";
-import { init, getCurrentScope } from "@sentry/react-native";
 
 init({
   dsn: "https://69af4e84f735adb3673a42550260e390@o4507229156474880.ingest.us.sentry.io/4507229158113280",
@@ -32,15 +32,15 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
+  const [status, requestPermission] = useMediaLibraryPermissions();
   const { getTheme, theme, load: loadTheme } = useTheme();
-  const { load: loadOptions } = useOptions();
   const { close, isOpened } = useBottomSheet();
+  const { load: loadOptions } = useOptions();
   enableScreens(true);
 
   const [token, setToken] = useState<null | string>(null);
   const fade = useRef(new Animated.Value(1)).current;
   const [splash, setSplash] = useState(true);
-  const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 
   const [fontsLoaded] = useFonts({
     Medium: require("./app/assets/font/Medium.ttf"),

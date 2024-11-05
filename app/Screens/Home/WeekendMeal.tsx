@@ -1,7 +1,7 @@
 import { Icon, Text, View } from "@/Components";
 import { useMyQuery, useTheme } from "@/hooks";
 import { IWeekendMealPeriod } from "@/apis";
-import { Dimensions, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { getToday } from "@/utils";
 
 const { date, month } = getToday();

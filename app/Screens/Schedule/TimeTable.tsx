@@ -1,5 +1,5 @@
 import { timeTableWeekType } from "@/apis";
-import { LabelLayout, Text, View } from "@/Components";
+import { Text, View } from "@/Components";
 import { useDebounce, useMyQuery, useTheme } from "@/hooks";
 import { useState } from "react";
 import { Dimensions, Image, NativeScrollEvent, NativeSyntheticEvent } from "react-native";

@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     padding: 25,
     gap: 30,
     borderRadius: 16,
-    paddingbottom: 10,
+    paddingBottom: 10,
   },
   titleContainer: {
     flexDirection: "row",

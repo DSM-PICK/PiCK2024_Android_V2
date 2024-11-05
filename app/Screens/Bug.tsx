@@ -16,6 +16,7 @@ import {
   View,
   TouchableOpacity,
 } from "@/Components";
+import { KeyboardDismiss } from "@/Components/Common/KeyboardDismiss";
 
 export const Bug = ({ navigation }) => {
   const { color } = useTheme();
@@ -77,88 +78,90 @@ export const Bug = ({ navigation }) => {
   };
 
   return (
-    <Layout Header={<PrevHedaer title="버그 제보" />}>
-      <LabelLayout label="어디서 버그가 발생했나요?" type="black">
-        <TextInput
-          placeholder="예: 메인, 외출 신청"
-          value={data.title}
-          id="title"
-          onChange={handleChange}
-        />
-      </LabelLayout>
-      <LabelLayout label="버그에 대해 설명해 주세요" type="black">
-        <TextInput
-          placeholder="자세히 설명해 주세요"
-          value={data.content}
-          multiLine={4}
-          id="content"
-          onChange={handleChange}
-        />
-      </LabelLayout>
-      <LabelLayout label="버그 사진을 첨부해 주세요" type="black">
-        <View style={styles.imageListContainer}>
-          <TouchableOpacity
-            activeOpacity={0.6}
-            style={{
-              ...styles.addImage,
-              width: !!data.file_name.length ? 100 : "100%",
-              backgroundColor: color("gray", 50),
-              borderColor: color("gray", 600),
-            }}
-            onPress={handleImageChange}
-          >
-            <Icon name="Image" />
-          </TouchableOpacity>
-          <FlatList
-            data={data.file_name}
-            horizontal
-            contentContainerStyle={{ gap: 10 }}
-            renderItem={({ item, index }) => (
-              <View style={styles.imageContainer}>
-                <TouchableOpacity
-                  activeOpacity={0.3}
-                  style={{ ...styles.removeContainer, backgroundColor: color("bg") }}
-                >
-                  <Text
-                    colorType="error"
-                    fontType="caption"
-                    fontLevel={2}
-                    onPress={() => {
-                      setData({
-                        ...data,
-                        file_name: data.file_name.filter((i, index) => {
-                          if (i === item) {
-                            image.filter((_, innerIndex) => innerIndex !== index);
-                          }
-                          return i !== item;
-                        }),
-                      });
-                      setImage(image.filter((i) => i.file_name !== item));
-                    }}
-                  >
-                    삭제
-                  </Text>
-                </TouchableOpacity>
-                <Image style={{ width: 100, height: 100 }} source={{ uri: image[index].uri }} />
-              </View>
-            )}
+    <KeyboardDismiss>
+      <Layout Header={<PrevHedaer title="버그 제보" />}>
+        <LabelLayout label="어디서 버그가 발생했나요?" type="black">
+          <TextInput
+            placeholder="예: 메인, 외출 신청"
+            value={data.title}
+            id="title"
+            onChange={handleChange}
           />
-        </View>
-      </LabelLayout>
-      <Button
-        onPress={() =>
-          bugMutate(data, {
-            onSuccess: () => {
-              navigation.goBack();
-              success("성공적으로 제출되었습니다. 감사합니다!");
-            },
-          })
-        }
-        style={{ position: "absolute", bottom: 30 }}
-      >
-        제보하기
-      </Button>
-    </Layout>
+        </LabelLayout>
+        <LabelLayout label="버그에 대해 설명해 주세요" type="black">
+          <TextInput
+            placeholder="자세히 설명해 주세요"
+            value={data.content}
+            multiLine={4}
+            id="content"
+            onChange={handleChange}
+          />
+        </LabelLayout>
+        <LabelLayout label="버그 사진을 첨부해 주세요" type="black">
+          <View style={styles.imageListContainer}>
+            <TouchableOpacity
+              activeOpacity={0.6}
+              style={{
+                ...styles.addImage,
+                width: !!data.file_name.length ? 100 : "100%",
+                backgroundColor: color("gray", 50),
+                borderColor: color("gray", 600),
+              }}
+              onPress={handleImageChange}
+            >
+              <Icon name="Image" />
+            </TouchableOpacity>
+            <FlatList
+              data={data.file_name}
+              horizontal
+              contentContainerStyle={{ gap: 10 }}
+              renderItem={({ item, index }) => (
+                <View style={styles.imageContainer}>
+                  <TouchableOpacity
+                    activeOpacity={0.3}
+                    style={{ ...styles.removeContainer, backgroundColor: color("bg") }}
+                  >
+                    <Text
+                      colorType="error"
+                      fontType="caption"
+                      fontLevel={2}
+                      onPress={() => {
+                        setData({
+                          ...data,
+                          file_name: data.file_name.filter((i, index) => {
+                            if (i === item) {
+                              image.filter((_, innerIndex) => innerIndex !== index);
+                            }
+                            return i !== item;
+                          }),
+                        });
+                        setImage(image.filter((i) => i.file_name !== item));
+                      }}
+                    >
+                      삭제
+                    </Text>
+                  </TouchableOpacity>
+                  <Image style={{ width: 100, height: 100 }} source={{ uri: image[index].uri }} />
+                </View>
+              )}
+            />
+          </View>
+        </LabelLayout>
+        <Button
+          onPress={() =>
+            bugMutate(data, {
+              onSuccess: () => {
+                navigation.goBack();
+                success("성공적으로 제출되었습니다. 감사합니다!");
+              },
+            })
+          }
+          style={{ position: "absolute", bottom: 30 }}
+        >
+          제보하기
+        </Button>
+      </Layout>
+    </KeyboardDismiss>
   );
 };
 

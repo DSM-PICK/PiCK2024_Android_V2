@@ -3,7 +3,7 @@ import { View, Icon } from "../Common";
 import { useTheme } from "@/hooks";
 import { Logo } from "@/assets";
 
-export const Header = ({ navigation }) => {
+export const Header = () => {
   const { toggleTheme, getTheme } = useTheme();
 
   return (
@@ -16,12 +16,6 @@ export const Header = ({ navigation }) => {
           colorLevel="black"
           onPress={() => toggleTheme()}
         />
-        {/* <Icon
-          name="Bell"
-          colorType="normal"
-          colorLevel="black"
-          onPress={() => navigation.getParent().navigate("알림")}
-        /> */}
       </View>
     </View>
   );

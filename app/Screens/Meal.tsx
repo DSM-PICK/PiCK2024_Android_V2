@@ -1,22 +1,22 @@
-import { IMeal } from "@/apis";
 import { Header, Layout, Text, View, WeekCalander } from "@/Components";
+import { FlatList } from "react-native-gesture-handler";
 import { useMyQuery, useTheme } from "@/hooks";
+import { StyleSheet } from "react-native";
 import { getToday } from "@/utils";
 import { useState } from "react";
-import { StyleSheet } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import { IMeal } from "@/apis";
 
 const { fullDay } = getToday();
 const nameTable = ["조식", "중식", "석식"];
 
-export const Meal = ({ navigation }) => {
+export const Meal = () => {
   const [date, setDate] = useState(fullDay);
   const { data: mealData } = useMyQuery<IMeal>("meal", `/date?date=${date}`);
   const { color } = useTheme();
 
   return (
     <Layout
-      Header={<Header navigation={navigation} />}
+      Header={<Header />}
       Footer={<WeekCalander onSelect={setDate} selected={date} />}
       style={{ paddingHorizontal: 0, alignItems: "flex-start", gap: 0 }}
       bottomPad

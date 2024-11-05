@@ -1,6 +1,7 @@
 import { Layout, PrevHedaer, Text, View } from "@/Components";
 import { useTheme } from "@/hooks";
 import { Item } from "./Item";
+import { StyleSheet } from "react-native";
 
 export const AlertConfig = () => {
   const { color } = useTheme();
@@ -9,7 +10,7 @@ export const AlertConfig = () => {
     <Layout Header={<PrevHedaer title="알림 설정" />} style={{ paddingHorizontal: 0 }}>
       <Item type="big" title="전체 알림" value={false} onPress={() => {}} />
       <View style={{ width: "100%", height: 8, backgroundColor: color("gray", 50) }} />
-      <View style={{ gap: 10, width: "100%", alignItems: "flex-start", paddingHorizontal: 24 }}>
+      <View style={styles.contentContainer}>
         <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4}>
           맞춤 설정
         </Text>
@@ -24,3 +25,12 @@ export const AlertConfig = () => {
     </Layout>
   );
 };
+
+const styles = StyleSheet.create({
+  contentContainer: {
+    gap: 10,
+    width: "100%",
+    alignItems: "flex-start",
+    paddingHorizontal: 24,
+  },
+});

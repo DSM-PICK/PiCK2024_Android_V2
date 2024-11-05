@@ -1,4 +1,7 @@
+import { useBottomSheet, useMyMutation, useOptions, useTheme, useToast } from "@/hooks";
+import { StyleSheet } from "react-native";
 import { IApplicationIn } from "@/apis";
+import { useState } from "react";
 import {
   Button,
   changePropType,
@@ -10,18 +13,17 @@ import {
   TimePicker,
   TouchableOpacity,
   View,
+  KeyboardDismiss,
+  TimePickerButton,
 } from "@/Components";
-import { KeyboardDismiss } from "@/Components/Common/KeyboardDismiss";
-import { TimePickerButton } from "@/Components/TimePickerButton";
-import { useBottomSheet, useMyMutation, useOptions, useTheme, useToast } from "@/hooks";
-import { useState } from "react";
 
 export const Out = ({ navigation }) => {
-  const { periodType } = useOptions();
   const { mutate: outMutate } = useMyMutation<IApplicationIn, null>("post", "application", "");
+
+  const { periodType } = useOptions();
+  const { open } = useBottomSheet();
   const { success } = useToast();
   const { color } = useTheme();
-  const { open } = useBottomSheet();
 
   const [data, setData] = useState<IApplicationIn>({
     reason: "",
@@ -47,7 +49,7 @@ export const Out = ({ navigation }) => {
         </Text>
         <LabelLayout label="희망 외출 시간을 선택하세요" type="black">
           {periodType === 0 ? (
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 20 }}>
+            <View style={styles.periodPickerContainer}>
               <TimePickerButton
                 title={`외출 시작 ${!!periodType ? "교시를" : "시간을"} 선택하세요`}
                 type={!!periodType ? "class" : "time"}
@@ -72,15 +74,9 @@ export const Out = ({ navigation }) => {
           ) : (
             <TouchableOpacity
               style={{
-                width: "100%",
-                height: 40,
-                paddingHorizontal: 15,
+                ...styles.classPickerContainer,
                 backgroundColor: color("gray", 50),
-                flexDirection: "row",
-                borderRadius: 8,
-                alignItems: "center",
                 justifyContent: data.start && data.end ? "center" : "flex-start",
-                gap: 60,
               }}
               activeOpacity={1}
               onPress={() =>
@@ -96,7 +92,7 @@ export const Out = ({ navigation }) => {
             >
               {data.start && data.end ? (
                 <>
-                  <View style={{ alignItems: "center", gap: 3, flexDirection: "row" }}>
+                  <View style={styles.classPickerInnerContainer}>
                     <Text colorType="normal" colorLevel="black" fontType="body" fontLevel={1}>
                       {data.start}교시{" "}
                     </Text>
@@ -104,7 +100,7 @@ export const Out = ({ navigation }) => {
                       부터
                     </Text>
                   </View>
-                  <View style={{ alignItems: "center", gap: 3, flexDirection: "row" }}>
+                  <View style={styles.classPickerInnerContainer}>
                     <Text colorType="normal" colorLevel="black" fontType="body" fontLevel={1}>
                       {data.end}교시{" "}
                     </Text>
@@ -147,3 +143,25 @@ export const Out = ({ navigation }) => {
     </KeyboardDismiss>
   );
 };
+
+const styles = StyleSheet.create({
+  periodPickerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 20,
+  },
+  classPickerContainer: {
+    width: "100%",
+    height: 40,
+    paddingHorizontal: 15,
+    flexDirection: "row",
+    borderRadius: 8,
+    alignItems: "center",
+    gap: 60,
+  },
+  classPickerInnerContainer: {
+    alignItems: "center",
+    gap: 3,
+    flexDirection: "row",
+  },
+});

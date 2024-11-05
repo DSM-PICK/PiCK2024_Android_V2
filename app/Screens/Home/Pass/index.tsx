@@ -14,17 +14,11 @@ export const Pass = () => {
   useEffect(() => {
     const Socket = async () => {
       //@ts-expect-error
-      //이거 왜 됨??? 3번째 옵션은 타입에 없는데??? 내장 타입 쉽지않네..
       ws.current = new WebSocket(`${process.env.EXPO_PUBLIC_BASE_URL}/main`, null, {
-        headers: {
-          Authorization: `${await getItem("access_token")}`,
-        },
+        headers: { Authorization: `${await getItem("access_token")}` },
       });
 
-      ws.current.onopen = () => {
-        ws.current.send("");
-        console.log("연결됨");
-      };
+      ws.current.onopen = () => ws.current.send("");
 
       ws.current.onerror = (error) => console.log(`오류 발생 (${error})`);
 
@@ -33,19 +27,12 @@ export const Pass = () => {
 
     Socket();
 
-    return () => {
-      ws.current.close();
-    };
+    return () => ws.current.close();
   }, []);
 
   return (
     !!data && (
-      <View
-        style={{
-          ...styles.container,
-          backgroundColor: color("gray", 50),
-        }}
-      >
+      <View style={{ ...styles.container, backgroundColor: color("gray", 50) }}>
         {data?.userName ? <Submitted {...data} /> : <Waiting type={data?.type} />}
       </View>
     )

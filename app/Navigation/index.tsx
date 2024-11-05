@@ -1,5 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { stackNavigationOptions } from "@/constants";
+import { TransitionPresets } from "@react-navigation/stack";
 import { MainTabs } from "./MainTabs";
 import * as _ from "@/Screens";
 
@@ -11,7 +11,10 @@ interface IProp {
 
 export const Navigation = ({ token }: IProp) => {
   return (
-    <Navigator screenOptions={stackNavigationOptions} initialRouteName={token ? "메인" : "온보딩"}>
+    <Navigator
+      screenOptions={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
+      initialRouteName={token ? "메인" : "온보딩"}
+    >
       <Screen name="온보딩" component={_.Onboard} />
       <Screen name="로그인" component={_.Login} />
       <Screen name="메인" component={MainTabs} />

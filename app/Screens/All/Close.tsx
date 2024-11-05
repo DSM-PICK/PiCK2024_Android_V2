@@ -1,24 +1,23 @@
+import { getCurrentScope } from "@sentry/react-native";
 import { Button, Text, View } from "@/Components";
 import { useModal, useTheme } from "@/hooks";
 import { bulkDelItem } from "@/utils";
-import { getCurrentScope } from "@sentry/react-native";
+import { StyleSheet } from "react-native";
 
 export const Close = ({ navigation }) => {
   const { close } = useModal();
   const { color } = useTheme();
 
   return (
-    <View
-      style={{ width: 350, padding: 20, gap: 20, backgroundColor: color("bg"), borderRadius: 8 }}
-    >
+    <View style={{ ...styles.container, backgroundColor: color("bg") }}>
       <Text colorType="normal" colorLevel="black" fontType="subTitle" fontLevel={2}>
         정말 로그아웃하시겠습니까?
       </Text>
       <Text colorType="gray" colorLevel={700} fontType="body" fontLevel={1}>
         {"기기내 계정에서 로그아웃 할 수 있어요\n다음 이용 시에는 다시 로그인 해야합니다."}
       </Text>
-      <View style={{ flexDirection: "row", gap: 10, width: "100%" }}>
-        <Button type="gray" onPress={() => close()} style={{ borderRadius: 4, height: 35 }}>
+      <View style={styles.buttonContainer}>
+        <Button type="gray" onPress={() => close()} style={styles.button}>
           취소
         </Button>
         <Button
@@ -28,7 +27,7 @@ export const Close = ({ navigation }) => {
             getCurrentScope().setUser({ id: undefined, username: undefined });
             navigation.getParent().reset({ routes: [{ name: "온보딩" }] });
           }}
-          style={{ borderRadius: 4, height: 35 }}
+          style={styles.button}
         >
           확인
         </Button>
@@ -36,3 +35,21 @@ export const Close = ({ navigation }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    width: 350,
+    padding: 20,
+    gap: 20,
+    borderRadius: 8,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    gap: 10,
+    width: "100%",
+  },
+  button: {
+    borderRadius: 4,
+    height: 35,
+  },
+});

@@ -1,5 +1,5 @@
-import { Keyboard } from "react-native";
 import { TouchableOpacity } from "./AnimatedComponents";
+import { Keyboard } from "react-native";
 
 interface IProp {
   children: React.ReactElement | React.ReactElement[];

@@ -1,10 +1,12 @@
-import { IClassRoomMoveIn } from "@/apis";
 import { Button, Layout, PrevHedaer, Text, TimePicker, TouchableOpacity, View } from "@/Components";
-import { moveTable } from "@/constants";
+import { Dimensions, NativeScrollEvent, NativeSyntheticEvent, StyleSheet } from "react-native";
 import { useBottomSheet, useDebounce, useMyMutation, useTheme, useToast } from "@/hooks";
-import { useRef, useState } from "react";
-import { Dimensions, NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
+import { IClassRoomMoveIn } from "@/apis";
+import { useRef, useState } from "react";
+import { moveTable } from "@/constants";
+
+const { width } = Dimensions.get("window");
 
 export const Move = ({ navigation }) => {
   const [data, setData] = useState<IClassRoomMoveIn>({
@@ -13,20 +15,22 @@ export const Move = ({ navigation }) => {
     start: 1,
     end: 1,
   });
-  const ref = useRef(null);
+
   const { debounce } = useDebounce();
   const { open } = useBottomSheet();
+  const { success } = useToast();
   const { color } = useTheme();
-  const windowWidth = Dimensions.get("window").width;
+
+  const ref = useRef(null);
+
   const { mutate: moveMutate } = useMyMutation<IClassRoomMoveIn, null>(
     "post",
     "classroom",
     "/move"
   );
-  const { success } = useToast();
 
   const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const index = Math.round(e.nativeEvent.contentOffset.x / windowWidth);
+    const index = Math.round(e.nativeEvent.contentOffset.x / width);
     if (!!moveTable[index]) {
       debounce(() => {
         setData({ ...data, floor: index + 1 });
@@ -39,7 +43,7 @@ export const Move = ({ navigation }) => {
       Header={<PrevHedaer title="교실 이동 신청" />}
       style={{ paddingHorizontal: 0, gap: 20 }}
     >
-      <View style={{ gap: 10, alignSelf: "flex-start", paddingHorizontal: 24 }}>
+      <View style={styles.titleContainer}>
         <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4}>
           교실 이동
         </Text>
@@ -52,18 +56,12 @@ export const Move = ({ navigation }) => {
           {moveTable.map((_, index) => (
             <TouchableOpacity
               style={{
+                ...styles.floorButton,
                 width: `${100 / moveTable.length}%`,
-                height: 50,
-                alignItems: "center",
-                justifyContent: "center",
                 borderBottomColor: color("main", 400, true),
                 borderBottomWidth: index + 1 === data.floor ? 1 : 0,
               }}
-              onPress={() => {
-                if (ref?.current) {
-                  ref.current.scrollToOffset({ offset: windowWidth * index });
-                }
-              }}
+              onPress={() => ref?.current && ref.current.scrollToOffset({ offset: width * index })}
               activeOpacity={0.6}
             >
               <Text colorType="normal" colorLevel="black" fontType="body" fontLevel={1}>
@@ -81,26 +79,15 @@ export const Move = ({ navigation }) => {
           onScroll={handleScroll}
           overScrollMode="never"
           showsHorizontalScrollIndicator={false}
-          snapToInterval={windowWidth}
-          keyExtractor={(item, index) => index + ""}
+          snapToInterval={width}
+          keyExtractor={(_, index) => index + ""}
           renderItem={({ item }) => (
-            <View
-              style={{
-                width: windowWidth,
-                flexWrap: "wrap",
-                flexDirection: "row",
-                padding: 24,
-                gap: 15,
-              }}
-            >
+            <View style={styles.itemsContainer}>
               {item.map((i) => (
                 <TouchableOpacity
                   style={{
-                    paddingHorizontal: 20,
-                    paddingVertical: 8,
-                    borderRadius: 100,
+                    ...styles.item,
                     borderColor: color("main", 100, true),
-                    borderWidth: 1,
                     backgroundColor:
                       data.classroom_name === i ? color("main", 100, true) : "transparent",
                   }}
@@ -117,7 +104,7 @@ export const Move = ({ navigation }) => {
         />
       </View>
 
-      <View style={{ width: "100%", position: "absolute", bottom: 10, paddingHorizontal: 20 }}>
+      <View style={styles.buttonContainer}>
         <Button
           disabled={!!!data.classroom_name}
           onPress={() =>
@@ -147,3 +134,31 @@ export const Move = ({ navigation }) => {
     </Layout>
   );
 };
+
+const styles = StyleSheet.create({
+  titleContainer: { gap: 10, alignSelf: "flex-start", paddingHorizontal: 24 },
+  floorButton: {
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  itemsContainer: {
+    width,
+    flexWrap: "wrap",
+    flexDirection: "row",
+    padding: 24,
+    gap: 15,
+  },
+  buttonContainer: {
+    width: "100%",
+    position: "absolute",
+    bottom: 10,
+    paddingHorizontal: 20,
+  },
+  item: {
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 100,
+    borderWidth: 1,
+  },
+});

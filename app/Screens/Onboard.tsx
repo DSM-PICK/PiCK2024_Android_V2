@@ -1,5 +1,5 @@
-import { PickMan } from "@/assets";
 import { Button, Layout } from "@/Components";
+import { PickMan } from "@/assets";
 
 export const Onboard = ({ navigation }) => {
   return (

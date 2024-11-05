@@ -1,15 +1,14 @@
 import { Animated, Dimensions, Pressable, StyleSheet } from "react-native";
-import { View } from "./";
 import { useEffect, useRef, useState } from "react";
-import { Text } from "./";
 import { useTheme } from "@/hooks";
+import { View, Text } from "./";
 
 interface IProp {
   items: string[];
   onPress: (item: string) => void;
   padding?: number;
 }
-export default function ToggleSlide({ items, onPress, padding }: IProp) {
+export const ToggleSlide = ({ items, onPress, padding }: IProp) => {
   const [selected, setSelected] = useState(0);
   const { color } = useTheme();
   const animation = useRef(new Animated.Value(0)).current;
@@ -57,7 +56,7 @@ export default function ToggleSlide({ items, onPress, padding }: IProp) {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

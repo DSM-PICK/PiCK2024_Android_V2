@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { View, Text, Button, ScrollPicker } from "./Common";
 import { useBottomSheet, useTheme, useToast } from "@/hooks";
+import { View, Text, Button, ScrollPicker } from "./Common";
+import { useState } from "react";
 
 const timeTable = {
   hour: Array.from({ length: 17 }, (_, k) => k + 8),
@@ -20,9 +20,10 @@ interface IProp {
 }
 
 export const TimePicker = ({ type, title, buttonTitle, onEnd, id }: IProp) => {
-  const { color } = useTheme();
   const { close } = useBottomSheet();
+  const { color } = useTheme();
   const { error } = useToast();
+
   const [time, setTime] = useState({ hour: "1", minute: "1" });
 
   return (

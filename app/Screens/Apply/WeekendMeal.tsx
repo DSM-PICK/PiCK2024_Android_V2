@@ -1,23 +1,23 @@
 import { useMyMutation, useMyQuery, useTheme, useToast } from "@/hooks";
 import { Button, Layout, PrevHedaer, Text, View } from "@/Components";
 import { IWeekendMeal, weekendMealChangeStatusIn } from "@/apis";
+import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { getToday } from "@/utils";
-import { useEffect, useState } from "react";
 
 export const WeekendMeal = ({ navigation }) => {
+  const { success } = useToast();
   const { color } = useTheme();
   const { month } = getToday();
-  const { success } = useToast();
+
   const [data, setData] = useState<weekendMealChangeStatusIn>("NO");
+
   const { data: weekendMealData, refetch: weekendMealRefetch } = useMyQuery<IWeekendMeal>(
     "weekendMeal",
     "/my"
   );
 
-  useEffect(() => {
-    if (weekendMealData) setData(weekendMealData.status);
-  }, [weekendMealData]);
+  useEffect(() => weekendMealData && setData(weekendMealData.status), [weekendMealData]);
 
   const { mutate: weekendMealMutate } = useMyMutation<weekendMealChangeStatusIn, null>(
     "patch",
@@ -70,10 +70,7 @@ export const WeekendMeal = ({ navigation }) => {
           </Button>
         </View>
       </View>
-      <Button
-        onPress={() => weekendMealMutate(data, { onSuccess })}
-        style={{ bottom: 30, position: "absolute", alignSelf: "center" }}
-      >
+      <Button onPress={() => weekendMealMutate(data, { onSuccess })} style={styles.saveButton}>
         저장하기
       </Button>
     </Layout>
@@ -102,5 +99,10 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     borderRadius: 8,
     width: 70,
+  },
+  saveButton: {
+    bottom: 30,
+    position: "absolute",
+    alignSelf: "center",
   },
 });

@@ -1,9 +1,8 @@
-import { Button, Layout, Text, TextInput, View } from "@/Components";
-import { KeyboardDismiss } from "@/Components/Common/KeyboardDismiss";
+import { Button, Layout, Text, TextInput, View, KeyboardDismiss } from "@/Components";
 import { instance, IUserDetails, IUserLoginIn, IUserLoginOut } from "@/apis";
-import { useMyMutation } from "@/hooks";
-import { bulkSetItem, setItem } from "@/utils";
 import { getCurrentScope } from "@sentry/react-native";
+import { bulkSetItem, setItem } from "@/utils";
+import { useMyMutation } from "@/hooks";
 import { AxiosError } from "axios";
 import { useState } from "react";
 
@@ -23,6 +22,32 @@ export const Login = ({ navigation }) => {
 
   const handleChange = (text: string, id: string) => {
     setData({ ...data, [id]: text });
+  };
+
+  const handlePress = () => {
+    mutate(data, {
+      onSuccess: (res) => {
+        bulkSetItem([
+          ["access_token", res.access_token],
+          ["refresh_token", res.refresh_token],
+        ]);
+        instance.get("/user/details").then(({ data }: { data: IUserDetails }) => {
+          setItem("user_data", `${data.account_id}||${data.user_name}`);
+          getCurrentScope().setUser({ id: data.account_id, username: data.user_name });
+        });
+        navigation.reset({ routes: [{ name: "메인" }] });
+      },
+      onError: ({ response: { data } }: AxiosError) => {
+        //@ts-expect-error
+        const { message } = data;
+
+        if (message === "Feign UnAuthorized") {
+          setError({ ...error, account_id: "계정을 찾을 수 없습니다." });
+        } else if (message === "Password Miss Match") {
+          setError({ ...error, password: "비밀번호가 잘못되었습니다." });
+        }
+      },
+    });
   };
 
   return (
@@ -58,31 +83,7 @@ export const Login = ({ navigation }) => {
         />
         <Button
           disabled={!!!data.account_id || !!!data.password}
-          onPress={() =>
-            mutate(data, {
-              onSuccess: (res) => {
-                bulkSetItem([
-                  ["access_token", res.access_token],
-                  ["refresh_token", res.refresh_token],
-                ]);
-                instance.get("/user/details").then(({ data }: { data: IUserDetails }) => {
-                  setItem("user_data", `${data.account_id}||${data.user_name}`);
-                  getCurrentScope().setUser({ id: data.account_id, username: data.user_name });
-                });
-                navigation.reset({ routes: [{ name: "메인" }] });
-              },
-              onError: ({ response: { data } }: AxiosError) => {
-                //@ts-expect-error
-                const { message } = data;
-
-                if (message === "Feign UnAuthorized") {
-                  setError({ ...error, account_id: "계정을 찾을 수 없습니다." });
-                } else if (message === "Password Miss Match") {
-                  setError({ ...error, password: "비밀번호가 잘못되었습니다." });
-                }
-              },
-            })
-          }
+          onPress={handlePress}
           style={{ position: "absolute", bottom: 30 }}
         >
           로그인

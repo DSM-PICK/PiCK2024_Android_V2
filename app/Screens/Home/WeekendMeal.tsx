@@ -4,15 +4,14 @@ import { IWeekendMealPeriod } from "@/apis";
 import { StyleSheet } from "react-native";
 import { getToday } from "@/utils";
 
-const { date, month } = getToday();
+const { month } = getToday();
+
 export const WeekendMeal = () => {
   const { color } = useTheme();
   const { data: weekendMealDateData } = useMyQuery<IWeekendMealPeriod>("weekendMeal", "/period");
-  const canApply =
-    Number(weekendMealDateData?.start?.split("-")[2]) < date &&
-    Number(weekendMealDateData?.end?.split("-")[2]) > date;
+
   return (
-    canApply && (
+    weekendMealDateData?.status && (
       <View style={{ width: "100%", paddingHorizontal: 24 }}>
         <View
           style={{

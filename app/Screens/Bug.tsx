@@ -1,8 +1,8 @@
 import { useMyMutation, useTheme, useToast } from "@/hooks";
 import { FlatList } from "react-native-gesture-handler";
 import { useMutation } from "@tanstack/react-query";
-import * as ImagePicker from "expo-image-picker";
 import { Image, StyleSheet } from "react-native";
+import * as Picker from "expo-image-picker";
 import { IBugIn, instance } from "@/apis";
 import { useState } from "react";
 import {
@@ -15,13 +15,13 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  KeyboardDismiss,
 } from "@/Components";
-import { KeyboardDismiss } from "@/Components/Common/KeyboardDismiss";
 
 export const Bug = ({ navigation }) => {
-  const { color } = useTheme();
+  const [status] = Picker.useMediaLibraryPermissions();
   const { error, success } = useToast();
-  const [status] = ImagePicker.useMediaLibraryPermissions();
+  const { color } = useTheme();
   const { mutate: bugImageMutate } = useMutation({
     mutationFn: async (data: FormData) =>
       instance.post("/bug/upload", data, { headers: { "Content-Type": "multipart/form-data" } }),
@@ -45,8 +45,8 @@ export const Bug = ({ navigation }) => {
       error("갤러리 접근 권한을 허용한 후 다시 시도하세요");
       return;
     }
-    let { canceled, assets } = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+    let { canceled, assets } = await Picker.launchImageLibraryAsync({
+      mediaTypes: Picker.MediaTypeOptions.All,
       allowsEditing: false,
       aspect: [1, 1],
       quality: 1,

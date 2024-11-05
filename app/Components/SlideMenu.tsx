@@ -12,7 +12,7 @@ interface IProp {
   onPressButton: () => void;
 }
 
-export const SlideMenu = ({ icon, title, content, id, buttonContent, onPressButton }: IProp) => {
+export const SlideMenu = ({ icon, title, content, buttonContent, onPressButton }: IProp) => {
   const height = useRef(0);
   const [open, setOpen] = useState(false);
   const { color } = useTheme();

@@ -1,5 +1,5 @@
-import { bulkSetItem, getItem } from "@/utils";
 import { captureException } from "@sentry/react-native";
+import { bulkSetItem, getItem } from "@/utils";
 import axios from "axios";
 export * from "./types";
 
@@ -36,6 +36,7 @@ instance.interceptors.response.use(
             ]);
           });
       } catch {
+        captureException(err);
         throw err;
       }
     } else {

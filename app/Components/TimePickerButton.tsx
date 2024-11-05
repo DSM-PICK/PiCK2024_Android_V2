@@ -1,6 +1,6 @@
-import { useBottomSheet, useTheme } from "@/hooks";
-import { Text, TouchableWithoutFeedback } from "./Common";
 import { changeType, TimePicker, typeType } from "./TimePicker";
+import { Text, TouchableWithoutFeedback } from "./Common";
+import { useBottomSheet, useTheme } from "@/hooks";
 
 interface IProp {
   title: string;

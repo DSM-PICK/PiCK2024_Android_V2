@@ -1,4 +1,5 @@
 import { Text, Toggle, View } from "@/Components";
+import { StyleSheet } from "react-native";
 
 interface IProp {
   type: "big" | "small";
@@ -9,15 +10,7 @@ interface IProp {
 
 export const Item = ({ type, title, value, onPress }: IProp) => {
   return (
-    <View
-      style={{
-        flexDirection: "row",
-        width: "100%",
-        alignItems: "center",
-        justifyContent: "space-between",
-        paddingHorizontal: 24,
-      }}
-    >
+    <View style={styles.container}>
       <Text
         colorType="normal"
         colorLevel="black"
@@ -30,3 +23,13 @@ export const Item = ({ type, title, value, onPress }: IProp) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 24,
+  },
+});

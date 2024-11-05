@@ -1,9 +1,17 @@
-import { IEarlyReturnIn } from "@/apis";
-import { Button, LabelLayout, Layout, PrevHedaer, Text, TextInput } from "@/Components";
-import { KeyboardDismiss } from "@/Components/Common/KeyboardDismiss";
-import { TimePickerButton } from "@/Components/TimePickerButton";
 import { useMyMutation, useToast } from "@/hooks";
+import { IEarlyReturnIn } from "@/apis";
 import { useState } from "react";
+import {
+  Button,
+  LabelLayout,
+  Layout,
+  PrevHedaer,
+  Text,
+  TextInput,
+  KeyboardDismiss,
+  TimePickerButton,
+} from "@/Components";
+import { StyleSheet } from "react-native";
 
 export const EarlyReturn = ({ navigation }) => {
   const { mutate: outMutate } = useMyMutation<IEarlyReturnIn, null>(
@@ -43,7 +51,7 @@ export const EarlyReturn = ({ navigation }) => {
           />
         </LabelLayout>
         <Button
-          style={{ position: "absolute", bottom: 30, alignSelf: "center" }}
+          style={styles.button}
           onPress={() =>
             outMutate(data, {
               onSuccess: () => {
@@ -60,3 +68,11 @@ export const EarlyReturn = ({ navigation }) => {
     </KeyboardDismiss>
   );
 };
+
+const styles = StyleSheet.create({
+  button: {
+    position: "absolute",
+    bottom: 30,
+    alignSelf: "center",
+  },
+});

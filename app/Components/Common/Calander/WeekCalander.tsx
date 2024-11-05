@@ -1,9 +1,9 @@
 import { useBottomSheet, useTheme } from "@/hooks";
-import { Calander } from "./";
 import { View } from "../AnimatedComponents";
-import { Icon } from "../Icon";
 import { IProp } from "../Calander";
 import { useEffect } from "react";
+import { Icon } from "../Icon";
+import { Calander } from "./";
 
 export const WeekCalander = (props: IProp) => {
   const { color } = useTheme();

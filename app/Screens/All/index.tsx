@@ -7,7 +7,7 @@ export const All = ({ navigation }) => {
   const { open } = useModal();
 
   return (
-    <Layout Header={<Header navigation={navigation.getParent()} />} scrollAble bottomPad>
+    <Layout Header={<Header />} scrollAble bottomPad>
       <Profile />
       <LabelLayout label="기타 기능">
         <Item icon="Smile" onPress={() => navigation.navigate("자습감독")}>
@@ -24,9 +24,6 @@ export const All = ({ navigation }) => {
         <Item icon="Custom" onPress={() => navigation.navigate("커스텀")}>
           커스텀
         </Item>
-        {/* <Item icon="Bell" onPress={() => navigation.navigate("알림설정")}>
-          알림 설정
-        </Item> */}
       </LabelLayout>
       <LabelLayout label="기타 기능">
         <Item icon="Person" onPress={() => navigation.navigate("마이페이지")}>

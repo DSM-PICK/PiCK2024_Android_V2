@@ -1,4 +1,4 @@
-import { Animated, Image } from "react-native";
+import { Animated, Image, StyleSheet } from "react-native";
 import { View } from "@/Components";
 import { useTheme } from "@/hooks";
 
@@ -12,17 +12,9 @@ export const Splash = ({ fade }: IProp) => {
   return (
     <View
       style={{
-        flex: 1,
-        position: "absolute",
-        top: 0,
+        ...styles.container,
         opacity: fade,
-        left: 0,
-        width: "100%",
-        height: "100%",
         backgroundColor: color("bg", null, true),
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: 50,
       }}
     >
       <Image
@@ -36,3 +28,17 @@ export const Splash = ({ fade }: IProp) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 50,
+  },
+});

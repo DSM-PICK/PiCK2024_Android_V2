@@ -1,7 +1,7 @@
+import { Image, StyleSheet } from "react-native";
 import { useMyQuery, useTheme } from "@/hooks";
 import { Text, View } from "@/Components";
 import { selfStudyType } from "@/apis";
-import { Image } from "react-native";
 import { getToday } from "@/utils";
 
 export const SelfStudy = () => {
@@ -14,17 +14,7 @@ export const SelfStudy = () => {
 
   return (
     <View style={{ width: "100%", paddingHorizontal: 24 }}>
-      <View
-        style={{
-          backgroundColor: color("gray", 50),
-          flexDirection: "row",
-          padding: 20,
-          alignItems: "center",
-          width: "100%",
-          justifyContent: "space-between",
-          borderRadius: 12,
-        }}
-      >
+      <View style={{ ...styles.contentContainer, backgroundColor: color("gray", 50) }}>
         <View style={{ gap: 12 }}>
           {!teacherData?.length ? (
             <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={2}>
@@ -57,3 +47,14 @@ export const SelfStudy = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  contentContainer: {
+    flexDirection: "row",
+    padding: 20,
+    alignItems: "center",
+    width: "100%",
+    justifyContent: "space-between",
+    borderRadius: 12,
+  },
+});

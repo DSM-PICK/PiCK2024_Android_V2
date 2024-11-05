@@ -1,14 +1,14 @@
 import { Header, Layout, SlideMenu, Text } from "@/Components";
+export * from "./EarlyReturn";
 export * from "./WeekendMeal";
 export * from "./Move";
 export * from "./Out";
-export * from "./EarlyReturn";
 
 export const Apply = ({ navigation: navigate }) => {
   const navigation = navigate.getParent();
 
   return (
-    <Layout Header={<Header navigation={navigation.getParent()} />} style={{ gap: 20 }} bottomPad>
+    <Layout Header={<Header />} style={{ gap: 20 }} bottomPad>
       <Text
         colorType="normal"
         colorLevel="black"

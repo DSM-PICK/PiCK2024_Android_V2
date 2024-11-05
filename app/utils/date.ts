@@ -1,4 +1,4 @@
-export const days = ["일", "월", "화", "수", "목", "금", "토"];
+import { daysTable } from "@/constants";
 
 const curr = new Date();
 const utc = curr.getTime() + curr.getTimezoneOffset() * 60 * 1000;
@@ -20,7 +20,7 @@ export const getToday = () => {
   const year = _date.getFullYear();
   const month = _date.getMonth() + 1;
   const date = _date.getDate();
-  const dayStr = days[_date.getDay()];
+  const dayStr = daysTable[_date.getDay()];
   const dayNum = _date.getDay();
   const fullDay = `${year}-${month.toString().padStart(2, "0")}-${date
     .toString()
@@ -45,13 +45,8 @@ export const getDiff = (date: string) => {
   const date2 = new Date(date);
   let diff = date1.getTime() - date2.getTime();
   diff = Math.ceil(diff / (1000 * 60 * 60 * 24));
-  if (diff === 0) {
-    return "오늘";
-  } else if (diff === 1) {
-    return "어제";
-  } else if (diff < 7) {
-    return `${diff}일 전`;
-  } else {
-    return date;
-  }
+  if (diff === 0) return "오늘";
+  else if (diff === 1) return "어제";
+  else if (diff < 7) return `${diff}일 전`;
+  else return date;
 };

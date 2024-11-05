@@ -1,10 +1,8 @@
 import { Layout, PrevHedaer, SlideMenu, Text, View } from "@/Components";
-import { useNavigation } from "@react-navigation/native";
 import { useOptions, useToast } from "@/hooks";
 
-export const Custom = () => {
+export const Custom = ({ navigation }) => {
   const { mainType, periodType, toggleOption } = useOptions();
-  const navigation = useNavigation();
   const { success } = useToast();
 
   return (

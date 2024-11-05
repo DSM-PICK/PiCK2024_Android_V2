@@ -21,13 +21,13 @@ export const LabelLayout = ({
   type = "gray",
 }: IProp) => {
   return (
-    <View style={[styles.container, padding && { paddingHorizontal: 24 }, noGap && { gap: 0 }]}>
+    <View style={{ width: "100%", paddingHorizontal: padding ? 24 : 0, gap: noGap ? 0 : 12 }}>
       <View
-        style={[
-          styles.labelContainer,
-          onlyLabelPadding && !padding && { paddingHorizontal: 24 },
-          noGap && { marginBottom: 12 },
-        ]}
+        style={{
+          ...styles.labelContainer,
+          paddingHorizontal: onlyLabelPadding && !padding ? 24 : 0,
+          marginBottom: noGap ? 12 : 0,
+        }}
       >
         <Text
           colorType={type === "gray" ? "gray" : "normal"}
@@ -45,6 +45,5 @@ export const LabelLayout = ({
 };
 
 const styles = StyleSheet.create({
-  container: { gap: 12, width: "100%" },
   labelContainer: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
 });

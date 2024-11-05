@@ -1,9 +1,8 @@
 import { setPositionAsync, setBackgroundColorAsync } from "expo-navigation-bar";
-import { BottomSheetManager } from "@/Components/Common/BottomSheetManager";
+import { ToastManager, BottomSheetManager, ModalManager } from "@/Components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { ModalManager } from "@/Components/Common/ModalManager";
 import { Animated, BackHandler, StatusBar } from "react-native";
 import { useBottomSheet, useOptions, useTheme } from "@/hooks";
 import { NavigationContainer } from "@react-navigation/native";
@@ -12,7 +11,6 @@ import { init, getCurrentScope } from "@sentry/react-native";
 import { enableScreens } from "react-native-screens";
 import { useEffect, useRef, useState } from "react";
 import { getItem, isAndroid } from "@/utils";
-import { ToastManager } from "@/Components";
 import { Navigation } from "@/Navigation";
 import { useFonts } from "expo-font";
 import { Splash } from "@/Screens";
@@ -49,11 +47,16 @@ export default function App() {
   });
 
   useEffect(() => {
+    if (isAndroid) {
+      setPositionAsync("absolute");
+      setBackgroundColorAsync("#ffffff01");
+    }
+  }, [theme]);
+
+  useEffect(() => {
     loadTheme();
     loadOptions();
-    if (!status?.granted) {
-      requestPermission();
-    }
+    if (!status?.granted) requestPermission();
     getItem("access_token").then((res) => setToken(res));
     getItem("user_data").then((res) => {
       if (res) {
@@ -62,13 +65,6 @@ export default function App() {
       }
     });
   }, []);
-
-  useEffect(() => {
-    if (isAndroid) {
-      setPositionAsync("absolute");
-      setBackgroundColorAsync("#ffffff01");
-    }
-  }, [theme]);
 
   useEffect(() => {
     const handleClose = () => {
@@ -87,7 +83,7 @@ export default function App() {
       Animated.timing(fade, { toValue: 0, duration: 300, useNativeDriver: false }).start(() =>
         setSplash(false)
       );
-    }, 2000);
+    }, 2500);
   }, []);
 
   return (

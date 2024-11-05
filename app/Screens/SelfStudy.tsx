@@ -1,9 +1,10 @@
 import { Layout, PrevHedaer, Text, View, WeekCalander } from "@/Components";
+import { StyleSheet } from "react-native";
+import { selfStudyType } from "@/apis";
 import { useMyQuery } from "@/hooks";
 import { getToday } from "@/utils";
 import { useState } from "react";
-import { Item } from "./My/Item";
-import { selfStudyType } from "@/apis";
+import { Item } from "./My";
 
 const { fullDay } = getToday();
 
@@ -17,14 +18,7 @@ export const SelfStudy = () => {
       Footer={<WeekCalander onSelect={(e) => setDate(e)} selected={date} />}
       style={{ paddingHorizontal: 0 }}
     >
-      <View
-        style={{
-          gap: 30,
-          paddingHorizontal: 24,
-          alignItems: "flex-start",
-          width: "100%",
-        }}
-      >
+      <View style={styles.contentContainer}>
         {date === fullDay ? (
           <Text colorType="normal" colorLevel="black" fontLevel={4} fontType="heading">
             {`${date.split("-")[1]}월 ${date.split("-")[2]}일,\n`}
@@ -60,3 +54,12 @@ export const SelfStudy = () => {
     </Layout>
   );
 };
+
+const styles = StyleSheet.create({
+  contentContainer: {
+    gap: 30,
+    paddingHorizontal: 24,
+    alignItems: "flex-start",
+    width: "100%",
+  },
+});

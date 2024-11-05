@@ -1,7 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { stackNavigationOptions } from "@/constants";
-import * as _ from "@/Screens";
 import { MainTabs } from "./MainTabs";
+import * as _ from "@/Screens";
 
 const { Navigator, Screen } = createStackNavigator();
 

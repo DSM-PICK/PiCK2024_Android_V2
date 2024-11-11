@@ -6,7 +6,7 @@ import { useMyQuery } from "@/hooks";
 
 export const Notice = () => {
   const navigation = useNavigation().getParent();
-  const { data: noticeData } = useMyQuery<noticeSimpleType>("notice", "/simple");
+  const { data: noticeData } = useMyQuery<noticeSimpleType>("notice", "/today");
 
   return (
     <LabelLayout

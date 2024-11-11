@@ -1,4 +1,4 @@
-import { ActivityIndicator, Animated, StyleSheet } from "react-native";
+import { ActivityIndicator, Animated, Easing, StyleSheet } from "react-native";
 import { typeType, useToast, useTheme } from "@/hooks";
 import { useEffect, useRef } from "react";
 import { Text } from "../Text";
@@ -36,7 +36,8 @@ export const Toast = ({ id, type, message, wasWait }: IProp) => {
   const showT = () => {
     Animated.timing(pos, {
       toValue: -80,
-      duration: 200,
+      duration: 300,
+      easing: Easing.out(Easing.exp),
       useNativeDriver: false,
     }).start(() => type !== "wait" && debounce(hideT, 1000));
   };
@@ -44,7 +45,7 @@ export const Toast = ({ id, type, message, wasWait }: IProp) => {
   const hideT = () => {
     Animated.timing(pos, {
       toValue: 100,
-      duration: 400,
+      duration: 500,
       useNativeDriver: false,
     }).start(() => close(id));
   };

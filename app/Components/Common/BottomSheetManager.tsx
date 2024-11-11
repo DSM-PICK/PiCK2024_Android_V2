@@ -39,9 +39,10 @@ export const BottomSheetManager = () => {
       backdropComponent={renderBackdrop}
       ref={ref}
       index={-1}
+      enableContentPanningGesture={false}
       snapPoints={snapPoints}
       onAnimate={(fromIndex, toIndex) => {
-        if (fromIndex === 2 && toIndex <= 0) {
+        if (fromIndex >= 1 && toIndex <= 0) {
           set({ isOpened: false, component: undefined });
         }
       }}

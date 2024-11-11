@@ -120,13 +120,10 @@ export const TimePicker = ({ type, title, buttonTitle, onEnd, id }: IProp) => {
 
       <Button
         onPress={() => {
-          if (type === "classMulti" && time.hour > time.minute) {
-            error("정상적인 교시를 선택하세요");
-          } else {
-            close();
-            onEnd(time, id);
-          }
+          close();
+          onEnd(time, id);
         }}
+        disabled={type === "classMulti" && Number(time.hour) > Number(time.minute)}
       >
         {buttonTitle}
       </Button>

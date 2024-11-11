@@ -1,6 +1,6 @@
 import { captureException } from "@sentry/react-native";
 import { bulkSetItem, getItem } from "@/utils";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 export * from "./types";
 
 export const instance = axios.create({
@@ -23,22 +23,17 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (res) => res,
-  async (err) => {
-    if (err.response.status === 401) {
-      try {
-        const token = await getItem("refresh_token");
-        instance
-          .put("/user/refresh", null, { headers: { "X-Refresh-Token": token } })
-          .then(({ data: { access_token, refresh_token } }) => {
-            bulkSetItem([
-              ["access_token", access_token],
-              ["refresh_token", refresh_token],
-            ]);
-          });
-      } catch {
-        captureException(err);
-        throw err;
-      }
+  async (err: AxiosError) => {
+    if (err.response.status === 401 && err.request.url !== "/user/refresh") {
+      const token = await getItem("refresh_token");
+      instance
+        .put("/user/refresh", null, { headers: { "X-Refresh-Token": token } })
+        .then(({ data: { access_token, refresh_token } }) => {
+          bulkSetItem([
+            ["access_token", access_token],
+            ["refresh_token", refresh_token],
+          ]);
+        });
     } else {
       captureException(err);
       throw err;

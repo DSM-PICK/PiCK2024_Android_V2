@@ -73,6 +73,12 @@ export const Bug = ({ navigation }) => {
           ]);
           setData({ ...data, file_name: [...data.file_name, ...res] });
         },
+        onError: () => {
+          error("이미지 업로드에 실패했습니다");
+          setTimeout(() => {
+            error("이미지의 크기를 확인해 보세요");
+          }, 1200);
+        },
       });
     }
   };

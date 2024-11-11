@@ -49,6 +49,12 @@ export const My = () => {
           userSimpleRefetch();
           success("성공적으로 변경되었습니다");
         },
+        onError: () => {
+          error("이미지 업로드에 실패했습니다");
+          setTimeout(() => {
+            error("이미지의 크기를 확인해 보세요");
+          }, 1200);
+        },
       });
     }
   };

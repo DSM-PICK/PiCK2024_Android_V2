@@ -47,6 +47,16 @@ export default function App() {
   });
 
   useEffect(() => {
+    getItem("access_token").then((res) => setToken(res));
+    getItem("user_data").then((res) => {
+      if (res) {
+        const [id, username] = res.split("||");
+        getCurrentScope().setUser({ id, username });
+      }
+    });
+  }, []);
+
+  useEffect(() => {
     if (isAndroid) {
       setPositionAsync("absolute");
       setBackgroundColorAsync("#ffffff01");
@@ -57,13 +67,6 @@ export default function App() {
     loadTheme();
     loadOptions();
     if (!status?.granted) requestPermission();
-    getItem("access_token").then((res) => setToken(res));
-    getItem("user_data").then((res) => {
-      if (res) {
-        const [id, username] = res.split("||");
-        getCurrentScope().setUser({ id, username });
-      }
-    });
   }, []);
 
   useEffect(() => {

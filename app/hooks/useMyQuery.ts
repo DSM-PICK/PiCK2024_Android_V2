@@ -6,8 +6,12 @@ export const useMyQuery = <T>(pathname: keyof typeof paths, url: string): UseQue
   return useQuery<T>({
     queryKey: [paths[pathname], url],
     queryFn: async (): Promise<T> => {
-      const res = await instance.get(paths[pathname] + url);
-      return res.data;
+      try {
+        const res = await instance.get(paths[pathname] + url);
+        return res.data;
+      } catch (e) {
+        throw e;
+      }
     },
     placeholderData: (prev) => prev,
   });

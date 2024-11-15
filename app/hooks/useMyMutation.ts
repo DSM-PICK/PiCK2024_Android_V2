@@ -1,7 +1,6 @@
 import { UseMutationResult, useMutation } from "@tanstack/react-query";
 import { paths } from "@/constants";
 import { instance } from "../apis";
-import { AxiosError } from "axios";
 
 type apiType = "post" | "patch" | "delete" | "put";
 
@@ -14,7 +13,6 @@ export const useMyMutation = <T, K>(
     mutationFn: async (item: T | string): Promise<K> => {
       try {
         let _url: string = paths[pathname] + url;
-
         if (typeof item === "string") {
           _url += item;
           const res = await instance[type](_url);
@@ -24,7 +22,7 @@ export const useMyMutation = <T, K>(
           return res.data;
         }
       } catch (error) {
-        return error;
+        throw error;
       }
     },
   });

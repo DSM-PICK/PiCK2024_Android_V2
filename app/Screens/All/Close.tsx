@@ -3,10 +3,12 @@ import { Button, Text, View } from "@/Components";
 import { useModal, useTheme } from "@/hooks";
 import { bulkDelItem } from "@/utils";
 import { StyleSheet } from "react-native";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const Close = ({ navigation }) => {
   const { close } = useModal();
   const { color } = useTheme();
+  const queryClient = useQueryClient();
 
   return (
     <View style={{ ...styles.container, backgroundColor: color("bg") }}>
@@ -23,6 +25,7 @@ export const Close = ({ navigation }) => {
         <Button
           onPress={() => {
             close();
+            queryClient.clear();
             bulkDelItem(["access_token", "refresh_token", "user_data"]);
             getCurrentScope().setUser({ id: undefined, username: undefined });
             navigation.getParent().reset({ routes: [{ name: "온보딩" }] });

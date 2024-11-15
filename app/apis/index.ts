@@ -24,7 +24,12 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (res) => res,
   async (err: AxiosError) => {
-    if (err.response.status === 401 && err.request.url !== "/user/refresh") {
+    if (
+      err.response.status === 401 &&
+      err.request.url !== "/user/login" &&
+      err.request.url !== "/user/refresh"
+    ) {
+      // 토큰만료 값 뭔지 모름, 있다가 도경이에게 물어볼 것
       const token = await getItem("refresh_token");
       instance
         .put("/user/refresh", null, { headers: { "X-Refresh-Token": token } })
@@ -33,6 +38,9 @@ instance.interceptors.response.use(
             ["access_token", access_token],
             ["refresh_token", refresh_token],
           ]);
+        })
+        .catch((err) => {
+          throw err;
         });
     } else {
       captureException(err);

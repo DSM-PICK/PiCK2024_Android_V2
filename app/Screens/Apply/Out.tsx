@@ -22,22 +22,20 @@ export const Out = ({ navigation }) => {
 
   const { periodType } = useOptions();
   const { open } = useBottomSheet();
-  const { success } = useToast();
+  const { success, error } = useToast();
   const { color } = useTheme();
 
   const [data, setData] = useState<IApplicationIn>({
     reason: "",
     start: "",
     end: "",
-    application_type: !!periodType ? "CLASS" : "TIME",
+    application_type: !!periodType ? "PERIOD" : "TIME",
   });
 
   const handleChange = (e: changePropType, id: string) => {
     setData({
       ...data,
-      [id]: !!periodType
-        ? `${e.hour + "교시"}`
-        : `${e.hour.padStart(2, "0")}:${e.minute.padStart(2, "0")}`,
+      [id]: `${e.hour.padStart(2, "0")}:${e.minute.padStart(2, "0")}`,
     });
   };
 
@@ -47,7 +45,10 @@ export const Out = ({ navigation }) => {
         <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4}>
           외출 신청
         </Text>
-        <LabelLayout label="희망 외출 시간을 선택하세요" type="black">
+        <LabelLayout
+          label={`희망 외출 ${!!periodType ? "교시를" : "시간을"} 선택하세요`}
+          type="black"
+        >
           {periodType === 0 ? (
             <View style={styles.periodPickerContainer}>
               <TimePickerButton
@@ -85,7 +86,9 @@ export const Out = ({ navigation }) => {
                     title="외출 시작과 복귀 교시를 선택해주세요"
                     buttonTitle="선 완료"
                     type="classMulti"
-                    onEnd={(e) => setData({ ...data, start: e.hour, end: e.minute })}
+                    onEnd={(e) =>
+                      setData({ ...data, start: e.hour + "교시", end: e.minute + "교시" })
+                    }
                   />
                 )
               }
@@ -94,7 +97,7 @@ export const Out = ({ navigation }) => {
                 <>
                   <View style={styles.classPickerInnerContainer}>
                     <Text colorType="normal" colorLevel="black" fontType="body" fontLevel={1}>
-                      {data.start}교시{" "}
+                      {data.start}{" "}
                     </Text>
                     <Text colorType="gray" colorLevel={800} fontType="label" fontLevel={1}>
                       부터
@@ -102,7 +105,7 @@ export const Out = ({ navigation }) => {
                   </View>
                   <View style={styles.classPickerInnerContainer}>
                     <Text colorType="normal" colorLevel="black" fontType="body" fontLevel={1}>
-                      {data.end}교시{" "}
+                      {data.end}{" "}
                     </Text>
                     <Text colorType="gray" colorLevel={800} fontType="label" fontLevel={1}>
                       까지
@@ -129,10 +132,13 @@ export const Out = ({ navigation }) => {
           style={{ position: "absolute", bottom: 30, alignSelf: "center" }}
           onPress={() =>
             outMutate(data, {
-              onSuccess: () => {
-                navigation.goBack();
-                success("성공적으로 신청되었습니다!");
+              onSuccess: () => success("성공적으로 신청되었습니다!"),
+              onError: (err: unknown) => {
+                if (err === 409) {
+                  error("이미 신청되었습니다");
+                }
               },
+              onSettled: () => navigation.replace("메인"),
             })
           }
           disabled={!(data.reason && data.start && data.end)}

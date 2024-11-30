@@ -19,7 +19,7 @@ export const EarlyReturn = ({ navigation }) => {
     "earlyReturn",
     "/create"
   );
-  const { success } = useToast();
+  const { success, error } = useToast();
 
   const [data, setData] = useState<IEarlyReturnIn>({
     reason: "",
@@ -53,12 +53,18 @@ export const EarlyReturn = ({ navigation }) => {
         <Button
           style={styles.button}
           onPress={() =>
-            outMutate(data, {
-              onSuccess: () => {
-                navigation.goBack();
-                success("성공적으로 신청되었습니다!");
-              },
-            })
+            outMutate(
+              { ...data, start: data.start + ":00" },
+              {
+                onSuccess: () => success("성공적으로 신청되었습니다!"),
+                onError: (err: unknown) => {
+                  if (err === 409) {
+                    error("이미 신청되었습니다");
+                  }
+                },
+                onSettled: () => navigation.replace("메인"),
+              }
+            )
           }
           disabled={!(data.reason && data.start)}
         >

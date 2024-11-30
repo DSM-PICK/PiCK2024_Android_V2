@@ -9,7 +9,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useMediaLibraryPermissions } from "expo-image-picker";
 import { init, getCurrentScope } from "@sentry/react-native";
 import { enableScreens } from "react-native-screens";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { getItem, isAndroid } from "@/utils";
 import { Navigation } from "@/Navigation";
 import { useFonts } from "expo-font";
@@ -30,40 +30,52 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
-  const [status, requestPermission] = useMediaLibraryPermissions();
-  const { getTheme, theme, load: loadTheme } = useTheme();
-  const { close, isOpened } = useBottomSheet();
-  const { load: loadOptions } = useOptions();
   enableScreens(true);
-
-  const [token, setToken] = useState<null | string>(null);
-  const fade = useRef(new Animated.Value(1)).current;
-  const [splash, setSplash] = useState(true);
-
   const [fontsLoaded] = useFonts({
     Medium: require("./app/assets/font/Medium.ttf"),
     Regular: require("./app/assets/font/Regular.ttf"),
     SemiBold: require("./app/assets/font/SemiBold.ttf"),
   });
+  const fade = useRef(new Animated.Value(1)).current;
+
+  const [status, requestPermission] = useMediaLibraryPermissions();
+  const { getTheme, load: loadTheme } = useTheme();
+  const { close, isOpened } = useBottomSheet();
+  const { load: loadOptions } = useOptions();
+
+  const [token, setToken] = useState<null | undefined | string>(undefined);
+  const [splash, setSplash] = useState(true);
+
+  const tokenPromise = useCallback(
+    () =>
+      new Promise(async (resolve) => {
+        const accessToken = await getItem("access_token");
+        setToken(accessToken);
+
+        const userData = await getItem("user_data");
+        const [id, username] = userData ? userData.split("||") : [undefined, undefined];
+        getCurrentScope().setUser({ id: id || "알 수 없음", username: username || "알 수 없음" });
+        resolve("test");
+      }).then(() =>
+        setTimeout(
+          () =>
+            Animated.timing(fade, { toValue: 0, duration: 300, useNativeDriver: false }).start(() =>
+              setSplash(false)
+            ),
+          1500
+        )
+      ),
+    []
+  );
 
   useEffect(() => {
-    getItem("access_token").then((res) => setToken(res));
-    getItem("user_data").then((res) => {
-      if (res) {
-        const [id, username] = res.split("||");
-        getCurrentScope().setUser({ id, username });
-      }
-    });
-  }, []);
+    tokenPromise();
 
-  useEffect(() => {
     if (isAndroid) {
       setPositionAsync("absolute");
       setBackgroundColorAsync("#ffffff01");
     }
-  }, [theme]);
 
-  useEffect(() => {
     loadTheme();
     loadOptions();
     if (!status?.granted) requestPermission();
@@ -76,22 +88,12 @@ export default function App() {
     };
 
     BackHandler.addEventListener("hardwareBackPress", handleClose);
-    return () => {
-      BackHandler.removeEventListener("hardwareBackPress", handleClose);
-    };
+    return () => BackHandler.removeEventListener("hardwareBackPress", handleClose);
   }, [isOpened]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      Animated.timing(fade, { toValue: 0, duration: 300, useNativeDriver: false }).start(() =>
-        setSplash(false)
-      );
-    }, 2500);
-  }, []);
-
   return (
-    <GestureHandlerRootView>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <GestureHandlerRootView>
         <SafeAreaProvider>
           <NavigationContainer>
             <StatusBar
@@ -99,14 +101,14 @@ export default function App() {
               backgroundColor="transparent"
               barStyle={getTheme() === "dark" ? "light-content" : "dark-content"}
             />
-            {fontsLoaded && <Navigation token={token} />}
+            {fontsLoaded && token !== undefined && <Navigation token={token} />}
             {splash && <Splash fade={fade} />}
             <ToastManager />
             <ModalManager />
             <BottomSheetManager />
           </NavigationContainer>
         </SafeAreaProvider>
-      </QueryClientProvider>
-    </GestureHandlerRootView>
+      </GestureHandlerRootView>
+    </QueryClientProvider>
   );
 }

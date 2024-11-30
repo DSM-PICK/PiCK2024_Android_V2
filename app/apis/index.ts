@@ -44,7 +44,7 @@ instance.interceptors.response.use(
         });
     } else {
       captureException(err);
-      throw err;
+      throw err.response.status;
     }
   }
 );

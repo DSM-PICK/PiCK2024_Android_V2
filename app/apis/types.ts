@@ -127,7 +127,7 @@ export interface IApplicationIn {
   reason: string;
   start: string;
   end: string;
-  application_type: "TIME" | "CLASS";
+  application_type: "TIME" | "PERIOD";
 }
 
 export interface IApplicationPass {

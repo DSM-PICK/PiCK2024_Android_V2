@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const timeTable = {
   hour: Array.from({ length: 17 }, (_, k) => k + 8),
-  minute: Array.from({ length: 59 }, (_, k) => k + 1),
+  minute: Array.from({ length: 60 }, (_, k) => k),
   class: Array.from({ length: 10 }, (_, k) => k + 1),
 };
 export type typeType = "time" | "class" | "classMulti";
@@ -24,7 +24,7 @@ export const TimePicker = ({ type, title, buttonTitle, onEnd, id }: IProp) => {
   const { color } = useTheme();
   const { error } = useToast();
 
-  const [time, setTime] = useState({ hour: "1", minute: "1" });
+  const [time, setTime] = useState({ hour: "8", minute: "0" });
 
   return (
     <>

@@ -31,15 +31,15 @@ export const Login = ({ navigation }) => {
           ["access_token", res.access_token],
           ["refresh_token", res.refresh_token],
         ]);
-        instance.get("/user/details").then(({ data }: { data: IUserDetails }) => {
+        instance.get("/user/details").then((res: { data: IUserDetails }) => {
+          const data = res?.data || { account_id: "Anonymous", user_name: "Anonymous" };
           setItem("user_data", `${data.account_id}||${data.user_name}`);
           getCurrentScope().setUser({ id: data.account_id, username: data.user_name });
         });
         navigation.reset({ routes: [{ name: "메인" }] });
       },
-      onError: ({ response: { data } }: AxiosError) => {
-        //@ts-expect-error
-        const { message } = data;
+      onError: (res: unknown) => {
+        const { message } = (res as AxiosError["response"])?.data as { message: string };
 
         if (message === "Feign UnAuthorized") {
           setError({ ...error, account_id: "계정을 찾을 수 없습니다." });

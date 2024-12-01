@@ -33,10 +33,10 @@ instance.interceptors.response.use(
       const token = await getItem("refresh_token");
       instance
         .put("/user/refresh", null, { headers: { "X-Refresh-Token": token } })
-        .then(({ data: { access_token, refresh_token } }) => {
+        .then((res) => {
           bulkSetItem([
-            ["access_token", access_token],
-            ["refresh_token", refresh_token],
+            ["access_token", res?.data.access_token],
+            ["refresh_token", res?.data.refresh_token],
           ]);
         })
         .catch((err) => {

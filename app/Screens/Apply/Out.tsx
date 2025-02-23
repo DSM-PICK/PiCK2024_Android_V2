@@ -2,20 +2,7 @@ import { useBottomSheet, useMyMutation, useOptions, useTheme, useToast } from "@
 import { StyleSheet } from "react-native";
 import { IApplicationIn } from "@/apis";
 import { useState } from "react";
-import {
-  Button,
-  changePropType,
-  LabelLayout,
-  Layout,
-  PrevHedaer,
-  Text,
-  TextInput,
-  TimePicker,
-  TouchableOpacity,
-  View,
-  KeyboardDismiss,
-  TimePickerButton,
-} from "@/Components";
+import { Button, changePropType, LabelLayout, Layout, PrevHedaer, Text, TextInput, TimePicker, TouchableOpacity, View, KeyboardDismiss, TimePickerButton } from "@/Components";
 
 export const Out = ({ navigation }) => {
   const { mutate: outMutate } = useMyMutation<IApplicationIn, null>("post", "application", "");
@@ -45,29 +32,14 @@ export const Out = ({ navigation }) => {
         <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4}>
           외출 신청
         </Text>
-        <LabelLayout
-          label={`희망 외출 ${!!periodType ? "교시를" : "시간을"} 선택하세요`}
-          type="black"
-        >
+        <LabelLayout label={`희망 외출 ${!!periodType ? "교시를" : "시간을"} 선택하세요`} type="black">
           {periodType === 0 ? (
             <View style={styles.periodPickerContainer}>
-              <TimePickerButton
-                title={`외출 시작 ${!!periodType ? "교시를" : "시간을"} 선택하세요`}
-                type={!!periodType ? "class" : "time"}
-                value={data.start}
-                id="start"
-                onChange={handleChange}
-              />
+              <TimePickerButton title={`외출 시작 ${!!periodType ? "교시를" : "시간을"} 선택하세요`} type={!!periodType ? "class" : "time"} value={data.start} id="start" onChange={handleChange} />
               <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={1}>
                 부터
               </Text>
-              <TimePickerButton
-                title={`외출 종료 ${!!periodType ? "교시를" : "시간을"} 선택하세요`}
-                type={!!periodType ? "class" : "time"}
-                value={data.end}
-                id="end"
-                onChange={handleChange}
-              />
+              <TimePickerButton title={`외출 종료 ${!!periodType ? "교시를" : "시간을"} 선택하세요`} type={!!periodType ? "class" : "time"} value={data.end} id="end" onChange={handleChange} />
               <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={1}>
                 까지
               </Text>
@@ -80,18 +52,7 @@ export const Out = ({ navigation }) => {
                 justifyContent: data.start && data.end ? "center" : "flex-start",
               }}
               activeOpacity={1}
-              onPress={() =>
-                open(
-                  <TimePicker
-                    title="외출 시작과 복귀 교시를 선택해주세요"
-                    buttonTitle="선 완료"
-                    type="classMulti"
-                    onEnd={(e) =>
-                      setData({ ...data, start: e.hour + "교시", end: e.minute + "교시" })
-                    }
-                  />
-                )
-              }
+              onPress={() => open(<TimePicker title="외출 시작과 복귀 교시를 선택해주세요" buttonTitle="선 완료" type="classMulti" onEnd={(e) => setData({ ...data, start: e.hour + "교시", end: e.minute + "교시" })} />)}
             >
               {data.start && data.end ? (
                 <>
@@ -120,22 +81,17 @@ export const Out = ({ navigation }) => {
             </TouchableOpacity>
           )}
         </LabelLayout>
-        <LabelLayout label="외출 사유를 작성하세요" type="black">
-          <TextInput
-            value={data.reason}
-            onChange={(e) => setData({ ...data, reason: e })}
-            multiLine={6}
-            placeholder="자세히 입력해주세요"
-          />
+        <LabelLayout label="외출 사유를 입력하세요" type="black">
+          <TextInput value={data.reason} onChange={(e) => setData({ ...data, reason: e })} multiLine={6} placeholder="자세히 입력해주세요" />
         </LabelLayout>
         <Button
           style={{ position: "absolute", bottom: 30, alignSelf: "center" }}
           onPress={() =>
             outMutate(data, {
-              onSuccess: () => success("성공적으로 신청되었습니다!"),
+              onSuccess: () => success("외출 신청이 완료되었습니다!"),
               onError: (err: unknown) => {
                 if (err === 409) {
-                  error("이미 신청되었습니다");
+                  error("외출 신청을 실패했습니다.");
                 }
               },
               onSettled: () => navigation.replace("메인"),

@@ -1,4 +1,4 @@
-import { Header, Layout, Text, View, WeekCalander } from "@/Components";
+import { Header, Layout, ScrollView, Text, View, WeekCalander } from "@/Components";
 import { FlatList } from "react-native-gesture-handler";
 import { useMyQuery, useTheme } from "@/hooks";
 import { StyleSheet } from "react-native";
@@ -15,20 +15,10 @@ export const Meal = () => {
   const { color } = useTheme();
 
   return (
-    <Layout
-      Header={<Header />}
-      Footer={<WeekCalander onSelect={setDate} selected={date} />}
-      style={{ paddingHorizontal: 0, alignItems: "flex-start", gap: 0 }}
-      bottomPad
-    >
-      <View style={{ gap: 24 }}>
-        <Text
-          colorType="normal"
-          colorLevel="black"
-          fontType="heading"
-          fontLevel={4}
-          style={{ paddingHorizontal: 24, marginTop: 12 }}
-        >
+    <Layout Header={<Header />} style={{ paddingHorizontal: 0, alignItems: "flex-start", gap: 0 }} bottomPad scrollAble>
+      <WeekCalander onSelect={setDate} selected={date} direction="up" />
+      <View style={{ gap: 24, marginTop: 30 }}>
+        <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4} style={{ paddingHorizontal: 24, marginTop: 12 }}>
           {date === fullDay && (
             <Text colorType="main" colorLevel={500} fontType="heading" fontLevel={4}>
               오늘{" "}
@@ -36,54 +26,46 @@ export const Meal = () => {
           )}
           {date.split("-")[1]}월 {date.split("-")[2]}일
         </Text>
-        <FlatList
-          data={mealData ? Object.values(mealData?.meal_list) : []}
-          contentContainerStyle={{ gap: 20, width: "100%" }}
-          style={{ paddingHorizontal: 24 }}
-          renderItem={({ item, index }) => (
-            <View
-              key={index}
-              style={{
-                borderRadius: 8,
-                borderWidth: 1,
-                borderColor: color("main", 50, true),
-                width: "100%",
-                alignSelf: "center",
-                gap: 50,
-                paddingHorizontal: 40,
-                paddingVertical: 20,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <View style={{ gap: 10, alignItems: "center" }}>
-                <Text colorType="main" colorLevel={700} fontType="subTitle" fontLevel={1}>
-                  {nameTable[index]}
-                </Text>
-                <View
-                  style={{
-                    ...styles.contentContainer,
-                    backgroundColor: color("main", 500),
-                  }}
-                >
-                  <Text colorType="normal" colorLevel="white" fontType="body" fontLevel={1}>
-                    {!!item.menu.length ? item.cal : "0 Kcal"}
-                  </Text>
-                </View>
-              </View>
-              <Text
-                colorType="normal"
-                colorLevel="black"
-                fontType="body"
-                fontLevel={1}
-                style={{ width: 116 }}
+        <View style={{ gap: 20, width: "100%", paddingHorizontal: 24 }}>
+          {mealData &&
+            Object.values(mealData?.meal_list).map((item, index) => (
+              <View
+                key={index}
+                style={{
+                  borderRadius: 8,
+                  borderWidth: 1,
+                  borderColor: color("main", 50, true),
+                  width: "100%",
+                  alignSelf: "center",
+                  gap: 50,
+                  paddingHorizontal: 40,
+                  paddingVertical: 20,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
               >
-                {!!item.menu.length ? item.menu.join("\n") : "급식이 없습니다"}
-              </Text>
-            </View>
-          )}
-        />
+                <View style={{ gap: 10, alignItems: "center" }}>
+                  <Text colorType="main" colorLevel={700} fontType="subTitle" fontLevel={1}>
+                    {nameTable[index]}
+                  </Text>
+                  <View
+                    style={{
+                      ...styles.contentContainer,
+                      backgroundColor: color("main", 500),
+                    }}
+                  >
+                    <Text colorType="normal" colorLevel="white" fontType="body" fontLevel={1}>
+                      {!!item.menu.length ? item.cal : "0 Kcal"}
+                    </Text>
+                  </View>
+                </View>
+                <Text colorType="normal" colorLevel="black" fontType="body" fontLevel={1} style={{ width: 116 }}>
+                  {!!item.menu.length ? item.menu.join("\n") : "급식이 없습니다"}
+                </Text>
+              </View>
+            ))}
+        </View>
       </View>
     </Layout>
   );

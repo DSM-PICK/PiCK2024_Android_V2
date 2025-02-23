@@ -3,13 +3,7 @@ import { FlatList } from "react-native-gesture-handler";
 import { timeTableWeekType } from "@/apis";
 import { Text, View } from "@/Components";
 import { useState } from "react";
-import {
-  Dimensions,
-  Image,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  StyleSheet,
-} from "react-native";
+import { Dimensions, Image, NativeScrollEvent, NativeSyntheticEvent, StyleSheet } from "react-native";
 
 const dayTable = ["월요일", "화요일", "수요일", "목요일", "금요일"];
 const windowWidth = Dimensions.get("window").width;
@@ -46,24 +40,30 @@ export const TimeTable = () => {
             <Text fontType="label" fontLevel={1} colorType="gray" colorLevel={900}>
               {dayTable[index]}
             </Text>
-            <View style={{ gap: 8 }}>
-              {item.timetables.map((i) => (
-                <View style={styles.classContainer}>
-                  <Text fontType="subTitle" fontLevel={2} colorType="normal" colorLevel="black">
-                    <Text fontType="subTitle" fontLevel={2} colorType="main" colorLevel={500}>
-                      {i.period + ""}
+            {!item.timetables ? (
+              <View style={{ gap: 8 }}>
+                {item.timetables.map((i) => (
+                  <View style={styles.classContainer}>
+                    <Text fontType="subTitle" fontLevel={2} colorType="normal" colorLevel="black">
+                      <Text fontType="subTitle" fontLevel={2} colorType="main" colorLevel={500}>
+                        {i.period + ""}
+                      </Text>
+                      교시
                     </Text>
-                    교시
-                  </Text>
-                  <View style={styles.classTextContainer}>
-                    <Image source={{ uri: i.image }} style={{ width: 28, height: 28 }} />
-                    <Text fontType="label" fontLevel={1} colorType="normal" colorLevel="black">
-                      {i.subject_name}
-                    </Text>
+                    <View style={styles.classTextContainer}>
+                      <Image source={{ uri: i.image }} style={{ width: 28, height: 28 }} />
+                      <Text fontType="label" fontLevel={1} colorType="normal" colorLevel="black">
+                        {i.subject_name}
+                      </Text>
+                    </View>
                   </View>
-                </View>
-              ))}
-            </View>
+                ))}
+              </View>
+            ) : (
+              <Text fontType="subTitle" fontLevel={2} colorType="gray" colorLevel={300}>
+                일정이 없습니다
+              </Text>
+            )}
           </View>
         )}
       />

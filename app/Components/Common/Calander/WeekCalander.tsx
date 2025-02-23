@@ -1,13 +1,18 @@
 import { useBottomSheet, useTheme } from "@/hooks";
 import { View } from "../AnimatedComponents";
-import { IProp } from "../Calander";
+import { IProp as ICalProp } from "../Calander";
 import { useEffect } from "react";
 import { Icon } from "../Icon";
 import { Calander } from "./";
 
+interface IProp extends ICalProp {
+  direction?: "up" | "down";
+}
+
 export const WeekCalander = (props: IProp) => {
   const { color } = useTheme();
   const { open, component, set } = useBottomSheet();
+  const direction = props.direction;
 
   useEffect(() => {
     if (!!component) {
@@ -16,21 +21,25 @@ export const WeekCalander = (props: IProp) => {
   }, [props]);
 
   return (
-    <View
-      style={{
-        width: "100%",
-        padding: 20,
-        paddingTop: 10,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        elevation: 30,
-        backgroundColor: color("bg"),
-        alignItems: "center",
-        gap: 20,
-      }}
-    >
-      <Icon name="Arrrow" rotate="up" size={20} onPress={() => open(<Calander {...props} />)} />
-      <Calander {...props} weekOnly />
+    <View style={{ width: "100%", position: "relative" }}>
+      {direction === "up" && <View style={{ width: "100%", height: 50, backgroundColor: "white", position: "absolute", zIndex: 20, top: -50 }} />}
+      <View
+        style={{
+          width: "100%",
+          padding: 20,
+          paddingTop: 10,
+          ...(direction === "up" ? { borderBottomLeftRadius: 20, borderBottomRightRadius: 20 } : { borderTopLeftRadius: 20, borderTopRightRadius: 20 }),
+
+          elevation: 20,
+          flexDirection: direction === "up" ? "column-reverse" : "column",
+          backgroundColor: color("bg"),
+          alignItems: "center",
+          gap: 20,
+        }}
+      >
+        <Icon name="Arrrow" rotate={direction === "up" ? "down" : "up"} size={20} onPress={() => open(<Calander {...props} />)} />
+        <Calander {...props} weekOnly />
+      </View>
     </View>
   );
 };

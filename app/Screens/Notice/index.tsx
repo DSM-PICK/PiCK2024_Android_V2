@@ -6,6 +6,8 @@ import { noticeSimpleType } from "@/apis";
 import { useMyQuery } from "@/hooks";
 import { Item } from "./Item";
 
+const today = new Date().toISOString().split("T")[0];
+
 export const Notice = () => {
   const { data: noticeData } = useMyQuery<noticeSimpleType>("notice", "/simple");
 
@@ -17,7 +19,7 @@ export const Notice = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item, index }) => (
           <View style={{ padding: 24 }}>
-            <Item id={item.id} title={item.title} showNew={!!!index} date={item.create_at} />
+            <Item id={item.id} title={item.title} showNew={item.create_at === today} date={item.create_at} />
           </View>
         )}
       />

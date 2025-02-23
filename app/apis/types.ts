@@ -35,6 +35,11 @@ export interface IWeekendMealPeriod {
 export interface IWeekendMeal {
   status: "OK" | "NO";
 }
+export interface IWeekendMealPeriod {
+  status: boolean;
+  start: string;
+  end: string;
+}
 
 export type weekendMealChangeStatusIn = "OK" | "NO";
 

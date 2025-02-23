@@ -23,11 +23,7 @@ export const Move = ({ navigation }) => {
 
   const ref = useRef(null);
 
-  const { mutate: moveMutate } = useMyMutation<IClassRoomMoveIn, null>(
-    "post",
-    "classroom",
-    "/move"
-  );
+  const { mutate: moveMutate } = useMyMutation<IClassRoomMoveIn, null>("post", "classroom", "/move");
 
   const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const index = Math.round(e.nativeEvent.contentOffset.x / width);
@@ -39,10 +35,7 @@ export const Move = ({ navigation }) => {
   };
 
   return (
-    <Layout
-      Header={<PrevHedaer title="교실 이동 신청" />}
-      style={{ paddingHorizontal: 0, gap: 20 }}
-    >
+    <Layout Header={<PrevHedaer title="교실 이동 신청" />} style={{ paddingHorizontal: 0, gap: 20 }}>
       <View style={styles.titleContainer}>
         <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4}>
           교실 이동
@@ -88,8 +81,7 @@ export const Move = ({ navigation }) => {
                   style={{
                     ...styles.item,
                     borderColor: color("main", 100, true),
-                    backgroundColor:
-                      data.classroom_name === i ? color("main", 100, true) : "transparent",
+                    backgroundColor: data.classroom_name === i ? color("main", 100, true) : "transparent",
                   }}
                   onPress={() => setData({ ...data, classroom_name: i })}
                   activeOpacity={0.6}
@@ -119,7 +111,7 @@ export const Move = ({ navigation }) => {
                     {
                       onSuccess: () => {
                         navigation.goBack();
-                        success("성공적으로 신청되었습니다!");
+                        success("교실 이동 신청이 완료되었습니다!");
                       },
                     }
                   )

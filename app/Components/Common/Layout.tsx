@@ -32,7 +32,7 @@ export const Layout = ({ children, Header, Footer, bottomPad, scrollAble, ...pro
             backgroundColor: color("bg"),
           }}
         >
-          {Header}
+          <View style={{ width: "100%", zIndex: 200 }}>{Header}</View>
           <ScrollView>
             <View {...props} style={[styles.childrenContainer, props.style]}>
               {children}
@@ -50,8 +50,8 @@ export const Layout = ({ children, Header, Footer, bottomPad, scrollAble, ...pro
             ...(props.style as object),
           }}
         >
-          {Header}
-          <View style={[styles.childrenContainer, props.style]}>{children}</View>
+          <View style={{ width: "100%", zIndex: 200 }}>{Header}</View>
+          <View style={[styles.childrenContainer, props.style, { zIndex: 10 }]}>{children}</View>
           {Footer}
         </View>
       )}

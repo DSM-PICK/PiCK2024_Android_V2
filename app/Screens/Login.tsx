@@ -64,28 +64,9 @@ export const Login = ({ navigation }) => {
             스퀘어 계정으로 로그인 해 주세요.
           </Text>
         </View>
-        <TextInput
-          label="아이디"
-          value={data.account_id}
-          error={error.account_id}
-          id="account_id"
-          placeholder="Xquare 아이디를 입력하세요"
-          onChange={handleChange}
-        />
-        <TextInput
-          label="비밀번호"
-          value={data.password}
-          error={error.password}
-          id="password"
-          placeholder="비밀번호를 입력하세요"
-          onChange={handleChange}
-          password
-        />
-        <Button
-          disabled={!!!data.account_id || !!!data.password}
-          onPress={handlePress}
-          style={{ position: "absolute", bottom: 30 }}
-        >
+        <TextInput label="아이디" value={data.account_id} error={error.account_id} id="account_id" placeholder="아이디를 입력하세요" onChange={handleChange} />
+        <TextInput label="비밀번호" value={data.password} error={error.password} id="password" placeholder="비밀번호를 입력하세요" onChange={handleChange} password />
+        <Button disabled={!!!data.account_id || !!!data.password} onPress={handlePress} style={{ position: "absolute", bottom: 30 }}>
           로그인
         </Button>
       </Layout>

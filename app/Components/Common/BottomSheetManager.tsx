@@ -23,11 +23,7 @@ export const BottomSheetManager = () => {
 
   const renderBackdrop = useCallback(
     (props: any) => (
-      <BottomSheetBackdrop
-        {...props}
-        style={{ ...props.style, backgroundColor: "#00000000" }}
-        pressBehavior="close"
-      >
+      <BottomSheetBackdrop {...props} style={{ ...props.style, backgroundColor: "#00000000" }} pressBehavior="close">
         <View style={styles.background} />
       </BottomSheetBackdrop>
     ),
@@ -51,9 +47,7 @@ export const BottomSheetManager = () => {
       handleIndicatorStyle={{ backgroundColor: color("gray", 300, true) }}
       backgroundStyle={{ backgroundColor: color("bg", null, true) }}
     >
-      <BottomSheetView style={{ ...styles.contentContainer, paddingBottom: bottom + 18 }}>
-        {component}
-      </BottomSheetView>
+      <BottomSheetView style={{ ...styles.contentContainer, paddingBottom: bottom + 18 }}>{component}</BottomSheetView>
     </BottomSheet>
   );
 };

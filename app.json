@@ -14,21 +14,13 @@
     },
     "packagerOpts": {
       "config": "metro.config.js",
-      "sourceExts": [
-        "js",
-        "jsx",
-        "svg"
-      ]
+      "sourceExts": ["js", "jsx", "svg"]
     },
     "plugins": [
       [
         "expo-font",
         {
-          "fonts": [
-            "./app/assets/font/Medium.ttf",
-            "./app/assets/font/Regular.ttf",
-            "./app/assets/font/SemiBold.ttf"
-          ]
+          "fonts": ["./app/assets/font/Medium.ttf", "./app/assets/font/Regular.ttf", "./app/assets/font/SemiBold.ttf"]
         }
       ],
       [
@@ -55,7 +47,7 @@
         "backgroundColor": "#ffffff"
       },
       "googleServicesFile": "./google-services.json",
-      "package": "com.sevenstandard.PICK"
+      "package": "com.sixstandard.PICK"
     },
     "extra": {
       "eas": {

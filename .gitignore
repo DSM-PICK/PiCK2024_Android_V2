@@ -37,3 +37,6 @@ yarn-error.*
 .env.local
 .env
 eas.json
+
+credentials.json
+fingerprint.zip

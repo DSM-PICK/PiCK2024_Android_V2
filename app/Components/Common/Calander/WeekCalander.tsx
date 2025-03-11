@@ -22,7 +22,7 @@ export const WeekCalander = (props: IProp) => {
 
   return (
     <View style={{ width: "100%", position: "relative" }}>
-      {direction === "up" && <View style={{ width: "100%", height: 50, backgroundColor: "white", position: "absolute", zIndex: 20, top: -50 }} />}
+      {direction === "up" && <View style={{ width: "100%", height: 50, backgroundColor: color("bg"), position: "absolute", zIndex: 20, top: -50 }} />}
       <View
         style={{
           width: "100%",

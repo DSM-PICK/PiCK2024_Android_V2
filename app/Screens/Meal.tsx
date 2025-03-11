@@ -1,5 +1,4 @@
 import { Header, Layout, ScrollView, Text, View, WeekCalander } from "@/Components";
-import { FlatList } from "react-native-gesture-handler";
 import { useMyQuery, useTheme } from "@/hooks";
 import { StyleSheet } from "react-native";
 import { getToday } from "@/utils";

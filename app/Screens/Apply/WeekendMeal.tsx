@@ -58,7 +58,7 @@ export const WeekendMeal = ({ navigation }) => {
           <Text colorType="gray" colorLevel={600} fontType="body" fontLevel={2}>
             주말 급식 상태는{" "}
             <Text colorType="main" colorLevel={600} fontType="body" fontLevel={2}>
-              {weekendMealData.status === "OK" ? "신청" : "미신청"}
+              {weekendMealData?.status === "OK" ? "신청" : "미신청"}
             </Text>
             입니다
           </Text>

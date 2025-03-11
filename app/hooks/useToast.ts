@@ -29,7 +29,7 @@ const createToast = (type: typeType, message: string, options?: optionsType) => 
   wasWait: options?.wasWait,
 });
 
-export const useToast = create<IToast>((set) => ({
+export const useToast = create<IToast>((set, get) => ({
   toasts: [],
   success: (message) =>
     set((prev) => ({
@@ -50,10 +50,14 @@ export const useToast = create<IToast>((set) => ({
     return id;
   },
   update: (id, type, message) => {
+    const realId = get()
+      .toasts.filter((i) => i.id.includes(id))
+      .sort((a, b) => Number(a.id.split("_")[1]) - Number(b.id.split("_")[1]))[0].id;
+
     set((prev) => ({
       ...prev,
       toasts: prev.toasts.map((i) => {
-        return i.id === id ? createToast(type, message, { wasWait: true }) : i;
+        return i.id === realId ? createToast(type, message, { wasWait: true }) : i;
       }),
     }));
   },

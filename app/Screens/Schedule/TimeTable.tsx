@@ -40,7 +40,7 @@ export const TimeTable = () => {
             <Text fontType="label" fontLevel={1} colorType="gray" colorLevel={900}>
               {dayTable[index]}
             </Text>
-            {!item.timetables ? (
+            {item.timetables ? (
               <View style={{ gap: 8 }}>
                 {item.timetables.map((i) => (
                   <View style={styles.classContainer}>

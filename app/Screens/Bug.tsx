@@ -5,26 +5,14 @@ import { Image, StyleSheet } from "react-native";
 import * as Picker from "expo-image-picker";
 import { IBugIn, instance } from "@/apis";
 import { useState } from "react";
-import {
-  Button,
-  Icon,
-  LabelLayout,
-  Layout,
-  PrevHedaer,
-  Text,
-  TextInput,
-  View,
-  TouchableOpacity,
-  KeyboardDismiss,
-} from "@/Components";
+import { Button, Icon, LabelLayout, Layout, PrevHedaer, Text, TextInput, View, TouchableOpacity, KeyboardDismiss } from "@/Components";
 
 export const Bug = ({ navigation }) => {
   const [status] = Picker.useMediaLibraryPermissions();
   const { error, success } = useToast();
   const { color } = useTheme();
   const { mutate: bugImageMutate } = useMutation({
-    mutationFn: async (data: FormData) =>
-      instance.post("/bug/upload", data, { headers: { "Content-Type": "multipart/form-data" } }),
+    mutationFn: async (data: FormData) => instance.post("/bug/upload", data, { headers: { "Content-Type": "multipart/form-data" } }),
   });
   const { mutate: bugMutate } = useMyMutation<IBugIn, null>("post", "bug", "/message");
 
@@ -86,22 +74,11 @@ export const Bug = ({ navigation }) => {
   return (
     <KeyboardDismiss>
       <Layout Header={<PrevHedaer title="버그 제보" />}>
-        <LabelLayout label="어디서 버그가 발생했나요?" type="black">
-          <TextInput
-            placeholder="예: 메인, 외출 신청"
-            value={data.title}
-            id="title"
-            onChange={handleChange}
-          />
+        <LabelLayout required label="어디서 버그가 발생했나요?" type="black">
+          <TextInput placeholder="예: 메인, 외출 신청" value={data.title} id="title" onChange={handleChange} />
         </LabelLayout>
-        <LabelLayout label="버그에 대해 설명해 주세요" type="black">
-          <TextInput
-            placeholder="자세히 설명해 주세요"
-            value={data.content}
-            multiLine={4}
-            id="content"
-            onChange={handleChange}
-          />
+        <LabelLayout required label="버그에 대해 설명해 주세요" type="black">
+          <TextInput placeholder="자세히 설명해 주세요" value={data.content} multiLine={4} id="content" onChange={handleChange} />
         </LabelLayout>
         <LabelLayout label="버그 사진을 첨부해 주세요" type="black">
           <View style={styles.imageListContainer}>
@@ -123,10 +100,7 @@ export const Bug = ({ navigation }) => {
               contentContainerStyle={{ gap: 10 }}
               renderItem={({ item, index }) => (
                 <View style={styles.imageContainer}>
-                  <TouchableOpacity
-                    activeOpacity={0.3}
-                    style={{ ...styles.removeContainer, backgroundColor: color("bg") }}
-                  >
+                  <TouchableOpacity activeOpacity={0.3} style={{ ...styles.removeContainer, backgroundColor: color("bg") }}>
                     <Text
                       colorType="error"
                       fontType="caption"
@@ -162,6 +136,7 @@ export const Bug = ({ navigation }) => {
               },
             })
           }
+          disabled={!!!data.title || !!!data.content}
           style={{ position: "absolute", bottom: 30 }}
         >
           제보하기

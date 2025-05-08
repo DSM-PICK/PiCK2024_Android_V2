@@ -20,9 +20,9 @@ export const EarlyReturn = ({ navigation }) => {
           조기 귀가 신청
         </Text>
         <LabelLayout label="희망 귀가 시간을 선택하세요" type="black">
-          <TimePickerButton title="조기 귀가 시간을 선택하세요" type="time" value={data.start} onChange={(e) => setData({ ...data, start: `${e.hour.padStart(2, "0")}:${e.minute.padStart(2, "0")}` })} />
+          <TimePickerButton title="귀가 시간을 선택하세요" type="time" value={data.start} onChange={(e) => setData({ ...data, start: `${e.hour.padStart(2, "0")}:${e.minute.padStart(2, "0")}` })} />
         </LabelLayout>
-        <LabelLayout label="조기 귀가 사유를 입력하세요" type="black">
+        <LabelLayout label="귀가 사유를 입력하세요" type="black">
           <TextInput value={data.reason} onChange={(e) => setData({ ...data, reason: e })} multiLine={6} placeholder="자세히 입력해주세요" />
         </LabelLayout>
         <Button

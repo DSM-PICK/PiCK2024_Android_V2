@@ -38,17 +38,10 @@ export const Login = ({ navigation }) => {
           setItem("user_data", `${data.account_id}||${data.user_name}`);
           getCurrentScope().setUser({ id: data.account_id, username: data.user_name });
         });
-        update("login", "success", "성공적으로 로그인하였습니다!");
         navigation.reset({ routes: [{ name: "메인" }] });
       },
-      onError: (res: unknown) => {
-        const { message } = (res as AxiosError["response"])?.data as { message: string };
-        update("login", "success", "로그인 중 오류가 발생하였습니다.");
-        if (message === "Feign UnAuthorized") {
-          setError({ ...error, account_id: "계정을 찾을 수 없습니다." });
-        } else if (message === "Password Miss Match") {
-          setError({ ...error, password: "비밀번호가 잘못되었습니다." });
-        }
+      onError: (res: AxiosError) => {
+        setError({ account_id: "오류가 발생했습니다", password: "오류가 발생했습니다" });
       },
     });
   };
@@ -59,7 +52,7 @@ export const Login = ({ navigation }) => {
         <View style={{ width: "100%", marginTop: 80 }}>
           <Text fontType="heading" fontLevel={2} colorType="normal" colorLevel="black">
             <Text fontType="heading" fontLevel={2} colorType="main" colorLevel={500}>
-              PICK
+              PiCK
             </Text>
             에 로그인하기
           </Text>
@@ -69,14 +62,7 @@ export const Login = ({ navigation }) => {
         </View>
         <TextInput label="아이디" value={data.account_id} error={error.account_id} id="account_id" placeholder="아이디를 입력하세요" onChange={handleChange} />
         <TextInput label="비밀번호" value={data.password} error={error.password} id="password" placeholder="비밀번호를 입력하세요" onChange={handleChange} password />
-        <Button
-          disabled={!!!data.account_id || !!!data.password}
-          onPress={() => {
-            wait("login", "로그인 중...");
-            handlePress();
-          }}
-          style={{ position: "absolute", bottom: 30 }}
-        >
+        <Button disabled={!!!data.account_id || !!!data.password} onPress={() => handlePress()} style={{ position: "absolute", bottom: 30 }}>
           로그인
         </Button>
       </Layout>

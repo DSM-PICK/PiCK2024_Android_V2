@@ -24,11 +24,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (res) => res,
   async (err: AxiosError) => {
-    if (
-      err.response.status === 401 &&
-      err.request.url !== "/user/login" &&
-      err.request.url !== "/user/refresh"
-    ) {
+    if (err.response.status === 401 && err.request.url !== "/user/login" && err.request.url !== "/user/refresh") {
       // 토큰만료 값 뭔지 모름, 있다가 도경이에게 물어볼 것
       const token = await getItem("refresh_token");
       instance
@@ -44,7 +40,7 @@ instance.interceptors.response.use(
         });
     } else {
       captureException(err);
-      throw err.response.status;
+      throw err;
     }
   }
 );

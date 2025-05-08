@@ -8,13 +8,14 @@ interface IProp {
   title: string;
   content: string;
   id: string;
+  open: string | null;
+  setOpened?: (state: string | null) => void;
   buttonContent: string;
   onPressButton: () => void;
 }
 
-export const SlideMenu = ({ icon, title, content, buttonContent, onPressButton }: IProp) => {
+export const SlideMenu = ({ open, setOpened, icon, title, id, content, buttonContent, onPressButton }: IProp) => {
   const height = useRef(0);
-  const [open, setOpen] = useState(false);
   const { color } = useTheme();
 
   const heightAnim = useRef(new Animated.Value(0)).current;
@@ -23,18 +24,19 @@ export const SlideMenu = ({ icon, title, content, buttonContent, onPressButton }
   useEffect(() => {
     start();
   }, [open]);
+
   const start = () => {
     Animated.timing(heightAnim, {
-      toValue: open ? 1 : 0,
+      toValue: open === id ? 1 : 0,
       duration: 600,
       easing: Easing.out(Easing.exp),
       useNativeDriver: false,
-    }).start(() => heightAnim.setValue(open ? 1 : 0));
+    }).start(() => heightAnim.setValue(open === id ? 1 : 0));
     Animated.timing(borderAnim, {
-      toValue: open ? 1 : 0,
+      toValue: open === id ? 1 : 0,
       duration: 300,
       useNativeDriver: false,
-    }).start(() => borderAnim.setValue(open ? 1 : 0));
+    }).start(() => borderAnim.setValue(open === id ? 1 : 0));
   };
 
   const heightValue = heightAnim.interpolate({
@@ -54,7 +56,7 @@ export const SlideMenu = ({ icon, title, content, buttonContent, onPressButton }
         borderColor: borderValue,
       }}
       activeOpacity={1}
-      onPress={() => setOpen((prev) => !prev)}
+      onPress={() => setOpened(id === open ? null : id)}
     >
       <View style={styles.titleContainer}>
         <Icon name={icon} size={34} colorType="gray" colorLevel={800} />
@@ -62,17 +64,14 @@ export const SlideMenu = ({ icon, title, content, buttonContent, onPressButton }
           {title}
         </Text>
       </View>
-      <View
-        style={styles.contentContainer}
-        onLayout={(event) => (height.current = event.nativeEvent.layout.height)}
-      >
+      <View style={styles.contentContainer} onLayout={(event) => (height.current = event.nativeEvent.layout.height)}>
         <Text colorType="gray" colorLevel={800} fontType="body" fontLevel={2}>
           {content.replace(/\\n/g, "\n")}
         </Text>
         <Button
           style={{ height: 36, borderRadius: 8 }}
           onPress={() => {
-            setOpen(false);
+            setOpened(null);
             onPressButton();
           }}
         >

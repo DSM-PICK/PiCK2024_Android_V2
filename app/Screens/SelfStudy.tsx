@@ -15,7 +15,12 @@ export const SelfStudy = () => {
   return (
     <Layout
       Header={<PrevHedaer title="자습 감독 선생님 확인" />}
-      Footer={<WeekCalander onSelect={(e) => setDate(e)} selected={date} />}
+      Footer={
+        <View style={{ position: "relative" }}>
+          <WeekCalander onSelect={(e) => setDate(e)} selected={date} />
+          <View style={{ width: "100%", height: 30, position: "absolute", bottom: -30, backgroundColor: "#FFFFFF" }} />
+        </View>
+      }
       style={{ paddingHorizontal: 0 }}
     >
       <View style={styles.contentContainer}>
@@ -31,23 +36,15 @@ export const SelfStudy = () => {
           <Text colorType="main" colorLevel={500} fontLevel={4} fontType="heading">
             {`${date.split("-")[1]}월 ${date.split("-")[2]}일의\n`}
             <Text colorType="normal" colorLevel="black" fontLevel={4} fontType="heading">
-              자습감독 선생님입니다.
+              자습감독 선생님입니다
             </Text>
           </Text>
         )}
         {!!selfStudyData?.length ? (
-          selfStudyData?.map(({ floor, teacher_name }) => (
-            <Item title={floor + "층"} data={teacher_name + " 선생님"} key={floor} />
-          ))
+          selfStudyData?.map(({ floor, teacher_name }) => <Item title={floor + "층"} data={teacher_name + " 선생님"} key={floor} />)
         ) : (
-          <Text
-            colorType="gray"
-            colorLevel={500}
-            fontLevel={1}
-            fontType="body"
-            style={{ alignSelf: "center" }}
-          >
-            자습 감독이 없습니다
+          <Text colorType="gray" colorLevel={500} fontLevel={1} fontType="body" style={{ alignSelf: "center" }}>
+            등록된 자습 감독이 없습니다
           </Text>
         )}
       </View>

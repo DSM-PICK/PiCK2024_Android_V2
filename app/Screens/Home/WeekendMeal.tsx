@@ -19,26 +19,13 @@ export const WeekendMeal = () => {
             backgroundColor: color("main", 50),
           }}
         >
-          <Icon
-            name="Notice"
-            colorType="normal"
-            colorLevel="black"
-            size={27}
-            style={{ left: -5 }}
-          />
-          <Text
-            colorType="normal"
-            colorLevel="black"
-            fontType="label"
-            fontLevel={2}
-            style={{ maxWidth: 285, textAlign: "center" }}
-          >
+          <Icon name="Notice" colorType="normal" colorLevel="black" size={27} style={{ left: -5 }} />
+          <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={2} style={{ maxWidth: 285, textAlign: "center" }}>
             지금은{" "}
             <Text colorType="main" colorLevel={900} fontType="label" fontLevel={2}>
               주말 급식 신청 기간
             </Text>
-            입니다 ({month + ""}월 {weekendMealDateData?.start?.split("-")[2]}일 ~ {month + ""}월{" "}
-            {weekendMealDateData?.end?.split("-")[2]}일)
+            입니다 ({month + ""}월 {weekendMealDateData?.start?.split("-")[2]}일 ~ {month + ""}월 {weekendMealDateData?.end?.split("-")[2]}일)
           </Text>
         </View>
       </View>

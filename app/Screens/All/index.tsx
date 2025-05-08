@@ -9,7 +9,7 @@ export const All = ({ navigation }) => {
   return (
     <Layout Header={<Header />} scrollAble bottomPad>
       <Profile />
-      <LabelLayout label="기타 기능">
+      <LabelLayout label="도움말">
         <Item icon="Smile" onPress={() => navigation.navigate("자습감독")}>
           자습 감독 선생님 확인
         </Item>
@@ -20,12 +20,12 @@ export const All = ({ navigation }) => {
           버그 제보
         </Item>
       </LabelLayout>
-      <LabelLayout label="기타 기능">
+      <LabelLayout label="설정">
         <Item icon="Custom" onPress={() => navigation.navigate("커스텀")}>
           커스텀
         </Item>
       </LabelLayout>
-      <LabelLayout label="기타 기능">
+      <LabelLayout label="계정">
         <Item icon="Person" onPress={() => navigation.navigate("마이페이지")}>
           마이 페이지
         </Item>

@@ -23,7 +23,7 @@ export const TimePicker = ({ type, title, buttonTitle, onEnd, id }: IProp) => {
   const { close } = useBottomSheet();
   const { color } = useTheme();
 
-  const [time, setTime] = useState({ hour: "8", minute: "0" });
+  const [time, setTime] = useState(type === "classMulti" ? { hour: "1", minute: "1" } : { hour: "8", minute: "0" });
 
   return (
     <>

@@ -18,19 +18,7 @@ interface IProp extends Omit<TextInputProps, "onChange"> {
   id?: string;
 }
 
-export const TextInput = ({
-  value,
-  onChange,
-  placeholder,
-  multiLine,
-  password,
-  disabled,
-  required,
-  error,
-  label,
-  id,
-  ...props
-}: IProp) => {
+export const TextInput = ({ value, onChange, placeholder, multiLine, password, disabled, required, error, label, id, ...props }: IProp) => {
   const [visible, setVisible] = useState(false);
   const [focus, setFocus] = useState(false);
   const { color } = useTheme();
@@ -39,14 +27,16 @@ export const TextInput = ({
   return (
     <View style={styles.container}>
       {label && (
-        <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={1}>
-          {label}
+        <>
+          <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={1}>
+            {label}
+          </Text>
           {required && (
             <Text colorType="error" fontType="label" fontLevel={1}>
               *
             </Text>
           )}
-        </Text>
+        </>
       )}
       <AnimView
         style={{
@@ -80,15 +70,7 @@ export const TextInput = ({
           style={[props.style, styles.input, { color: color("normal", "black") }]}
           placeholderTextColor={color("gray", 400)}
         />
-        {password && (
-          <Icon
-            name={visible ? "Eye" : "EyeOff"}
-            size={24}
-            colorType="gray"
-            colorLevel={900}
-            onPress={() => setVisible((prev) => !prev)}
-          />
-        )}
+        {password && <Icon name={visible ? "Eye" : "EyeOff"} size={24} colorType="gray" colorLevel={900} onPress={() => setVisible((prev) => !prev)} />}
       </AnimView>
       {error && (
         <Text colorType="error" fontType="body" fontLevel={1} style={{ alignSelf: "flex-end" }}>

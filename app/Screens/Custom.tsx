@@ -1,9 +1,11 @@
 import { Layout, PrevHedaer, SlideMenu, Text, View } from "@/Components";
 import { useOptions, useToast } from "@/hooks";
+import { useState } from "react";
 
 export const Custom = ({ navigation }) => {
   const { mainType, periodType, toggleOption } = useOptions();
   const { success } = useToast();
+  const [open, setOpen] = useState(null);
 
   return (
     <Layout Header={<PrevHedaer title="커스텀" />} style={{ alignItems: "flex-start" }}>
@@ -17,6 +19,8 @@ export const Custom = ({ navigation }) => {
       </View>
 
       <SlideMenu
+        open={open}
+        setOpened={setOpen}
         id="mainConfig"
         icon="Main"
         title="메인페이지 설정"
@@ -29,6 +33,8 @@ export const Custom = ({ navigation }) => {
         }}
       />
       <SlideMenu
+        open={open}
+        setOpened={setOpen}
         id="applyConfig"
         icon="Time"
         title="신청 단위 설정"

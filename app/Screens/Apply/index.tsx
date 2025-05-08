@@ -1,4 +1,5 @@
 import { Header, Layout, SlideMenu, Text } from "@/Components";
+import { useState } from "react";
 export * from "./EarlyReturn";
 export * from "./WeekendMeal";
 export * from "./Move";
@@ -6,19 +7,16 @@ export * from "./Out";
 
 export const Apply = ({ navigation: navigate }) => {
   const navigation = navigate.getParent();
+  const [opened, setOpened] = useState(null);
 
   return (
     <Layout Header={<Header />} style={{ gap: 20 }} bottomPad>
-      <Text
-        colorType="normal"
-        colorLevel="black"
-        fontType="heading"
-        fontLevel={4}
-        style={{ alignSelf: "flex-start" }}
-      >
+      <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4} style={{ alignSelf: "flex-start" }}>
         신청
       </Text>
       <SlideMenu
+        open={opened}
+        setOpened={setOpened}
         id="weekendMeal"
         icon="Meal"
         title="주말 급식 신청"
@@ -27,6 +25,8 @@ export const Apply = ({ navigation: navigate }) => {
         onPressButton={() => navigation.navigate("주말급식")}
       />
       <SlideMenu
+        open={opened}
+        setOpened={setOpened}
         id="move"
         icon="People"
         title="교실 이동 신청"
@@ -35,6 +35,8 @@ export const Apply = ({ navigation: navigate }) => {
         onPressButton={() => navigation.navigate("교실이동")}
       />
       <SlideMenu
+        open={opened}
+        setOpened={setOpened}
         id="out"
         icon="Check"
         title="외출 신청"
@@ -43,6 +45,8 @@ export const Apply = ({ navigation: navigate }) => {
         onPressButton={() => navigation.navigate("외출")}
       />
       <SlideMenu
+        open={opened}
+        setOpened={setOpened}
         id="earlyReturn"
         icon="Bicycle"
         title="조기 귀가 신청"

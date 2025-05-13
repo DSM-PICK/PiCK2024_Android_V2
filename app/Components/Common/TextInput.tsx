@@ -14,11 +14,12 @@ interface IProp extends Omit<TextInputProps, "onChange"> {
   disabled?: boolean;
   required?: boolean;
   error?: string;
+  after?: React.ReactNode;
   label?: string;
   id?: string;
 }
 
-export const TextInput = ({ value, onChange, placeholder, multiLine, password, disabled, required, error, label, id, ...props }: IProp) => {
+export const TextInput = ({ value, onChange, placeholder, multiLine, password, disabled, required, after, error, label, id, ...props }: IProp) => {
   const [visible, setVisible] = useState(false);
   const [focus, setFocus] = useState(false);
   const { color } = useTheme();
@@ -70,6 +71,7 @@ export const TextInput = ({ value, onChange, placeholder, multiLine, password, d
           style={[props.style, styles.input, { color: color("normal", "black") }]}
           placeholderTextColor={color("gray", 400)}
         />
+        {after || <></>}
         {password && <Icon name={visible ? "Eye" : "EyeOff"} size={24} colorType="gray" colorLevel={900} onPress={() => setVisible((prev) => !prev)} />}
       </AnimView>
       {error && (

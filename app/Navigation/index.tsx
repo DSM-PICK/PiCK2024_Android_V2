@@ -11,11 +11,12 @@ interface IProp {
 
 export const Navigation = ({ token }: IProp) => {
   return (
-    <Navigator
-      screenOptions={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
-      initialRouteName={token ? "메인" : "온보딩"}
-    >
+    <Navigator screenOptions={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }} initialRouteName={token ? "메인" : "온보딩"}>
       <Screen name="온보딩" component={_.Onboard} />
+      <Screen name="비번변경이메일" component={_.ChangePWEmail} />
+      <Screen name="비번변경비밀번호" component={_.ChangePWPassword} />
+      <Screen name="회원가입이메일" component={_.Email} />
+      <Screen name="회원가입비밀번호" component={_.Password} />
       <Screen name="로그인" component={_.Login} />
       <Screen name="메인" component={MainTabs} />
       <Screen name="알림" component={_.Alert} />

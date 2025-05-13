@@ -9,7 +9,6 @@ import { useToast } from "@/hooks";
 
 export const Login = ({ navigation }) => {
   const { mutate } = useMyMutation<IUserLoginIn, IUserLoginOut>("post", "user", "/login");
-  const { wait, update } = useToast();
 
   const [data, setData] = useState({
     account_id: "",
@@ -60,8 +59,29 @@ export const Login = ({ navigation }) => {
             스퀘어 계정으로 로그인 해 주세요.
           </Text>
         </View>
-        <TextInput label="아이디" value={data.account_id} error={error.account_id} id="account_id" placeholder="아이디를 입력하세요" onChange={handleChange} />
+        <TextInput
+          label="이메일"
+          value={data.account_id}
+          error={error.account_id}
+          id="account_id"
+          placeholder="학교 이메일를 입력해주세요"
+          onChange={handleChange}
+          after={
+            <Text fontType="caption" fontLevel={2} colorType="gray" colorLevel={400}>
+              @dsm.hs.kr
+            </Text>
+          }
+        />
         <TextInput label="비밀번호" value={data.password} error={error.password} id="password" placeholder="비밀번호를 입력하세요" onChange={handleChange} password />
+        <View style={{ marginTop: -15, width: "100%", display: "flex", flexDirection: "row", alignItems: "center", gap: 5 }}>
+          <Text colorLevel={400} colorType="gray" fontType="body" fontLevel={1}>
+            아직 계정이 없으신가요?
+          </Text>
+          <Text onPress={() => navigation.push("회원가입이메일")} colorLevel="black" colorType="gray" fontType="body" fontLevel={1}>
+            회원가입
+          </Text>
+        </View>
+
         <Button disabled={!!!data.account_id || !!!data.password} onPress={() => handlePress()} style={{ position: "absolute", bottom: 30 }}>
           로그인
         </Button>

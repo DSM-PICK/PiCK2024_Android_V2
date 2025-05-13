@@ -1,5 +1,6 @@
 export { default as ToastCheck } from "./Toast_Check.svg";
 export { default as Calander } from "./Calander.svg";
+export { default as Password } from "./Password.svg";
 export { default as Bicycle } from "./Bicycle.svg";
 export { default as EyeOff } from "./Eye_Off.svg";
 export { default as ToastX } from "./Toast_X.svg";
@@ -8,6 +9,7 @@ export { default as Camera } from "./Camera.svg";
 export { default as Notice } from "./Notice.svg";
 export { default as People } from "./People.svg";
 export { default as Person } from "./Person.svg";
+export { default as Google } from "./Google.svg";
 export { default as Arrrow } from "./Arrow.svg";
 export { default as Close } from "./Close.svg";
 export { default as Check } from "./Check.svg";

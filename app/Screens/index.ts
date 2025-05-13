@@ -1,5 +1,7 @@
+export * from "./PasswordChange";
 export * from "./AlertConfig";
 export * from "./SelfStudy";
+export * from "./Register";
 export * from "./Schedule";
 export * from "./Onboard";
 export * from "./Custom";

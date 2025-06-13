@@ -4,8 +4,19 @@ import { getCurrentScope } from "@sentry/react-native";
 import { bulkSetItem, setItem } from "@/utils";
 import { useMyMutation } from "@/hooks";
 import { AxiosError } from "axios";
-import { useState } from "react";
-import { useToast } from "@/hooks";
+import { useState, useEffect } from "react";
+import * as Notifications from "expo-notifications";
+
+// 알림 설정
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+    shouldShowBanner: true,
+    shouldShowList: true,
+  }),
+});
 
 export const Login = ({ navigation }) => {
   const { mutate } = useMyMutation<IUserLoginIn, IUserLoginOut>("post", "user", "/login");
@@ -21,6 +32,39 @@ export const Login = ({ navigation }) => {
     account_id: "",
     password: "",
   });
+
+  console.log(data.device_token);
+
+  // FCM 토큰 가져오기
+  useEffect(() => {
+    const getNotificationToken = async () => {
+      try {
+        // 알림 권한 요청
+        const { status } = await Notifications.requestPermissionsAsync();
+        if (status !== "granted") {
+          console.log("알림 권한이 거부되었습니다.");
+          return;
+        }
+
+        // FCM 토큰 가져오기
+        const token = await Notifications.getExpoPushTokenAsync({
+          projectId: "342bfabd-2278-47bd-9ac9-a10c9042ccb3", // app.json의 projectId 사용
+        });
+
+        console.log("FCM Token:", token.data);
+
+        // device_token에 FCM 토큰 설정
+        setData((prevData) => ({
+          ...prevData,
+          device_token: token.data,
+        }));
+      } catch (error) {
+        console.error("FCM 토큰 가져오기 실패:", error);
+      }
+    };
+
+    getNotificationToken();
+  }, []);
 
   const handleChange = (text: string, id: string) => {
     setData({ ...data, [id]: text });

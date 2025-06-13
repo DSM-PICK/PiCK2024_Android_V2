@@ -14,13 +14,21 @@
     },
     "packagerOpts": {
       "config": "metro.config.js",
-      "sourceExts": ["js", "jsx", "svg"]
+      "sourceExts": [
+        "js",
+        "jsx",
+        "svg"
+      ]
     },
     "plugins": [
       [
         "expo-font",
         {
-          "fonts": ["./app/assets/font/Medium.ttf", "./app/assets/font/Regular.ttf", "./app/assets/font/SemiBold.ttf"]
+          "fonts": [
+            "./app/assets/font/Medium.ttf",
+            "./app/assets/font/Regular.ttf",
+            "./app/assets/font/SemiBold.ttf"
+          ]
         }
       ],
       [
@@ -36,6 +44,14 @@
           "project": "pick-android",
           "organization": "daedeok-software-meister-hi-76"
         }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./app/assets/images/Logo.png",
+          "color": "#ffffff",
+          "sounds": []
+        }
       ]
     ],
     "ios": {
@@ -47,7 +63,11 @@
         "backgroundColor": "#ffffff"
       },
       "googleServicesFile": "./google-services.json",
-      "package": "com.sixstandard.PICK"
+      "package": "com.sixstandard.PICK",
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "extra": {
       "eas": {
@@ -57,6 +77,12 @@
     "owner": "seven-standard",
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/342bfabd-2278-47bd-9ac9-a10c9042ccb3"
     }
   }
 }

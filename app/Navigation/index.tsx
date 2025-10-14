@@ -1,5 +1,4 @@
-import { createStackNavigator } from "@react-navigation/stack";
-import { TransitionPresets } from "@react-navigation/stack";
+import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
 import { MainTabs } from "./MainTabs";
 import * as _ from "@/Screens";
 
@@ -15,8 +14,9 @@ export const Navigation = ({ token }: IProp) => {
       <Screen name="온보딩" component={_.Onboard} />
       <Screen name="비번변경이메일" component={_.ChangePWEmail} />
       <Screen name="비번변경비밀번호" component={_.ChangePWPassword} />
-      <Screen name="회원가입이메일" component={_.Email} />
-      <Screen name="회원가입비밀번호" component={_.Password} />
+      <Screen name="회원가입이메일" component={_.RegisterEmail} />
+      <Screen name="회원가입비밀번호" component={_.RegisterPassword} />
+      <Screen name="회원가입아이디" component={_.RegisterID} />
       <Screen name="로그인" component={_.Login} />
       <Screen name="메인" component={MainTabs} />
       <Screen name="알림" component={_.Alert} />

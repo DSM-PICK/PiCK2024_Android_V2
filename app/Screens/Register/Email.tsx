@@ -1,36 +1,62 @@
-import { Button, Layout, Text, TextInput, View, KeyboardDismiss, TouchableOpacity } from "@/Components";
-import { instance, IUserDetails, IUserLoginIn, IUserLoginOut } from "@/apis";
-import { getCurrentScope } from "@sentry/react-native";
-import { bulkSetItem, setItem } from "@/utils";
-import { useMyMutation, useTheme } from "@/hooks";
-import { AxiosError } from "axios";
+import { Button, Layout, Text, TextInput, View, KeyboardDismiss, TouchableOpacity, PrevHeader } from "@/Components";
+import { IMailCheckIn, IMailSendIn } from "@/apis";
+import { useMyMutation, useTheme, useToast, useSignupState } from "@/hooks";
 import { useState } from "react";
-
-const isError = false;
-const didSent = false;
-const isEmailSuccess = true;
 
 export const Email = ({ navigation }) => {
   const { color } = useTheme();
-  // const { mutate } = useMyMutation<IUserLoginIn, IUserLoginOut>("post", "user", "/login");
+  const { error } = useToast();
+  const { setAccountInfo } = useSignupState();
+  const { mutate: mailSendMutate } = useMyMutation<IMailSendIn, null>("post", "mail", "/send");
+  const { mutate: mailCheckMutate } = useMyMutation<IMailCheckIn, boolean>("post", "mail", "/check");
 
   const [data, setData] = useState({
     email: "",
     code: "",
   });
+  const [didSent, setDidSent] = useState<boolean>(false);
+  const [isEmailSuccess, setIsEmailSuccess] = useState<boolean>(false);
 
   const handleChange = (text: string, id: string) => {
     setData({ ...data, [id]: text });
   };
 
+  const handleSend = () => {
+    setIsEmailSuccess(false);
+    mailSendMutate({
+      mail: data.email,
+      message: "회원가입",
+      title: "인증 코드"
+    }, {
+      onSuccess() {
+        setIsEmailSuccess(true);
+      }
+    });
+    setDidSent(true);
+  }
+
   const handlePress = () => {
-    navigation.navigate("회원가입비밀번호");
+    mailCheckMutate(data, {
+      onSuccess(result) {
+        if (result) {
+          setAccountInfo(data.email, data.code);
+          navigation.navigate("회원가입비밀번호");
+        } else {
+          error("인증코드가 일치하지 않습니다")
+        }
+      },
+      onError(err) {
+        if (err === 401) {
+          error("인증코드가 만료되었습니다.");
+        }
+      }
+    });
   };
 
   return (
     <KeyboardDismiss>
-      <Layout style={{ gap: 40 }}>
-        <View style={{ width: "100%", marginTop: 80 }}>
+      <Layout Header={<PrevHeader title="" />} style={{ gap: 40 }}>
+        <View style={{ width: "100%", marginTop: 80, gap: 12 }}>
           <Text fontType="heading" fontLevel={2} colorType="normal" colorLevel="black">
             <Text fontType="heading" fontLevel={2} colorType="main" colorLevel={500}>
               PiCK
@@ -46,37 +72,22 @@ export const Email = ({ navigation }) => {
           value={data.email}
           disabled={isEmailSuccess}
           id="email"
-          placeholder="학교 이메일를 입력해주세요"
+          placeholder="학교 이메일을 입력해주세요"
           onChange={handleChange}
           after={
             <View style={{ display: "flex", flexDirection: "row", gap: 10, alignItems: "center" }}>
               <Text fontType="caption" fontLevel={2} colorType="gray" colorLevel={400}>
                 @dsm.hs.kr
               </Text>
-              <TouchableOpacity disabled={isEmailSuccess} style={{ backgroundColor: color(isEmailSuccess ? "gray" : "main", 50), paddingHorizontal: 10, paddingVertical: 4, borderRadius: 5 }}>
-                <Text fontType="button" fontLevel={2} colorType={isEmailSuccess ? "gray" : "main"} colorLevel={900}>
-                  {didSent ? "재발송" : "코드 전송"}
+              <TouchableOpacity onPress={() => handleSend()} disabled={isEmailSuccess || !!!data.email} style={{ backgroundColor: color(isEmailSuccess || !!!data.email ? "gray" : "main", 50), paddingHorizontal: 10, paddingVertical: 4, borderRadius: 5 }}>
+                <Text fontType="button" fontLevel={2} colorType={"main"} colorLevel={900}>
+                  {didSent ? "재발송" : "인증 코드"}
                 </Text>
               </TouchableOpacity>
             </View>
           }
         />
-        <TextInput label="인증 코드" value={data.code} id="code" placeholder="인증 코드를 입력하세요" onChange={handleChange} />
-        <View style={{ marginTop: -15, width: "100%", display: "flex", flexDirection: "row", alignItems: "center", gap: 5 }}>
-          <Text colorLevel={400} colorType="gray" fontType="body" fontLevel={1}>
-            이미 계정이 있으신가요?
-          </Text>
-          <Text onPress={() => navigation.goBack()} colorLevel="black" colorType="gray" fontType="body" fontLevel={1}>
-            로그인
-          </Text>
-        </View>
-        {isError ? (
-          <Text style={{ marginTop: -57, alignSelf: "flex-end" }} colorType="error" fontType="body" fontLevel={1}>
-            다시 확인해주세요
-          </Text>
-        ) : (
-          <></>
-        )}
+        <TextInput label="인증 코드" value={data.code} id="code" placeholder="인증 코드를 입력해주세요" onChange={handleChange} />
         <Button disabled={!isEmailSuccess || !!!data.email || !!!data.code} onPress={() => handlePress()} style={{ position: "absolute", bottom: 30 }}>
           다음
         </Button>

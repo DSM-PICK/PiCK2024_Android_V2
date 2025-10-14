@@ -1,5 +1,6 @@
 export const paths = {
   user: "/user",
+  mail: "/mail",
   weekendMeal: "/weekend-meal",
   selfStudy: "/self-study",
   schedule: "/schedule",

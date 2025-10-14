@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, memo } from "react";
 import { Animated, Easing, StyleSheet } from "react-native";
 import { View } from "./AnimatedComponents";
 import { Dimensions } from "react-native";
 import { useModal } from "@/hooks";
 
-export const ModalManager = () => {
+const ModalManagerComponent = () => {
   const { isOpened, component, set } = useModal();
   const { height } = Dimensions.get("screen");
 
@@ -90,3 +90,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
+
+export const ModalManager = memo(ModalManagerComponent);

@@ -1,4 +1,8 @@
-import { NativeScrollEvent, NativeSyntheticEvent, StyleSheet } from "react-native";
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  StyleSheet,
+} from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { View } from "./AnimatedComponents";
 import { useDebounce } from "@/hooks";
@@ -28,10 +32,15 @@ export const ScrollPicker = ({ items, onScroll, suffix, id }: IProp) => {
       <FlatList
         data={items}
         onScroll={handleScroll}
-        contentContainerStyle={{ alignItems: "center", gap: 10, paddingVertical: 120 }}
+        contentContainerStyle={{
+          alignItems: "center",
+          gap: 10,
+          paddingVertical: 120,
+        }}
         overScrollMode="never"
         snapToInterval={40}
         showsVerticalScrollIndicator={false}
+        keyExtractor={(item, index) => `${id || "picker"}-${item}-${index}`}
         renderItem={({ item }) => (
           <Text
             colorType="normal"

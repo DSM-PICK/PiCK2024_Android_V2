@@ -1,5 +1,4 @@
-import { Svg, SvgProps } from "react-native-svg";
-import { Path } from "@/Components";
+import { Svg, SvgProps, Path } from "react-native-svg";
 import { useTheme } from "@/hooks";
 
 export const PickMan = (props: SvgProps) => {

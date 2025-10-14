@@ -23,10 +23,10 @@ export const Close = ({ navigation }) => {
           취소
         </Button>
         <Button
-          onPress={() => {
+          onPress={async () => {
             close();
             queryClient.clear();
-            bulkDelItem(["access_token", "refresh_token", "user_data"]);
+            await bulkDelItem(["access_token", "refresh_token", "user_data"]);
             getCurrentScope().setUser({ id: undefined, username: undefined });
             navigation.getParent().reset({ routes: [{ name: "온보딩" }] });
           }}

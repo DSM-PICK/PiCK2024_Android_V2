@@ -1,4 +1,4 @@
-import { Layout, PrevHedaer, Text, View } from "@/Components";
+import { Layout, PrevHeader, Text, View } from "@/Components";
 import { useTheme } from "@/hooks";
 import { Item } from "./Item";
 import { StyleSheet } from "react-native";
@@ -7,7 +7,7 @@ export const AlertConfig = () => {
   const { color } = useTheme();
 
   return (
-    <Layout Header={<PrevHedaer title="알림 설정" />} style={{ paddingHorizontal: 0 }}>
+    <Layout Header={<PrevHeader title="알림 설정" />} style={{ paddingHorizontal: 0 }}>
       <Item type="big" title="전체 알림" value={false} onPress={() => {}} />
       <View style={{ width: "100%", height: 8, backgroundColor: color("gray", 50) }} />
       <View style={styles.contentContainer}>

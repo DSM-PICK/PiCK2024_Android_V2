@@ -4,9 +4,17 @@ import { useMyQuery, useTheme } from "@/hooks";
 import { monthTable } from "@/constants";
 import { scheduleType } from "@/apis";
 import { getToday } from "@/utils";
-import { useState } from "react";
+import { useState, memo } from "react";
 
 const { year, month, fullDay } = getToday();
+
+const EventItem = memo(({ item, color }: { item: any; color: any }) => (
+  <View style={{ ...styles.event, borderLeftColor: color("main", 500, true) }}>
+    <Text colorType="normal" colorLevel="black" fontType="subTitle" fontLevel={2}>
+      {item.event_name}
+    </Text>
+  </View>
+));
 
 export const Calander = () => {
   const { color } = useTheme();
@@ -43,15 +51,13 @@ export const Calander = () => {
       </View>
       <View style={{ height: "25%" }}>
         <FlatList
-          data={filteredItem}
+          data={filteredItem || []}
           contentContainerStyle={{ gap: 10 }}
-          renderItem={({ item }) => (
-            <View style={{ ...styles.event, borderLeftColor: color("main", 500, true) }}>
-              <Text colorType="normal" colorLevel="black" fontType="subTitle" fontLevel={2}>
-                {item.event_name}
-              </Text>
-            </View>
-          )}
+          renderItem={({ item }) => <EventItem item={item} color={color} />}
+          initialNumToRender={5}
+          maxToRenderPerBatch={5}
+          windowSize={3}
+          removeClippedSubviews={true}
         />
       </View>
     </View>

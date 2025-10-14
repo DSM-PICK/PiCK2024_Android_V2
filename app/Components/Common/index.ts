@@ -7,6 +7,7 @@ export * from "./ModalManager";
 export * from "./ToggleSlide";
 export * from "./TextInput";
 export * from "./Calander";
+export * from "./Calander/WeekCalander";
 export * from "./Button";
 export * from "./Layout";
 export * from "./Toggle";

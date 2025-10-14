@@ -6,7 +6,7 @@ interface IProp {
   title: string;
 }
 
-export const PrevHedaer = ({ title }: IProp) => {
+export const PrevHeader = ({ title }: IProp) => {
   const { goBack } = useNavigation();
 
   return (

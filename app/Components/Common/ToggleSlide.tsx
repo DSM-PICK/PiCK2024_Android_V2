@@ -1,7 +1,8 @@
 import { Animated, Dimensions, Pressable, StyleSheet } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "@/hooks";
-import { View, Text } from "./";
+import { View } from "./AnimatedComponents";
+import { Text } from "./Text";
 
 interface IProp {
   items: string[];

@@ -1,7 +1,7 @@
 import { useMyMutation, useToast } from "@/hooks";
 import { IEarlyReturnIn } from "@/apis";
 import { useState } from "react";
-import { Button, LabelLayout, Layout, PrevHedaer, Text, TextInput, KeyboardDismiss, TimePickerButton } from "@/Components";
+import { Button, LabelLayout, Layout, PrevHeader, Text, TextInput, KeyboardDismiss, TimePickerButton } from "@/Components";
 import { StyleSheet } from "react-native";
 
 export const EarlyReturn = ({ navigation }) => {
@@ -15,7 +15,7 @@ export const EarlyReturn = ({ navigation }) => {
 
   return (
     <KeyboardDismiss>
-      <Layout Header={<PrevHedaer title="조기 귀가 신청" />} style={{ alignItems: "flex-start" }}>
+      <Layout Header={<PrevHeader title="조기 귀가 신청" />} style={{ alignItems: "flex-start" }}>
         <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4}>
           조기 귀가 신청
         </Text>
@@ -32,7 +32,7 @@ export const EarlyReturn = ({ navigation }) => {
               { ...data, start: data.start + ":00" },
               {
                 onSuccess: () => success("조기 귀가 신청이 완료되었습니다!"),
-                onError: (err: unknown) => {
+                onError: (err) => {
                   if (err === 409) {
                     error("조기 귀가 신청을 실패했습니다.");
                   }

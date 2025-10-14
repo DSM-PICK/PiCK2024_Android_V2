@@ -4,8 +4,8 @@ import { Animated } from "react-native";
 import { create } from "zustand";
 
 interface ITheme {
-  theme: Animated.Value;
-  noAnimTheme: number;
+  themeAnimValue: Animated.Value;
+  currentTheme: 0 | 1;
   getTheme: () => "light" | "dark";
   toggleTheme: () => void;
   load: () => void;
@@ -25,56 +25,59 @@ const themeTable: ["light", "dark"] = ["light", "dark"]; // 0: light, 1: dark
 let lock = false;
 
 export const useTheme = create<ITheme>((set, get) => ({
-  theme: new Animated.Value(0),
-  noAnimTheme: 0,
-  getTheme: () => themeTable[get().noAnimTheme],
+  themeAnimValue: new Animated.Value(0),
+  currentTheme: 0 as 0,
+  getTheme: () => themeTable[get().currentTheme],
   toggleTheme: () => {
     if (!lock) {
       lock = true;
       setTimeout(() => {
         lock = false;
       }, 300);
-      const theme = !!Number(JSON.stringify(get().theme));
-      set({ noAnimTheme: +!get().noAnimTheme });
-      Animated.timing(get().theme, {
-        toValue: theme ? 0 : 1,
+      
+      const currentTheme = get().currentTheme;
+      const targetTheme = currentTheme === 0 ? 1 : 0;
+
+      Animated.timing(get().themeAnimValue, {
+        toValue: targetTheme,
         duration: 300,
         useNativeDriver: false,
       }).start(async () => {
-        set({ theme: new Animated.Value(+!theme) });
-        await setItem("theme", themeTable[get().noAnimTheme]);
+        await setItem("theme", themeTable[targetTheme]);
+        set({ currentTheme: targetTheme });
       });
     }
   },
   color: (type, index, noAnim) => {
-    if (noAnim) {
-      const theme = themeTable[Number(JSON.stringify(get().noAnimTheme))];
-      // noAnim이 true일 때는 상태 변경을 강제하지 않음
-      if (type === "error" || type === "bg") {
-        return colorTable[type][theme];
-      } else {
-        return colorTable[type][theme][index];
+    const color = (() => {
+      if (noAnim) {
+        const theme = themeTable[get().currentTheme];
+        // noAnim이 true일 때는 상태 변경을 강제하지 않음
+        if (type === "error" || type === "bg") {
+          return colorTable[type][theme];
+        } else {
+          return colorTable[type][theme][index];
+        }
       }
-    }
-
-    if (type === "error" || type === "bg") {
-      return get().theme.interpolate({
-        inputRange: [0, 1],
-        outputRange: [colorTable[type]["light"], colorTable[type]["dark"]],
-      });
-    } else {
-      return get().theme.interpolate({
-        inputRange: [0, 1],
-        outputRange: [colorTable[type]["light"][index], colorTable[type]["dark"][index]],
-      });
-    }
+  
+      if (type === "error" || type === "bg") {
+        return get().themeAnimValue.interpolate({
+          inputRange: [0, 1],
+          outputRange: [colorTable[type]["light"], colorTable[type]["dark"]],
+        });
+      } else {
+        return get().themeAnimValue.interpolate({
+          inputRange: [0, 1],
+          outputRange: [colorTable[type]["light"][index], colorTable[type]["dark"][index]],
+        });
+      }
+    })();
+    return JSON.stringify(color).replaceAll(`"`, "");
   },
   load: async () => {
     const theme = await getItem("theme");
-    if (theme === "dark") {
-      set({ theme: new Animated.Value(1), noAnimTheme: 1 });
-    } else {
-      set({ theme: new Animated.Value(0), noAnimTheme: 0 });
-    }
+    const themeIndex = theme === "dark" ? 1 : 0;
+    get().themeAnimValue.setValue(themeIndex);
+    set({ currentTheme: themeIndex });
   },
 }));

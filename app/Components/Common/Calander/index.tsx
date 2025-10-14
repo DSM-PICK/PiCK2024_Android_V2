@@ -7,8 +7,6 @@ import { StyleSheet } from "react-native";
 import { useState } from "react";
 import { Icon } from "../Icon";
 
-export * from "./WeekCalander";
-
 export interface IProp {
   selected?: string;
   pointed?: string[];

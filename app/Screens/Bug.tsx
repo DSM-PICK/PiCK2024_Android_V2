@@ -4,8 +4,27 @@ import { useMutation } from "@tanstack/react-query";
 import { Image, StyleSheet } from "react-native";
 import * as Picker from "expo-image-picker";
 import { IBugIn, instance } from "@/apis";
-import { useState } from "react";
-import { Button, Icon, LabelLayout, Layout, PrevHedaer, Text, TextInput, View, TouchableOpacity, KeyboardDismiss } from "@/Components";
+import { useState, memo } from "react";
+import { Button, Icon, LabelLayout, Layout, PrevHeader, Text, TextInput, View, TouchableOpacity, KeyboardDismiss } from "@/Components";
+
+const ImageItem = memo(({ uri, onRemove }: { uri: string; fileName: string; onRemove: () => void }) => {
+  const { color } = useTheme();
+  
+  return (
+    <View style={styles.imageContainer}>
+      <TouchableOpacity 
+        activeOpacity={0.3} 
+        style={{ ...styles.removeContainer, backgroundColor: color("bg") }}
+        onPress={onRemove}
+      >
+        <Text colorType="error" fontType="caption" fontLevel={2}>
+          삭제
+        </Text>
+      </TouchableOpacity>
+      <Image style={{ width: 100, height: 100 }} source={{ uri }} />
+    </View>
+  );
+});
 
 export const Bug = ({ navigation }) => {
   const [status] = Picker.useMediaLibraryPermissions();
@@ -73,7 +92,7 @@ export const Bug = ({ navigation }) => {
 
   return (
     <KeyboardDismiss>
-      <Layout Header={<PrevHedaer title="버그 제보" />}>
+      <Layout Header={<PrevHeader title="버그 제보" />}>
         <LabelLayout required label="어디서 버그가 발생했나요?" type="black">
           <TextInput placeholder="예: 메인, 외출 신청" value={data.title} id="title" onChange={handleChange} />
         </LabelLayout>
@@ -99,31 +118,27 @@ export const Bug = ({ navigation }) => {
               horizontal
               contentContainerStyle={{ gap: 10 }}
               renderItem={({ item, index }) => (
-                <View style={styles.imageContainer}>
-                  <TouchableOpacity activeOpacity={0.3} style={{ ...styles.removeContainer, backgroundColor: color("bg") }}>
-                    <Text
-                      colorType="error"
-                      fontType="caption"
-                      fontLevel={2}
-                      onPress={() => {
-                        setData({
-                          ...data,
-                          file_name: data.file_name.filter((i, index) => {
-                            if (i === item) {
-                              image.filter((_, innerIndex) => innerIndex !== index);
-                            }
-                            return i !== item;
-                          }),
-                        });
-                        setImage(image.filter((i) => i.file_name !== item));
-                      }}
-                    >
-                      삭제
-                    </Text>
-                  </TouchableOpacity>
-                  <Image style={{ width: 100, height: 100 }} source={{ uri: image[index].uri }} />
-                </View>
+                <ImageItem 
+                  uri={image[index].uri} 
+                  fileName={item} 
+                  onRemove={() => {
+                    setData({
+                      ...data,
+                      file_name: data.file_name.filter((i, idx) => {
+                        if (i === item) {
+                          image.filter((_, innerIndex) => innerIndex !== idx);
+                        }
+                        return i !== item;
+                      }),
+                    });
+                    setImage(image.filter((i) => i.file_name !== item));
+                  }}
+                />
               )}
+              initialNumToRender={5}
+              maxToRenderPerBatch={5}
+              windowSize={3}
+              removeClippedSubviews={true}
             />
           </View>
         </LabelLayout>
@@ -132,7 +147,7 @@ export const Bug = ({ navigation }) => {
             bugMutate(data, {
               onSuccess: () => {
                 navigation.goBack();
-                success("성공적으로 제출되었습니다. 감사합니다!");
+                success("성공적으로 제보되었습니다. 감사합니다!");
               },
             })
           }

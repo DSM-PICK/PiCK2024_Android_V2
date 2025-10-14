@@ -1,8 +1,8 @@
 import { Header, Layout, ScrollView, Text, View, WeekCalander } from "@/Components";
 import { useMyQuery, useTheme } from "@/hooks";
 import { StyleSheet } from "react-native";
-import { getToday } from "@/utils";
 import { useState } from "react";
+import { getToday } from "@/utils";
 import { IMeal } from "@/apis";
 
 const { fullDay } = getToday();
@@ -26,7 +26,6 @@ export const Meal = () => {
             )}
             {date.split("-")[1]}월 {date.split("-")[2]}일
           </Text>
-
           <View style={{ gap: 20, width: "100%", paddingHorizontal: 24 }}>
             {mealData &&
               Object.values(mealData?.meal_list).map((item, index) => (
@@ -50,18 +49,16 @@ export const Meal = () => {
                     <Text colorType="main" style={{ width: 100, textAlign: "center" }} colorLevel={700} fontType="subTitle" fontLevel={1}>
                       {nameTable[index]}
                     </Text>
-                    {item.menu.length && (
-                      <View
-                        style={{
-                          ...styles.contentContainer,
-                          backgroundColor: color("main", 500),
-                        }}
-                      >
-                        <Text colorType="normal" colorLevel="white" fontType="body" fontLevel={1}>
-                          {!!item.menu.length ? item.cal : "0 Kcal"}
-                        </Text>
-                      </View>
-                    )}
+                    <View
+                      style={{
+                        ...styles.contentContainer,
+                        backgroundColor: color("main", 500),
+                      }}
+                    >
+                      <Text colorType="normal" colorLevel="white" fontType="body" fontLevel={1}>
+                        {!!item.menu.length ? item.cal : "0 Kcal"}
+                      </Text>
+                    </View>
                   </View>
                   <Text colorType="normal" colorLevel="black" fontType="body" fontLevel={1} style={{ width: 116 }}>
                     {!!item.menu.length ? item.menu.join("\n") : "급식이 없습니다"}

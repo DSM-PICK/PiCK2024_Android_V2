@@ -2,7 +2,7 @@ import { useBottomSheet, useMyMutation, useOptions, useTheme, useToast } from "@
 import { StyleSheet } from "react-native";
 import { IApplicationIn } from "@/apis";
 import { useState } from "react";
-import { Button, changePropType, LabelLayout, Layout, PrevHedaer, Text, TextInput, TimePicker, TouchableOpacity, View, KeyboardDismiss, TimePickerButton } from "@/Components";
+import { Button, changePropType, LabelLayout, Layout, PrevHeader, Text, TextInput, TimePicker, TouchableOpacity, View, KeyboardDismiss, TimePickerButton } from "@/Components";
 
 export const Out = ({ navigation }) => {
   const { mutate: outMutate } = useMyMutation<IApplicationIn, null>("post", "application", "");
@@ -28,7 +28,7 @@ export const Out = ({ navigation }) => {
 
   return (
     <KeyboardDismiss>
-      <Layout Header={<PrevHedaer title="외출 신청" />} style={{ alignItems: "flex-start" }}>
+      <Layout Header={<PrevHeader title="외출 신청" />} style={{ alignItems: "flex-start" }}>
         <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4}>
           외출 신청
         </Text>
@@ -89,7 +89,7 @@ export const Out = ({ navigation }) => {
           onPress={() =>
             outMutate(data, {
               onSuccess: () => success("외출 신청이 완료되었습니다!"),
-              onError: (err: unknown) => {
+              onError: (err) => {
                 if (err === 409) {
                   error("외출 신청을 실패했습니다.");
                 }

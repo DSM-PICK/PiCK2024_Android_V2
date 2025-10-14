@@ -1,4 +1,4 @@
-import { Layout, PrevHedaer, Text, View } from "@/Components";
+import { Layout, PrevHeader, Text, View } from "@/Components";
 import { useMyQuery, useTheme } from "@/hooks";
 import { StyleSheet } from "react-native";
 import { INoticeDetail } from "@/apis";
@@ -9,7 +9,7 @@ export const Detail = ({ route }) => {
   const { color } = useTheme();
 
   return (
-    <Layout Header={<PrevHedaer title={title} />} style={styles.container} scrollAble>
+    <Layout Header={<PrevHeader title={title} />} style={styles.container} scrollAble>
       <View
         style={{
           ...styles.titleContainer,

@@ -1,4 +1,4 @@
-import { Layout, PrevHedaer, Text, View, WeekCalander } from "@/Components";
+import { Layout, PrevHeader, Text, View, WeekCalander } from "@/Components";
 import { StyleSheet } from "react-native";
 import { selfStudyType } from "@/apis";
 import { useMyQuery } from "@/hooks";
@@ -14,7 +14,7 @@ export const SelfStudy = () => {
 
   return (
     <Layout
-      Header={<PrevHedaer title="자습 감독 선생님 확인" />}
+      Header={<PrevHeader title="자습 감독 선생님 확인" />}
       Footer={
         <View style={{ position: "relative" }}>
           <WeekCalander onSelect={(e) => setDate(e)} selected={date} />

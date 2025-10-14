@@ -20,7 +20,7 @@ export const Pass = () => {
 
       ws.current.onopen = () => ws.current.send("");
 
-      ws.current.onerror = (error) => console.log(`오류 발생 (${error})`);
+      ws.current.onerror = (error) => console.log(`오류 발생 (${JSON.stringify(error)})`);
 
       ws.current.onmessage = ({ data: res }) => setData(JSON.parse(res));
     };

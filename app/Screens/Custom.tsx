@@ -1,4 +1,4 @@
-import { Layout, PrevHedaer, SlideMenu, Text, View } from "@/Components";
+import { Layout, PrevHeader, SlideMenu, Text, View } from "@/Components";
 import { useOptions, useToast } from "@/hooks";
 import { useState } from "react";
 
@@ -8,7 +8,7 @@ export const Custom = ({ navigation }) => {
   const [open, setOpen] = useState(null);
 
   return (
-    <Layout Header={<PrevHedaer title="커스텀" />} style={{ alignItems: "flex-start" }}>
+    <Layout Header={<PrevHeader title="커스텀" />} style={{ alignItems: "flex-start" }}>
       <View style={{ gap: 12 }}>
         <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4}>
           커스텀

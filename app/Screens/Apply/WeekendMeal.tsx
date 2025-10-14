@@ -1,5 +1,5 @@
 import { useMyMutation, useMyQuery, useTheme, useToast } from "@/hooks";
-import { Button, Layout, PrevHedaer, Text, View } from "@/Components";
+import { Button, Layout, PrevHeader, Text, View } from "@/Components";
 import { IWeekendMeal, IWeekendMealPeriod, weekendMealChangeStatusIn } from "@/apis";
 import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
@@ -15,7 +15,7 @@ export const WeekendMeal = ({ navigation }) => {
   const { data: weekendMealData, refetch: weekendMealRefetch } = useMyQuery<IWeekendMeal>("weekendMeal", "/my");
   const { data: weekendMealPeriodData, refetch: weekendMealPeriodRefetch } = useMyQuery<IWeekendMealPeriod>("weekendMeal", "/period");
 
-  useEffect(() => weekendMealData && setData(weekendMealData.status), [weekendMealData]);
+  useEffect(() => weekendMealData && setData(weekendMealData?.status), [weekendMealData]);
 
   const { mutate: weekendMealMutate } = useMyMutation<weekendMealChangeStatusIn, null>("patch", "weekendMeal", "/my-status?status=");
 
@@ -26,7 +26,7 @@ export const WeekendMeal = ({ navigation }) => {
   };
 
   return (
-    <Layout Header={<PrevHedaer title="주말 급식 신청" />} style={{ alignItems: "flex-start", gap: 20 }}>
+    <Layout Header={<PrevHeader title="주말 급식 신청" />} style={{ alignItems: "flex-start", gap: 20 }}>
       <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4}>
         주말 급식
       </Text>

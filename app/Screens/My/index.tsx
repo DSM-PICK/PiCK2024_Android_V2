@@ -1,4 +1,4 @@
-import { Icon, Layout, PrevHedaer, View, ProfileImage } from "@/Components";
+import { Icon, Layout, PrevHeader, View, ProfileImage } from "@/Components";
 import { instance, IUserDetails, IUserSimple } from "@/apis";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { useMyQuery, useTheme, useToast } from "@/hooks";
@@ -60,7 +60,7 @@ export const My = () => {
   };
 
   return (
-    <Layout Header={<PrevHedaer title="마이 페이지" />}>
+    <Layout Header={<PrevHeader title="마이 페이지" />}>
       <View style={{ gap: 20, alignItems: "center" }}>
         <TouchableOpacity activeOpacity={0.6} style={{ position: "relative" }} onPress={update}>
           <ProfileImage size={85} uri={userData?.profile} />
@@ -71,13 +71,6 @@ export const My = () => {
       </View>
       <View style={{ width: "100%", gap: 35 }}>
         <Item title="이름" data={userData?.user_name} />
-        <Item
-          title="생년월일"
-          data={userData?.birth_day
-            .split("-")
-            .map((i, j) => i + formats[j])
-            .join(" ")}
-        />
         <Item
           title="학번"
           data={`${userData?.grade}학년 ${userData?.class_num}반 ${userData?.num}번`}

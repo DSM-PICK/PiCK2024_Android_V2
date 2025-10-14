@@ -1,9 +1,8 @@
 import { useBottomSheet, useTheme } from "@/hooks";
 import { View } from "../AnimatedComponents";
-import { IProp as ICalProp } from "../Calander";
+import { IProp as ICalProp, Calander } from "./";
 import { useEffect } from "react";
 import { Icon } from "../Icon";
-import { Calander } from "./";
 
 interface IProp extends ICalProp {
   direction?: "up" | "down";

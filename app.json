@@ -2,7 +2,7 @@
   "expo": {
     "jsEngine": "hermes",
     "name": "PiCK",
-    "slug": "PICK",
+    "slug": "pick",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./app/assets/images/Logo.png",
@@ -14,13 +14,21 @@
     },
     "packagerOpts": {
       "config": "metro.config.js",
-      "sourceExts": ["js", "jsx", "svg"]
+      "sourceExts": [
+        "js",
+        "jsx",
+        "svg"
+      ]
     },
     "plugins": [
       [
         "expo-font",
         {
-          "fonts": ["./app/assets/font/Medium.ttf", "./app/assets/font/Regular.ttf", "./app/assets/font/SemiBold.ttf"]
+          "fonts": [
+            "./app/assets/font/Medium.ttf",
+            "./app/assets/font/Regular.ttf",
+            "./app/assets/font/SemiBold.ttf"
+          ]
         }
       ],
       [
@@ -35,6 +43,16 @@
           "url": "https://sentry.io/",
           "project": "pick-android",
           "organization": "daedeok-software-meister-hi-76"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 35,
+            "buildToolsVersion": "35.0.0"
+          }
         }
       ]
     ],
@@ -51,10 +69,10 @@
     },
     "extra": {
       "eas": {
-        "projectId": "342bfabd-2278-47bd-9ac9-a10c9042ccb3"
+        "projectId": "68074498-d33a-4db2-9798-b8b0d2217f97"
       }
     },
-    "owner": "seven-standard",
+    "owner": "1408bg",
     "web": {
       "favicon": "./assets/favicon.png"
     }

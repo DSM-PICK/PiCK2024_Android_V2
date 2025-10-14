@@ -1,11 +1,11 @@
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
-import { Layout, PrevHedaer, Text, View } from "@/Components";
+import { Layout, PrevHeader, Text, View } from "@/Components";
 import { StyleSheet } from "react-native";
 import { Item } from "./Item";
 
 export const Alert = () => {
   return (
-    <Layout Header={<PrevHedaer title="알림" />} style={{ paddingHorizontal: 0 }}>
+    <Layout Header={<PrevHeader title="알림" />} style={{ paddingHorizontal: 0 }}>
       <View style={styles.contentContainer}>
         <Text colorType="normal" colorLevel="black" fontType="subTitle" fontLevel={2}>
           읽지 않은 알림 ({[].filter((i) => !i.read).length.toString()})

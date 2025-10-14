@@ -1,10 +1,15 @@
+import { useRef } from "react";
+
 export const useDebounce = () => {
-  let timeout = null;
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const debounce = (func: () => void, time?: number) => {
-    if (timeout) clearTimeout(timeout);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
-    timeout = setTimeout(func, time || 3000);
+    timeoutRef.current = setTimeout(() => {
+      func();
+      timeoutRef.current = null;
+    }, time || 300);
   };
 
   return { debounce };

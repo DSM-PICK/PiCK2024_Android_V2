@@ -27,6 +27,7 @@ export const Icon = ({
 }: IProp) => {
   const _Icon = Icons[name];
   const { color } = useTheme();
+  const fillColor = color(colorType || "gray", colorLevel || 400, true);
 
   return (
     <_Icon
@@ -34,6 +35,7 @@ export const Icon = ({
       hitSlop={{ top: 5, bottom: 5, right: 5, left: 5 }}
       width={size}
       height={size}
+      fill={fillColor}
       style={[
         props.style,
         {

@@ -1,4 +1,4 @@
-import { Button, Layout, PrevHedaer, Text, TimePicker, TouchableOpacity, View } from "@/Components";
+import { Button, Layout, PrevHeader, Text, TimePicker, TouchableOpacity, View } from "@/Components";
 import { Dimensions, NativeScrollEvent, NativeSyntheticEvent, StyleSheet } from "react-native";
 import { useBottomSheet, useDebounce, useMyMutation, useTheme, useToast } from "@/hooks";
 import { FlatList } from "react-native-gesture-handler";
@@ -35,7 +35,7 @@ export const Move = ({ navigation }) => {
   };
 
   return (
-    <Layout Header={<PrevHedaer title="교실 이동 신청" />} style={{ paddingHorizontal: 0, gap: 20 }}>
+    <Layout Header={<PrevHeader title="교실 이동 신청" />} style={{ paddingHorizontal: 0, gap: 20 }}>
       <View style={styles.titleContainer}>
         <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4}>
           교실 이동

@@ -1,5 +1,4 @@
-import { Svg, SvgProps, ClipPath, G, Defs } from "react-native-svg";
-import { Path, Rect } from "@/Components";
+import { Svg, SvgProps, ClipPath, G, Defs, Path, Rect } from "react-native-svg";
 import { useTheme } from "@/hooks";
 
 export const Logo = (props: SvgProps) => {

@@ -34,7 +34,7 @@ export const TimeTable = () => {
         showsHorizontalScrollIndicator={false}
         snapToInterval={windowWidth}
         style={{ height: "85%" }}
-        keyExtractor={(_, index) => index + ""}
+        keyExtractor={(item, index) => item.timetables.length + index + item.date}
         renderItem={({ item, index }) => (
           <View style={styles.itemContainer}>
             <Text fontType="label" fontLevel={1} colorType="gray" colorLevel={900}>

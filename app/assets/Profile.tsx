@@ -1,5 +1,5 @@
-import { Svg, G, Defs, ClipPath } from "react-native-svg";
-import { Circle, Rect, View } from "@/Components";
+import { Svg, G, Defs, ClipPath, Circle, Rect } from "react-native-svg";
+import { View } from "react-native";
 import { useTheme } from "@/hooks";
 
 interface IProp {

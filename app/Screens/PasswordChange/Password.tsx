@@ -20,14 +20,14 @@ export const Password = ({ navigation }) => {
 
   const handlePress = () => {
     if (!passwordRegex.test(data.password)) {
-      error("비밀번호는 최소 6개의 영문자, 1개의 특수문자, 1개의 숫자가 필요합니다.");
+      error("8~30자 영문자, 숫자, 특수문자 포함하세요");
       return;
     }
     setPassword(data.password);
     mutate(state, {
       onError: (err) => {
         if (err === 400) {
-          error("정보가 잘못되었습니다.");
+          error("정보가 잘못되었습니다");
         } else if (err === 401) {
           error("인증코드가 만료되었습니다. 인증화면으로 돌아갑니다");
           navigation.goBack();

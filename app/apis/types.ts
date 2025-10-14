@@ -10,6 +10,22 @@ export interface IUserLoginOut {
   refresh_token: string;
 }
 
+export interface IUserSignupIn {
+  account_id: string;
+  password : string;
+  name: string;
+  grade: number;
+  class_num: number;
+  num: number;
+  code: string;
+}
+
+export interface IPwChangeIn {
+  code: string;
+  account_id: string;
+  password: string;
+}
+
 export type userProfileTypeIn = FormData;
 
 export interface IUserSimple {
@@ -23,6 +39,18 @@ export interface IUserSimple {
 export interface IUserDetails extends IUserSimple {
   birth_day: string;
   account_id: string;
+}
+
+// mail
+export interface IMailSendIn {
+  mail: string;
+  message: string;
+  title: string;
+}
+
+export interface IMailCheckIn {
+  email: string;
+  code: string;
 }
 
 // weekendMeal

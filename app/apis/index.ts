@@ -1,5 +1,5 @@
 import { captureException } from "@sentry/react-native";
-import { bulkSetItem, getItem } from "@/utils";
+import { bulkSetItem, bulkDelItem, getItem, navigate } from "@/utils";
 import axios, { AxiosError } from "axios";
 export * from "./types";
 
@@ -8,11 +8,46 @@ export const instance = axios.create({
   timeout: 1000 * 30,
 });
 
+let tokenCache: {
+  access_token: string | null;
+  refresh_token: string | null;
+  timestamp: number;
+} = {
+  access_token: null,
+  refresh_token: null,
+  timestamp: 0,
+};
+
+const CACHE_EXPIRATION = 5 * 60 * 1000;
+
+const refreshTokenCache = async () => {
+  const [access_token, refresh_token] = await Promise.all([
+    getItem("access_token"),
+    getItem("refresh_token"),
+  ]);
+  
+  tokenCache = {
+    access_token,
+    refresh_token,
+    timestamp: Date.now(),
+  };
+  
+  return tokenCache;
+};
+
+const getToken = async () => {
+  if (!tokenCache.access_token || !tokenCache.timestamp || Date.now() - tokenCache.timestamp > CACHE_EXPIRATION) {
+    await refreshTokenCache();
+  }
+  
+  return tokenCache;
+};
+
 instance.interceptors.request.use(
   async (res) => {
-    const token = await getItem("access_token");
-    if (token && res.url !== "/user/login" && res.url !== "/user/refresh") {
-      res.headers["Authorization"] = `Bearer ${token}`;
+    const { access_token } = await getToken();
+    if (access_token && res.url !== "/user/login" && res.url !== "/user/refresh") {
+      res.headers["Authorization"] = `Bearer ${access_token}`;
     }
     return res;
   },
@@ -24,19 +59,30 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (res) => res,
   async (err: AxiosError) => {
-    if (err.response.status === 401 && err.request.url !== "/user/login" && err.request.url !== "/user/refresh") {
+    if (err.response?.status === 401 && err.config?.url !== "/user/login") {
       // 토큰만료 값 뭔지 모름, 있다가 도경이에게 물어볼 것
-      const token = await getItem("refresh_token");
-      instance
-        .put("/user/refresh", null, { headers: { "X-Refresh-Token": token } })
-        .then((res) => {
-          bulkSetItem([
-            ["access_token", res?.data.access_token],
-            ["refresh_token", res?.data.refresh_token],
+      const { refresh_token } = await getToken();
+      axios
+        .put(process.env.EXPO_PUBLIC_BASE_URL + "/user/refresh", null, { headers: { "X-Refresh-Token": refresh_token } })
+        .then(async (res) => {
+          const { data } = res.data!;
+
+          await bulkSetItem([
+            ["access_token", data.access_token],
+            ["refresh_token", data.refresh_token],
           ]);
+
+          tokenCache = {
+            access_token: res?.data.access_token,
+            refresh_token: res?.data.refresh_token,
+            timestamp: Date.now(),
+          };
         })
-        .catch((err) => {
-          throw err;
+        .catch(async () => {
+          await bulkDelItem(["access_token", "refresh_token"]);
+          tokenCache.access_token = null;
+          tokenCache.refresh_token = null;
+          navigate("로그인");
         });
     } else {
       captureException(err);

@@ -1,4 +1,3 @@
-import { getCurrentScope } from "@sentry/react-native";
 import { Button, Text, View } from "@/Components";
 import { useModal, useTheme } from "@/hooks";
 import { bulkDelItem } from "@/utils";
@@ -27,7 +26,6 @@ export const Close = ({ navigation }) => {
             close();
             queryClient.clear();
             await bulkDelItem(["access_token", "refresh_token", "user_data"]);
-            getCurrentScope().setUser({ id: undefined, username: undefined });
             navigation.getParent().reset({ routes: [{ name: "온보딩" }] });
           }}
           style={styles.button}

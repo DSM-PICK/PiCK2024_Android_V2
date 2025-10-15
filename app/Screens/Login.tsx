@@ -1,8 +1,7 @@
 import { Button, Layout, Text, TextInput, View, KeyboardDismiss } from "@/Components";
 import { instance, IUserDetails, IUserLoginIn, IUserLoginOut } from "@/apis";
-import { getCurrentScope } from "@sentry/react-native";
 import { bulkSetItem, setItem } from "@/utils";
-import { useMyMutation, useTheme } from "@/hooks";
+import { useMyMutation } from "@/hooks";
 import { useState } from "react";
 import { useToast } from "@/hooks";
 
@@ -43,7 +42,6 @@ export const Login = ({ navigation }) => {
         const { data: userdata } = await instance.get<IUserDetails>("/user/details");
         
         setItem("user_data", `${userdata.account_id}||${userdata.user_name}`);
-        getCurrentScope().setUser({ id: userdata.account_id, username: userdata.user_name });
         navigation.reset({ routes: [{ name: "메인" }] });
       },
       onError: (err) => {

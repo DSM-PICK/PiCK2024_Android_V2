@@ -30,14 +30,6 @@
         }
       ],
       [
-        "@sentry/react-native/expo",
-        {
-          "url": "https://sentry.io/",
-          "project": "pick-android",
-          "organization": "daedeok-software-meister-hi-76"
-        }
-      ],
-      [
         "expo-build-properties",
         {
           "android": {

@@ -6,17 +6,12 @@ import { Animated, BackHandler, StatusBar } from "react-native";
 import { useBottomSheet, useOptions, useTheme } from "@/hooks";
 import { NavigationContainer } from "@react-navigation/native";
 import { useMediaLibraryPermissions } from "expo-image-picker";
-import { init, getCurrentScope } from "@sentry/react-native";
 import { enableScreens } from "react-native-screens";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getItem, navigationRef } from "@/utils";
 import { Navigation } from "@/Navigation";
 import { useFonts } from "expo-font";
 import { Splash } from "@/Screens";
-
-init({
-  dsn: "https://69af4e84f735adb3673a42550260e390@o4507229156474880.ingest.us.sentry.io/4507229158113280",
-});
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -54,7 +49,6 @@ export default function App() {
 
         const userData = await getItem("user_data");
         const [id, username] = userData ? userData.split("||") : [undefined, undefined];
-        getCurrentScope().setUser({ id: id || "알 수 없음", username: username || "알 수 없음" });
         resolve("test");
       }).then(() =>
         setTimeout(

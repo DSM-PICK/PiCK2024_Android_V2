@@ -1,4 +1,3 @@
-import { captureException } from "@sentry/react-native";
 import { bulkSetItem, bulkDelItem, getItem, navigate } from "@/utils";
 import axios, { AxiosError } from "axios";
 export * from "./types";
@@ -85,7 +84,6 @@ instance.interceptors.response.use(
           navigate("로그인");
         });
     } else {
-      captureException(err);
       throw err;
     }
   }

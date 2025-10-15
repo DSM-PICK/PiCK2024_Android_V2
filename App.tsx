@@ -1,5 +1,4 @@
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { setPositionAsync, setBackgroundColorAsync } from "expo-navigation-bar";
 import { ToastManager, BottomSheetManager, ModalManager } from "@/Components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -10,7 +9,7 @@ import { useMediaLibraryPermissions } from "expo-image-picker";
 import { init, getCurrentScope } from "@sentry/react-native";
 import { enableScreens } from "react-native-screens";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { getItem, isAndroid, navigationRef } from "@/utils";
+import { getItem, navigationRef } from "@/utils";
 import { Navigation } from "@/Navigation";
 import { useFonts } from "expo-font";
 import { Splash } from "@/Screens";
@@ -37,6 +36,7 @@ export default function App() {
     SemiBold: require("./app/assets/font/SemiBold.ttf"),
   });
   const fade = useRef(new Animated.Value(1)).current;
+  const handleClose = useRef<() => boolean | null>(null);
 
   const [status, requestPermission] = useMediaLibraryPermissions();
   const { getTheme, load: loadTheme } = useTheme();
@@ -71,24 +71,19 @@ export default function App() {
   useEffect(() => {
     tokenPromise();
 
-    if (isAndroid) {
-      setPositionAsync("absolute");
-      setBackgroundColorAsync("#ffffff01");
-    }
-
     loadTheme();
     loadOptions();
     if (!status?.granted) requestPermission();
   }, []);
 
   useEffect(() => {
-    const handleClose = () => {
+    handleClose.current = () => {
       close();
       return isOpened;
     };
 
-    BackHandler.addEventListener("hardwareBackPress", handleClose);
-    return () => BackHandler.removeEventListener("hardwareBackPress", handleClose);
+    BackHandler.addEventListener("hardwareBackPress", () => handleClose.current?.());
+    return () => handleClose.current = null;;
   }, [isOpened]);
 
   return (

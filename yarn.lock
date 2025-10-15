@@ -2666,21 +2666,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.90.2":
-  version: 5.90.2
-  resolution: "@tanstack/query-core@npm:5.90.2"
-  checksum: 10c0/695a7450b0bb9f6dd21bebeacfc962dfc886631a3b3a13c33a842ef719b4c3dd30c15febe8c1ade6902a85e0f387c51a97570f430cc8f5c7032ff737d6410597
+"@tanstack/query-core@npm:5.90.3":
+  version: 5.90.3
+  resolution: "@tanstack/query-core@npm:5.90.3"
+  checksum: 10c0/c5d90a9ba6c30c17a8b32b5c879de624a9b7d4a61841d6550a3b8a9533dd6794053e0bc7e30f794ca49383b658b021c68eed68da0856eb5afb547a275bbb5bc5
   languageName: node
   linkType: hard
 
 "@tanstack/react-query@npm:^5.59.15":
-  version: 5.90.2
-  resolution: "@tanstack/react-query@npm:5.90.2"
+  version: 5.90.3
+  resolution: "@tanstack/react-query@npm:5.90.3"
   dependencies:
-    "@tanstack/query-core": "npm:5.90.2"
+    "@tanstack/query-core": "npm:5.90.3"
   peerDependencies:
     react: ^18 || ^19
-  checksum: 10c0/22e76626a59890409858521b0e42b49219126a4ea5ed79eaa48a267959175dfdd28b30b9b03a415dccf703d95c18100a9d8917679818f6d2adc26d6c5f96a4d6
+  checksum: 10c0/a326b00f8d83ff41d16e45d04db7f5189ae8b6175ffb7fe46b5d277c9fd8b66e694ad939fd0f6232c1debbd9611b34f85401565fcb2b8abed78b099bfedf321d
   languageName: node
   linkType: hard
 
@@ -4392,9 +4392,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.227":
-  version: 1.5.234
-  resolution: "electron-to-chromium@npm:1.5.234"
-  checksum: 10c0/e27a46ff9af818adeb4b01fb9d346c5bd550049dfd18cfab222fe10ae7ce98ec18e4eb8630d4ca116b756b813ca14f2880f5ee9e76abcd85144c63060de636b2
+  version: 1.5.235
+  resolution: "electron-to-chromium@npm:1.5.235"
+  checksum: 10c0/2de9b3e4138457ee627d9f88c5773129cf36f4d5fa5d8983ed7b8abf3c6a6bf19575355bc001c4af1497ada503ade519025903aff4e9b2b38a0f4957a2525bf0
   languageName: node
   linkType: hard
 
@@ -4466,11 +4466,11 @@ __metadata:
   linkType: hard
 
 "envinfo@npm:^7.10.0":
-  version: 7.17.0
-  resolution: "envinfo@npm:7.17.0"
+  version: 7.18.0
+  resolution: "envinfo@npm:7.18.0"
   bin:
     envinfo: dist/cli.js
-  checksum: 10c0/f8117d4f2b4262d77ee191addbac1619681a629324b5bd0e2ab80b319e9e536daef0083695e0f9ca388fba92de916f1035c9d712c526d2fb76bcfe135796af86
+  checksum: 10c0/9d8002558932be577e0d5113917cee065846dbf4ba35521d60f18b6e71866bfd6b22d9037d7cf0e32c3a1a7b32faded7f32c812730a045947b162ea46e0cdc4d
   languageName: node
   linkType: hard
 
@@ -5081,9 +5081,9 @@ __metadata:
   linkType: hard
 
 "flow-parser@npm:0.*":
-  version: 0.287.0
-  resolution: "flow-parser@npm:0.287.0"
-  checksum: 10c0/768662960fa5434ad5d3aed65d1a2d2d4fd23796a073eb76244a7e6925b4807f88d5b83331cf9a10e0998eba4455805efb835375b2a2ae442bd2f35cda566def
+  version: 0.288.0
+  resolution: "flow-parser@npm:0.288.0"
+  checksum: 10c0/fd8b435e4e692a15e6c123daf80e9ef2650f11239cdacb72636a64bd53d1d5ee8154f9b0e4fe7c4faf4fe40d16e6e681b583c9891e870f5ce2bd356bf0dbd5dd
   languageName: node
   linkType: hard
 
@@ -6699,7 +6699,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.10, lodash@npm:^4.17.13":
+"lodash@npm:^4.17.10, lodash@npm:^4.17.13, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: 10c0/d8cbea072bb08655bb4c989da418994b073a608dffa608b09ac04b43a791b12aeae7cd7ad919aa4c925f33b48490b5cfe6c1f71d827956071dae2e7bb3a6b74c
@@ -6738,7 +6738,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loose-envify@npm:^1.0.0, loose-envify@npm:^1.1.0":
+"loose-envify@npm:^1.0.0, loose-envify@npm:^1.1.0, loose-envify@npm:^1.4.0":
   version: 1.4.0
   resolution: "loose-envify@npm:1.4.0"
   dependencies:
@@ -8051,7 +8051,7 @@ __metadata:
     mime: "npm:^4.0.4"
     react: "npm:18.2.0"
     react-native: "npm:0.74.5"
-    react-native-gesture-handler: "npm:^2.20.2"
+    react-native-gesture-handler: "npm:2.16.2"
     react-native-reanimated: "npm:3.10.1"
     react-native-safe-area-context: "npm:^4.11.1"
     react-native-screens: "npm:^3.34.0"
@@ -8266,6 +8266,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prop-types@npm:^15.7.2":
+  version: 15.8.1
+  resolution: "prop-types@npm:15.8.1"
+  dependencies:
+    loose-envify: "npm:^1.4.0"
+    object-assign: "npm:^4.1.1"
+    react-is: "npm:^16.13.1"
+  checksum: 10c0/59ece7ca2fb9838031d73a48d4becb9a7cc1ed10e610517c7d8f19a1e02fa47f7c27d557d8a5702bec3cfeccddc853579832b43f449e54635803f277b1c78077
+  languageName: node
+  linkType: hard
+
 "proxy-from-env@npm:^1.1.0":
   version: 1.1.0
   resolution: "proxy-from-env@npm:1.1.0"
@@ -8381,7 +8392,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is@npm:^16.13.0, react-is@npm:^16.7.0, react-is@npm:^16.8.4":
+"react-is@npm:^16.13.0, react-is@npm:^16.13.1, react-is@npm:^16.7.0, react-is@npm:^16.8.4":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: 10c0/33977da7a5f1a287936a0c85639fec6ca74f4f15ef1e59a6bc20338fc73dc69555381e211f7a3529b8150a1f71e4225525b41b60b52965bda53ce7d47377ada1
@@ -8395,17 +8406,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-gesture-handler@npm:^2.20.2":
-  version: 2.28.0
-  resolution: "react-native-gesture-handler@npm:2.28.0"
+"react-native-gesture-handler@npm:2.16.2":
+  version: 2.16.2
+  resolution: "react-native-gesture-handler@npm:2.16.2"
   dependencies:
     "@egjs/hammerjs": "npm:^2.0.17"
     hoist-non-react-statics: "npm:^3.3.0"
     invariant: "npm:^2.2.4"
+    lodash: "npm:^4.17.21"
+    prop-types: "npm:^15.7.2"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/4240c8eedca69eb36b5d3e375b71867251cf8b87a755ba7066b3f73cfdbc80574042dbd4ff821041fd1539c4cd90dbf7ee34586f5a0ea6cc38052375b3169f2e
+  checksum: 10c0/cd31794870edc51bc7051bf22893b19cebda5754c2fbd381f72e6ae6a718c26c5cf6966ad2f80e15e3a3217d09cc3e2e1637132f70bf44aacf62ea15a7636c98
   languageName: node
   linkType: hard
 

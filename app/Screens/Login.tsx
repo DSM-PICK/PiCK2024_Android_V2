@@ -47,8 +47,9 @@ export const Login = ({ navigation }) => {
       onError: (err) => {
         if (err === 404) {
           error("이메일을 확인해주세요");
-        } else if (err === 401)
-        error("비밀번호를 확인해주세요");
+        } else if (err === 401) {
+          error("비밀번호를 확인해주세요");
+        }
       },
     });
   };

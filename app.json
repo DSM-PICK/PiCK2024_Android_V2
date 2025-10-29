@@ -35,7 +35,9 @@
           "android": {
             "compileSdkVersion": 35,
             "targetSdkVersion": 35,
-            "buildToolsVersion": "35.0.0"
+            "buildToolsVersion": "35.0.0",
+            "agpVersion": "8.4.0",
+            "ndkVersion": "26.1.10909125"
           }
         }
       ]
@@ -50,14 +52,14 @@
       },
       "googleServicesFile": "./google-services.json",
       "package": "com.sixstandard.PICK",
-      "versionCode": 21
+      "versionCode": 22
     },
     "extra": {
       "eas": {
-        "projectId": "675ba227-d8e8-44fd-a59e-24abb4d340eb"
+        "projectId": "d2da24b2-10fc-44da-8e05-35dfa3b0155b"
       }
     },
-    "owner": "wlehgus",
+    "owner": "b20f920a",
     "web": {
       "favicon": "./assets/favicon.png"
     }

@@ -2,10 +2,13 @@ import { UseMutationResult, useMutation } from "@tanstack/react-query";
 import { paths } from "@/constants";
 import { instance } from "../apis";
 import { AxiosError } from "axios";
+import { useToast } from "./useToast";
 
 type apiType = "post" | "patch" | "delete" | "put";
 
 export const useMyMutation = <T, K>(type: apiType, pathname: keyof typeof paths, url: string): UseMutationResult<K, number, T> => {
+  const { error } = useToast();
+
   return useMutation<K, number, T>({
     mutationFn: async (item: T | string): Promise<K> => {
       try {
@@ -18,10 +21,17 @@ export const useMyMutation = <T, K>(type: apiType, pathname: keyof typeof paths,
           const res = await instance[type](_url, item);
           return res?.data;
         }
-      } catch (error) {
-        if (error instanceof AxiosError) {
-          throw error.response?.status;
+      } catch (err) {
+        if (err instanceof AxiosError) {
+          const status = err.response?.status;
+          if (status === 500) {
+            error("서버가 터졌습니다");
+          } else if (status === 503) {
+            error("스퀘어가 터졌습니다");
+          }
+          throw status;
         } else {
+          error("클라가 터졌습니다");
           throw 500;
         }
       }

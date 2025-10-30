@@ -72,10 +72,10 @@ export const Email = ({ navigation }) => {
           value={data.email}
           disabled={isEmailSuccess}
           id="email"
-          placeholder="학교 이메일을 입력해주세요"
+          placeholder="메일을 입력해주세요"
           onChange={handleChange}
           after={
-            <View style={{ display: "flex", flexDirection: "row", gap: 10, alignItems: "center" }}>
+            <View style={{ display: "flex", flexDirection: "row", gap: 10, alignItems: "center", position: "absolute", right: 16 }}>
               <Text fontType="caption" fontLevel={2} colorType="gray" colorLevel={400}>
                 @dsm.hs.kr
               </Text>

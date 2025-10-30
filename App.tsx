@@ -90,8 +90,8 @@ export default function App() {
               backgroundColor="transparent"
               barStyle={getTheme() === "dark" ? "light-content" : "dark-content"}
             />
-            {fontsLoaded && token !== undefined && <Navigation token={token} />}
             {splash && <Splash fade={fade} />}
+            {fontsLoaded && token !== undefined && <Navigation token={token} />}
             <ToastManager />
             <ModalManager />
             <BottomSheetManager />

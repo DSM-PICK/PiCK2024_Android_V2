@@ -51,7 +51,7 @@ const BottomSheetManagerComponent = () => {
 
   return (
     <BottomSheet
-      backdropComponent={renderBackdrop}
+      backdropComponent={isOpened ? renderBackdrop : null}
       ref={ref}
       index={-1}
       enableContentPanningGesture={false}

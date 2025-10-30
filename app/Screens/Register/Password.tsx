@@ -18,7 +18,7 @@ export const Password = ({ navigation }) => {
 
   const handlePress = () => {
     if (!passwordRegex.test(data.password)) {
-      error("비밀번호는 최소 7개의 영문자와 1개의 특수문자가 필요합니다");
+      error("8~30자 영문자, 숫자, 특수문자 포함하세요");
       return;
     }
     setPassword(data.password);

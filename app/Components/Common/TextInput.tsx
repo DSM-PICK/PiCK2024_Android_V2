@@ -90,11 +90,11 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: "100%",
+    display: "flex",
     flexDirection: "row",
     justifyContent: "space-around",
     borderRadius: 8,
     paddingHorizontal: 16,
-    paddingVertical: 10,
     position: "relative",
   },
   border: {
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     verticalAlign: "top",
     fontSize: 14,
     fontFamily: "Regular",
-    width: "100%",
     flexShrink: 1,
+    flex: 1,
   },
 });

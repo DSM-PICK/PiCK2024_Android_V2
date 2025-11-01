@@ -1,6 +1,6 @@
 import { Button, Layout, Text, TextInput, View, KeyboardDismiss } from "@/Components";
 import { instance, IUserDetails, IUserLoginIn, IUserLoginOut } from "@/apis";
-import { bulkSetItem, setItem } from "@/utils";
+import { bulkSetItem, registerForPushNotificationsAsync, setItem } from "@/utils";
 import { useMyMutation } from "@/hooks";
 import { useState } from "react";
 import { useToast } from "@/hooks";
@@ -24,16 +24,16 @@ export const Login = ({ navigation }) => {
 
   const [data, setData] = useState({
     account_id: "",
-    password: "",
-    device_token: "",
+    password: ""
   });
 
   const handleChange = (text: string, id: string) => {
     setData({ ...data, [id]: text });
   };
 
-  const handlePress = () => {
-    mutate(data, {
+  const handlePress = async () => {
+    const token = await registerForPushNotificationsAsync();
+    mutate({ ...data, device_token: token }, {
       onSuccess: async (res) => {
         await bulkSetItem([
           ["access_token", res.access_token],

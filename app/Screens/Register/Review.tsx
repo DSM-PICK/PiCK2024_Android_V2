@@ -1,6 +1,7 @@
 import { Button, Text, View } from "@/Components";
 import { IUserSignupIn } from "@/apis";
 import { useModal, useMyMutation, useTheme, useSignupState, useToast } from "@/hooks";
+import { navigate } from "@/utils";
 import { StyleSheet } from "react-native";
 
 export const Review = ({ navigation }) => {
@@ -27,7 +28,7 @@ export const Review = ({ navigation }) => {
       onSuccess() {
         close();
         clear();
-        navigation.getParent().reset({ routes: [{ name: "로그인" }] });
+        navigate("로그인");
       }
     });
   };

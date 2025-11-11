@@ -1,6 +1,6 @@
 import { Button, Layout, Text, TextInput, View, KeyboardDismiss } from "@/Components";
 import { instance, IUserDetails, IUserLoginIn, IUserLoginOut } from "@/apis";
-import { bulkSetItem, registerForPushNotificationsAsync, setItem } from "@/utils";
+import { bulkSetItem, getToken, setItem } from "@/utils";
 import { useMyMutation } from "@/hooks";
 import { useState } from "react";
 import { useToast } from "@/hooks";
@@ -32,7 +32,7 @@ export const Login = ({ navigation }) => {
   };
 
   const handlePress = async () => {
-    const token = await registerForPushNotificationsAsync();
+    const token = await getToken();
     mutate({ ...data, device_token: token }, {
       onSuccess: async (res) => {
         await bulkSetItem([

@@ -35,7 +35,7 @@ export const MainTabs = () => {
         },
         
         tabBarStyle: {
-          backgroundColor: "transparent",
+          backgroundColor: color("normal", "white", true),
           position: "absolute",
           elevation: 0,
           zIndex: 9999,

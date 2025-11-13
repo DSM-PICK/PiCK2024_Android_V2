@@ -5,7 +5,7 @@ import { useState } from "react";
 const idTable = {
   grade: Array.from({ length: 3 }, (_, k) => k + 1),
   class: Array.from({ length: 4 }, (_, k) => k + 1),
-  number: Array.from({ length: 16 }, (_, k) => k + 1),
+  number: Array.from({ length: 17 }, (_, k) => k + 1),
 };
 export type changePropType = { grade: number; class: number; number: number };
 export type changeType = (event: changePropType) => void;

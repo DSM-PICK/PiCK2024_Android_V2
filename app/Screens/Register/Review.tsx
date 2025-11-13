@@ -1,7 +1,7 @@
 import { Button, Text, View } from "@/Components";
-import { IUserSignupIn } from "@/apis";
+import { IUserDetails, IUserSignupIn, IUserSignupOut, instance } from "@/apis";
 import { useModal, useMyMutation, useTheme, useSignupState, useToast } from "@/hooks";
-import { navigate } from "@/utils";
+import { navigate, getDeviceToken, bulkSetItem, setItem } from "@/utils";
 import { StyleSheet } from "react-native";
 
 export const Review = ({ navigation }) => {
@@ -9,10 +9,11 @@ export const Review = ({ navigation }) => {
   const { error } = useToast();
   const { color } = useTheme();
   const { state, clear } = useSignupState();
-  const { mutate } = useMyMutation<IUserSignupIn, null>("post", "user", "/signup");
+  const { mutate } = useMyMutation<IUserSignupIn, IUserSignupOut>("post", "user", "/signup");
   
   const handlePress = async () => {
-    mutate(state, {
+    const token = await getDeviceToken();
+    mutate({ ...state, device_token: token }, {
       onError: (err) => {
         if (err === 400) {
           error("정보가 잘못되었습니다.");
@@ -25,10 +26,17 @@ export const Review = ({ navigation }) => {
         
         close();
       },
-      onSuccess() {
+      onSuccess: async (res) => {
+        await bulkSetItem([
+          ["access_token", res.access_token],
+          ["refresh_token", res.refresh_token],
+        ]);
+        const { data: userdata } = await instance.get<IUserDetails>("/user/details");
+        
+        setItem("user_data", `${userdata.account_id}||${userdata.user_name}`);
         close();
         clear();
-        navigate("로그인");
+        navigation.reset({ routes: [{ name: "메인" }] });
       }
     });
   };

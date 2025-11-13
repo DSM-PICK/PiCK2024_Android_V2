@@ -18,6 +18,12 @@ export interface IUserSignupIn {
   class_num: number;
   num: number;
   code: string;
+  device_token: string;
+}
+
+export interface IUserSignupOut {
+  access_token: string;
+  refresh_token: string;
 }
 
 export interface IPwChangeIn {

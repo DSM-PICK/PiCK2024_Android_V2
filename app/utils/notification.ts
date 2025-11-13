@@ -14,7 +14,7 @@ const requestPermission = async () => {
   }
 };
 
-export const getToken = async () => {
+export const getDeviceToken = async () => {
   const granted = await checkPermission();
   if (!granted) await requestPermission();
   const messaging = getMessaging();

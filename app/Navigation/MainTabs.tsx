@@ -9,14 +9,14 @@ type componentType = ({ navigation }: { navigation: any }) => React.JSX.Element;
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
-const getOption = (name: string, component: componentType, iconName: iconType, blur: boolean = true) => ({
+const getOption = (name: string, component: componentType, iconName: iconType) => ({
   name,
   component,
   options: {
     tabBarIcon: ({ focused }) => (
       <Icon name={iconName} colorType={focused ? "main" : "gray"} colorLevel={500} />
     ),
-    unmountOnBlur: blur
+    unmountOnBlur: false
   },
 });
 
@@ -45,7 +45,7 @@ export const MainTabs = () => {
         },
       }}
     >
-      <Screen {...getOption("홈", Home, "Home", false)} />
+      <Screen {...getOption("홈", Home, "Home")} />
       <Screen {...getOption("급식", Meal, "Meal")} />
       <Screen {...getOption("신청", Apply, "Check")} />
       <Screen {...getOption("일정", Schedule, "Calander")} />

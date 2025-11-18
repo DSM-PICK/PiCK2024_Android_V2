@@ -59,6 +59,7 @@ export const TextInput = ({ value, onChange, placeholder, multiLine, password, d
         )}
         <NativeInput
           {...props}
+          autoCapitalize="none"
           onBlur={() => setFocus(false)}
           onFocus={() => setFocus(true)}
           secureTextEntry={!!password && !visible}

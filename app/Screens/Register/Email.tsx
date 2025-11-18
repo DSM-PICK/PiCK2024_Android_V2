@@ -15,22 +15,16 @@ export const Email = ({ navigation }) => {
     code: "",
   });
   const [didSent, setDidSent] = useState<boolean>(false);
-  const [isEmailSuccess, setIsEmailSuccess] = useState<boolean>(false);
 
   const handleChange = (text: string, id: string) => {
     setData({ ...data, [id]: text });
   };
 
   const handleSend = () => {
-    setIsEmailSuccess(false);
     mailSendMutate({
       mail: data.email,
       message: "회원가입",
       title: "인증 코드"
-    }, {
-      onSuccess() {
-        setIsEmailSuccess(true);
-      }
     });
     setDidSent(true);
   }
@@ -70,7 +64,6 @@ export const Email = ({ navigation }) => {
         <TextInput
           label="이메일"
           value={data.email}
-          disabled={isEmailSuccess}
           id="email"
           placeholder="메일을 입력해주세요"
           onChange={handleChange}
@@ -79,7 +72,7 @@ export const Email = ({ navigation }) => {
               <Text fontType="caption" fontLevel={2} colorType="gray" colorLevel={400}>
                 @dsm.hs.kr
               </Text>
-              <TouchableOpacity onPress={() => handleSend()} disabled={isEmailSuccess || !!!data.email} style={{ backgroundColor: color(isEmailSuccess || !!!data.email ? "gray" : "main", 50), paddingHorizontal: 10, paddingVertical: 4, borderRadius: 5 }}>
+              <TouchableOpacity onPress={() => handleSend()} disabled={!!!data.email} style={{ backgroundColor: color(!!!data.email ? "gray" : "main", 50), paddingHorizontal: 10, paddingVertical: 4, borderRadius: 5 }}>
                 <Text fontType="button" fontLevel={2} colorType={"main"} colorLevel={900}>
                   {didSent ? "재발송" : "인증 코드"}
                 </Text>
@@ -88,7 +81,7 @@ export const Email = ({ navigation }) => {
           }
         />
         <TextInput label="인증 코드" value={data.code} id="code" placeholder="인증 코드를 입력해주세요" onChange={handleChange} />
-        <Button disabled={!isEmailSuccess || !!!data.email || !!!data.code} onPress={() => handlePress()} style={{ position: "absolute", bottom: 30 }}>
+        <Button disabled={!!!data.email || !!!data.code} onPress={() => handlePress()} style={{ position: "absolute", bottom: 30 }}>
           다음
         </Button>
       </Layout>

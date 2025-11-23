@@ -12,9 +12,9 @@ export const Pass = () => {
   const ws = useRef<null | WebSocket>(null);
 
   useEffect(() => {
-    const Socket = async () => {
+    const socket = async () => {
       //@ts-expect-error
-      ws.current = new WebSocket(`${process.env.EXPO_PUBLIC_BASE_URL}/main`, null, {
+      ws.current = new WebSocket(`${String(process.env.EXPO_PUBLIC_BASE_URL).replace("https", "wss")}/main`, null, {
         headers: { Authorization: `${await getItem("access_token")}` },
       });
 
@@ -25,7 +25,7 @@ export const Pass = () => {
       ws.current.onmessage = ({ data: res }) => setData(JSON.parse(res));
     };
 
-    Socket();
+    socket();
 
     return () => ws.current.close();
   }, []);

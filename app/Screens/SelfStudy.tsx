@@ -1,7 +1,7 @@
 import { Layout, PrevHeader, Text, View, WeekCalander } from "@/Components";
 import { StyleSheet } from "react-native";
 import { selfStudyType } from "@/apis";
-import { useMyQuery } from "@/hooks";
+import { useMyQuery, useTheme } from "@/hooks";
 import { getToday } from "@/utils";
 import { useState } from "react";
 import { Item } from "./My";
@@ -10,6 +10,7 @@ const { fullDay } = getToday();
 
 export const SelfStudy = () => {
   const [date, setDate] = useState(fullDay);
+  const { color } = useTheme();
   const { data: selfStudyData } = useMyQuery<selfStudyType>("selfStudy", `/today?date=${date}`);
 
   return (
@@ -18,7 +19,7 @@ export const SelfStudy = () => {
       Footer={
         <View style={{ position: "relative" }}>
           <WeekCalander onSelect={(e) => setDate(e)} selected={date} />
-          <View style={{ width: "100%", height: 30, position: "absolute", bottom: -30, backgroundColor: "#FFFFFF" }} />
+          <View style={{ width: "100%", height: 30, position: "absolute", bottom: -30, backgroundColor: color("normal", "white", true) }} />
         </View>
       }
       style={{ paddingHorizontal: 0 }}

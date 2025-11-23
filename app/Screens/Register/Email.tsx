@@ -1,7 +1,7 @@
 import { Button, Layout, Text, TextInput, View, KeyboardDismiss, TouchableOpacity, PrevHeader } from "@/Components";
 import { IMailCheckIn, IMailSendIn } from "@/apis";
 import { useMyMutation, useTheme, useToast, useSignupState } from "@/hooks";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const Email = ({ navigation }) => {
   const { color } = useTheme();
@@ -15,12 +15,32 @@ export const Email = ({ navigation }) => {
     code: "",
   });
   const [didSent, setDidSent] = useState<boolean>(false);
+  const [sendDisabled, setSendDisabled] = useState(false);
+
+  const [remaining, setRemaining] = useState(0);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleChange = (text: string, id: string) => {
     setData({ ...data, [id]: text });
   };
 
   const handleSend = () => {
+    if (sendDisabled) return;
+    setSendDisabled(true);
+    setRemaining(60);
+    
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      setRemaining((prev) => {
+        if (prev <= 1) {
+          clearInterval(intervalRef.current!);
+          setSendDisabled(false);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
     mailSendMutate({
       mail: data.email,
       message: "회원가입",
@@ -47,6 +67,12 @@ export const Email = ({ navigation }) => {
     });
   };
 
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, []);
+
   return (
     <KeyboardDismiss>
       <Layout Header={<PrevHeader title="" />} style={{ gap: 40 }}>
@@ -72,9 +98,13 @@ export const Email = ({ navigation }) => {
               <Text fontType="caption" fontLevel={2} colorType="gray" colorLevel={400}>
                 @dsm.hs.kr
               </Text>
-              <TouchableOpacity onPress={() => handleSend()} disabled={!!!data.email} style={{ backgroundColor: color(!!!data.email ? "gray" : "main", 50), paddingHorizontal: 10, paddingVertical: 4, borderRadius: 5 }}>
+              <TouchableOpacity onPress={() => handleSend()} disabled={!!!data.email || sendDisabled} style={{ backgroundColor: color(!!!data.email ? "gray" : "main", 50), paddingHorizontal: 10, paddingVertical: 4, borderRadius: 5 }}>
                 <Text fontType="button" fontLevel={2} colorType={"main"} colorLevel={900}>
-                  {didSent ? "재발송" : "인증 코드"}
+                {didSent
+                    ? sendDisabled
+                      ? `${String(Math.floor(remaining / 60)).padStart(2, "0")}:${String(remaining % 60).padStart(2, "0")}`
+                      : "재발송"
+                    : "인증 코드"}
                 </Text>
               </TouchableOpacity>
             </View>

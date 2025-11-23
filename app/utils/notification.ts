@@ -7,17 +7,23 @@ const checkPermission = async () => {
 };
 
 const requestPermission = async () => {
-  let granted = await checkPermission();
-  while (!granted) {
-    const result = await Notifications.requestPermissionsAsync();
-    granted = result.granted;
+  if (await checkPermission()) {
+    return true;
   }
+  const granted = await Notifications.requestPermissionsAsync();
+  return granted.granted;
 };
 
 export const getDeviceToken = async () => {
-  const granted = await checkPermission();
-  if (!granted) await requestPermission();
-  const messaging = getMessaging();
-  const token = await getFCMToken(messaging);
-  return token;
+  let granted = await checkPermission();
+  if (!granted) {
+    granted = await requestPermission();
+  }
+  if (granted) {
+    const messaging = getMessaging();
+    const token = await getFCMToken(messaging);
+    return token;
+  } else {
+    return null;
+  }
 };

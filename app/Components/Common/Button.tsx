@@ -2,6 +2,7 @@ import { GestureResponderEvent, TouchableOpacityProps, StyleSheet } from "react-
 import { TouchableOpacity } from "./AnimatedComponents";
 import { ITextProp, Text } from "./Text";
 import { useTheme } from "@/hooks";
+import { useState, useCallback } from "react";
 
 interface IProp extends TouchableOpacityProps {
   onPress: (event: GestureResponderEvent) => void;
@@ -14,12 +15,30 @@ interface IProp extends TouchableOpacityProps {
 export const Button = ({
   onPress,
   type = "main",
-  disabled,
+  disabled = false,
   children,
   textProps,
   ...props
 }: IProp) => {
   const { color } = useTheme();
+  const [internalDisabled, setInternalDisabled] = useState(false);
+
+  const handlePress = useCallback(
+    (e: GestureResponderEvent) => {
+      if (internalDisabled) return;
+
+      setInternalDisabled(true);
+      onPress(e);
+
+      setTimeout(() => {
+        setInternalDisabled(false);
+      }, 3000);
+    },
+    [internalDisabled, onPress]
+  );
+
+  const isDisabled = disabled || internalDisabled;
+
   return (
     <TouchableOpacity
       {...props}
@@ -28,13 +47,13 @@ export const Button = ({
           ...styles.container,
           backgroundColor:
             type === "main"
-              ? color("main", !!!disabled ? 500 : 100)
-              : color("gray", !!!disabled ? 100 : 200),
+              ? color("main", !isDisabled ? 500 : 100)
+              : color("gray", !isDisabled ? 100 : 200),
           ...(props.style as object),
         },
       ]}
-      disabled={disabled}
-      onPress={onPress}
+      disabled={isDisabled}
+      onPress={handlePress}
       activeOpacity={0.6}
     >
       <Text

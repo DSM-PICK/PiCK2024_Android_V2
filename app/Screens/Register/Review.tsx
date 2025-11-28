@@ -1,7 +1,7 @@
 import { Button, Text, View } from "@/Components";
 import { IUserDetails, IUserSignupIn, IUserSignupOut, instance } from "@/apis";
 import { useModal, useMyMutation, useTheme, useSignupState, useToast } from "@/hooks";
-import { navigate, getDeviceToken, bulkSetItem, setItem } from "@/utils";
+import { getDeviceToken, bulkSetItem, setItem } from "@/utils";
 import { StyleSheet } from "react-native";
 
 export const Review = ({ navigation }) => {
@@ -13,7 +13,8 @@ export const Review = ({ navigation }) => {
   
   const handlePress = async () => {
     const token = await getDeviceToken();
-    mutate({ ...state, device_token: token }, {
+    const requestData = token ? { ...state, device_token: token } : state;
+    mutate(requestData, {
       onError: (err) => {
         if (err === 400) {
           error("정보가 잘못되었습니다.");

@@ -2,7 +2,7 @@
 export interface IUserLoginIn {
   account_id: string;
   password: string;
-  device_token: string;
+  device_token?: string;
 }
 
 export interface IUserLoginOut {
@@ -18,7 +18,7 @@ export interface IUserSignupIn {
   class_num: number;
   num: number;
   code: string;
-  device_token: string;
+  device_token?: string;
 }
 
 export interface IUserSignupOut {

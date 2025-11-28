@@ -33,7 +33,8 @@ export const Login = ({ navigation }) => {
 
   const handlePress = async () => {
     const token = await getDeviceToken();
-    mutate({ ...data, device_token: token }, {
+    const requestData = token ? { ...data, device_token: token } : data;
+    mutate(requestData, {
       onSuccess: async (res) => {
         await bulkSetItem([
           ["access_token", res.access_token],

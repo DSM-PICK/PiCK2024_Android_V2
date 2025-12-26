@@ -125,6 +125,7 @@ export interface IMeal {
 export interface IEarlyReturnIn {
   reason: string;
   start: string;
+  application_type: "TIME" | "PERIOD";
 }
 
 export interface IEarlyReturnPass {

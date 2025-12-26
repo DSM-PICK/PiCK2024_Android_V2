@@ -14,6 +14,7 @@ export const EarlyReturn = ({ navigation }) => {
   const [data, setData] = useState<IEarlyReturnIn>({
     reason: "",
     start: "",
+    application_type: !!periodType ? "PERIOD" : "TIME"
   });
 
   const handleChange = (e: changePropType) => {

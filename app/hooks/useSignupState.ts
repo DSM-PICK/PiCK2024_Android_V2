@@ -9,6 +9,7 @@ interface ISignupState {
     class_num: number;
     num: number;
     code: string;
+    os: "AOS";
   };
   setAccountInfo: (email: string, code: string) => void;
   setPassword: (password: string) => void;
@@ -18,13 +19,14 @@ interface ISignupState {
 
 export const useSignupState = create<ISignupState>((set) => ({
   state: {
-    account_id: '',
-    password: '',
-    name: '',
+    account_id: "",
+    password: "",
+    name: "",
     grade: 0,
     class_num: 0,
     num: 0,
-    code: '',
+    code: "",
+    os: "AOS" as const
   },
   
   setAccountInfo: (email: string, code: string) => {
@@ -32,7 +34,7 @@ export const useSignupState = create<ISignupState>((set) => ({
       state: {
         ...current.state,
         account_id: email,
-        code: code,
+        code: code
       }
     }));
   },
@@ -41,7 +43,7 @@ export const useSignupState = create<ISignupState>((set) => ({
     set((current) => ({
       state: {
         ...current.state,
-        password: password,
+        password: password
       }
     }));
   },
@@ -53,7 +55,7 @@ export const useSignupState = create<ISignupState>((set) => ({
         name: name,
         grade: grade,
         class_num: class_num,
-        num: num,
+        num: num
       }
     }));
   },
@@ -68,6 +70,7 @@ export const useSignupState = create<ISignupState>((set) => ({
         class_num: 0,
         num: 0,
         code: '',
+        os: "AOS" as const
       }
     });
   },

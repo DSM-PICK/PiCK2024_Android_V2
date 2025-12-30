@@ -24,7 +24,8 @@ export const Login = ({ navigation }) => {
 
   const [data, setData] = useState({
     account_id: "",
-    password: ""
+    password: "",
+    os: "AOS" as const
   });
 
   const handleChange = (text: string, id: string) => {

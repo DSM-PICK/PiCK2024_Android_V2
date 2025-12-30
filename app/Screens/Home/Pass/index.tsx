@@ -16,13 +16,14 @@ export const Pass = () => {
   useEffect(() => {
     const connectSSE = async () => {
       const accessToken = await getItem("access_token");
-      sse.current = new EventSource(`${process.env.EXPO_BASE_URL}/event`, {
+      sse.current = new EventSource(`${process.env.EXPO_PUBLIC_BASE_URL}event`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
       });
 
       sse.current.addEventListener("message", ({ data: status }) => {
+        if (status === ".") status = null;
         setData(JSON.parse(status));
       });
 

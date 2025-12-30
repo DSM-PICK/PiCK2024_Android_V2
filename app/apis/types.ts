@@ -3,6 +3,7 @@ export interface IUserLoginIn {
   account_id: string;
   password: string;
   device_token?: string;
+  os: "AOS";
 }
 
 export interface IUserLoginOut {
@@ -19,6 +20,7 @@ export interface IUserSignupIn {
   num: number;
   code: string;
   device_token?: string;
+  os: "AOS";
 }
 
 export interface IUserSignupOut {

@@ -10,7 +10,7 @@ type toastType = {
 
 interface IToast {
   toasts: toastType[];
-  success: (messaeg: string) => void;
+  success: (message: string) => void;
   error: (message: string) => void;
   wait: (name: string, message: string) => string;
   update: (id: string, type: typeType, message: string) => void;

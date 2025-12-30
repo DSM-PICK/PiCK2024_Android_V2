@@ -22,20 +22,13 @@ export const Pass = () => {
         }
       });
 
-      sse.current.addEventListener("message", ({ data: status }) => {
-        if (status === ".") status = null;
-        setData(JSON.parse(status));
-      });
-
-      // Debug range
-      sse.current.addEventListener("open", (event) => {
-        success(`SSE 연결 성공: ${JSON.stringify(event)}`);
-      });
-      sse.current.addEventListener("close", (event) => {
-        error(`SSE 연결 해제: ${JSON.stringify(event)}`);
-      });
-      sse.current.addEventListener("error", (event) => {
-        error(`SSE 오류: ${JSON.stringify(event)}`);
+      sse.current.addEventListener("message", ({ data: dataString }) => {
+        const data = JSON.parse(dataString);
+        if (data.type === "NONE") {
+          setData(null);
+        } else {
+          setData(data);
+        }
       });
     }
 

@@ -3,31 +3,44 @@ import { StyleSheet } from "react-native";
 import { Submitted } from "./Submitted";
 import { Waiting } from "./Waiting";
 import { View } from "@/Components";
-import { useTheme } from "@/hooks";
+import { useTheme, useToast } from "@/hooks";
 import { getItem } from "@/utils";
+import EventSource from "react-native-sse";
 
 export const Pass = () => {
   const { color } = useTheme();
   const [data, setData] = useState(null);
-  const ws = useRef<null | WebSocket>(null);
+  const sse = useRef<null | EventSource>(null);
+  const { success, error } = useToast();
 
   useEffect(() => {
-    const socket = async () => {
-      //@ts-expect-error
-      ws.current = new WebSocket(`${String(process.env.EXPO_PUBLIC_BASE_URL).replace("https", "wss")}/main`, null, {
-        headers: { Authorization: `${await getItem("access_token")}` },
+    const connectSSE = async () => {
+      const accessToken = await getItem("access_token");
+      sse.current = new EventSource(`${process.env.EXPO_BASE_URL}/event`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
       });
 
-      ws.current.onopen = () => ws.current.send("");
+      sse.current.addEventListener("message", ({ data: status }) => {
+        setData(JSON.parse(status));
+      });
 
-      ws.current.onerror = (error) => console.log(`오류 발생 (${JSON.stringify(error)})`);
+      // Debug range
+      sse.current.addEventListener("open", (event) => {
+        success(`SSE 연결 성공: ${JSON.stringify(event)}`);
+      });
+      sse.current.addEventListener("close", (event) => {
+        error(`SSE 연결 해제: ${JSON.stringify(event)}`);
+      });
+      sse.current.addEventListener("error", (event) => {
+        error(`SSE 오류: ${JSON.stringify(event)}`);
+      });
+    }
 
-      ws.current.onmessage = ({ data: res }) => setData(JSON.parse(res));
-    };
+    connectSSE();
 
-    socket();
-
-    return () => ws.current.close();
+    return () => sse.current.close();
   }, []);
 
   return (

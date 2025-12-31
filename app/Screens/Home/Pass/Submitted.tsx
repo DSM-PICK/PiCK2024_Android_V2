@@ -12,7 +12,7 @@ export const Submitted = (props) => {
       <View style={styles.container}>
         <View>
           <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={1}>
-            {props.userName}님의 외출 시간은
+            {props.user_name}님의 외출 시간은
           </Text>
           <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={1}>
             <Text colorType="main" colorLevel={500} fontType="label" fontLevel={1}>

@@ -40,7 +40,7 @@ export const Pass = () => {
   return (
     !!data && (
       <View style={{ ...styles.container, backgroundColor: color("gray", 50) }}>
-        {data?.userName ? <Submitted {...data} /> : <Waiting type={data?.type} />}
+        {data?.user_name ? <Submitted {...data} /> : <Waiting type={data?.type} />}
       </View>
     )
   );

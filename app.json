@@ -53,7 +53,7 @@
       },
       "googleServicesFile": "./google-services.json",
       "package": "com.sixstandard.PICK",
-      "versionCode": 36
+      "versionCode": 37
     },
     "extra": {
       "eas": {

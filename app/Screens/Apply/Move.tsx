@@ -12,6 +12,7 @@ export const Move = ({ navigation }) => {
   const [data, setData] = useState<IClassRoomMoveIn>({
     floor: 1,
     classroom_name: undefined,
+    move: "",
     start: 1,
     end: 1,
   });

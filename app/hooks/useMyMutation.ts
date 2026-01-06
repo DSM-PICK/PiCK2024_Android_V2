@@ -26,7 +26,7 @@ export const useMyMutation = <T, K>(type: apiType, pathname: keyof typeof paths,
           const status = err.response?.status;
           if (status === 500) {
             error("서버가 터졌습니다");
-          } else if (status === 503) {
+          } else if (status === 502 || status === 503) {
             error("스퀘어가 터졌습니다");
           }
           throw status;

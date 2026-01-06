@@ -151,6 +151,7 @@ export interface IClassRoomPass {
 
 export interface IClassRoomMoveIn extends Omit<IClassRoomPass, "user_name" | "classroom"> {
   floor: number;
+  move: string;
   classroom_name: string;
 }
 

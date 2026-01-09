@@ -12,6 +12,9 @@ import { getItem, navigationRef } from "@/utils";
 import { Navigation } from "@/Navigation";
 import { useFonts } from "expo-font";
 import { Splash } from "@/Screens";
+import { UpdateFlow, checkForUpdate } from "react-native-in-app-updates";
+
+enableScreens(true);
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,14 +27,13 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
-  enableScreens(true);
   const [fontsLoaded] = useFonts({
     Medium: require("./app/assets/font/Medium.ttf"),
     Regular: require("./app/assets/font/Regular.ttf"),
     SemiBold: require("./app/assets/font/SemiBold.ttf"),
   });
+
   const fade = useRef(new Animated.Value(1)).current;
-  const handleClose = useRef<() => boolean | null>(null);
 
   const [status, requestPermission] = useMediaLibraryPermissions();
   const { getTheme, load: loadTheme } = useTheme();
@@ -41,16 +43,16 @@ export default function App() {
   const [token, setToken] = useState<null | undefined | string>(undefined);
   const [splash, setSplash] = useState(true);
 
-  const tokenPromise = useCallback(
-    () =>
-      new Promise(async (resolve) => {
+  const setupFlow = useCallback(
+    async () => {
+      try {
+        await checkForUpdate(UpdateFlow.IMMEDIATE);
+  
         const accessToken = await getItem("access_token");
         setToken(accessToken);
-
-        const userData = await getItem("user_data");
-        const [id, username] = userData ? userData.split("||") : [undefined, undefined];
-        resolve("test");
-      }).then(() =>
+      } catch {
+        setToken("");
+      } finally {
         setTimeout(
           () =>
             Animated.timing(fade, { toValue: 0, duration: 300, useNativeDriver: false }).start(() =>
@@ -58,26 +60,25 @@ export default function App() {
             ),
           1500
         )
-      ),
+      }
+
+    },
     []
   );
 
   useEffect(() => {
-    tokenPromise();
-
+    setupFlow();
     loadTheme();
     loadOptions();
     if (!status?.granted) requestPermission();
   }, []);
 
   useEffect(() => {
-    handleClose.current = () => {
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
       close();
       return isOpened;
-    };
-
-    BackHandler.addEventListener("hardwareBackPress", () => handleClose.current?.());
-    return () => handleClose.current = null;;
+    });
+    return () => backHandler.remove();
   }, [isOpened]);
 
   return (

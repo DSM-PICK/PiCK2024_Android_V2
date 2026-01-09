@@ -12,7 +12,7 @@ import { getItem, navigationRef } from "@/utils";
 import { Navigation } from "@/Navigation";
 import { useFonts } from "expo-font";
 import { Splash } from "@/Screens";
-import { UpdateFlow, checkForUpdate } from "react-native-in-app-updates";
+import InAppUpdates, { AndroidUpdateType } from "sp-react-native-in-app-updates";
 
 enableScreens(true);
 
@@ -43,11 +43,19 @@ export default function App() {
   const [token, setToken] = useState<null | undefined | string>(undefined);
   const [splash, setSplash] = useState(true);
 
+  const inAppUpdates = new InAppUpdates(false);
+
   const setupFlow = useCallback(
     async () => {
       try {
-        await checkForUpdate(UpdateFlow.IMMEDIATE);
-  
+        const result = await inAppUpdates.checkNeedsUpdate();
+
+        if (result.shouldUpdate) {
+          await inAppUpdates.startUpdate({
+            updateType: AndroidUpdateType.FLEXIBLE
+          });
+        }
+
         const accessToken = await getItem("access_token");
         setToken(accessToken);
       } catch {
@@ -55,13 +63,14 @@ export default function App() {
       } finally {
         setTimeout(
           () =>
-            Animated.timing(fade, { toValue: 0, duration: 300, useNativeDriver: false }).start(() =>
-              setSplash(false)
-            ),
+            Animated.timing(fade, {
+              toValue: 0,
+              duration: 300,
+              useNativeDriver: false,
+            }).start(() => setSplash(false)),
           1500
-        )
+        );
       }
-
     },
     []
   );

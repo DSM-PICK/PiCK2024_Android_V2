@@ -2,7 +2,7 @@ import { Button, Layout, Text, TextInput, View, KeyboardDismiss, PrevHeader } fr
 import { useSignupState, useToast } from "@/hooks";
 import { useState } from "react";
 
-const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,30}$/;
+const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()+=-])[A-Za-z\d!@#$%^&*()+=-]{8,30}$/;
 
 export const Password = ({ navigation }) => {
   const { setPassword } = useSignupState();

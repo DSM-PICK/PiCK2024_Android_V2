@@ -3,7 +3,7 @@ import { IPwChangeIn } from "@/apis";
 import { useMyMutation, usePwChangeState, useToast } from "@/hooks";
 import { useState } from "react";
 
-const passwordRegex = /^(?=.[A-Za-z])(?=.\d)(?=.[!@#$%^&()+=-])[A-Za-z\d!@#$%^&*()+=-]{8,30}$/;
+const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()+=-])[A-Za-z\d!@#$%^&*()+=-]{8,30}$/;
 
 export const Password = ({ navigation }) => {
   const { state, setPassword, clear } = usePwChangeState();

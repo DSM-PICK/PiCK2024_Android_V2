@@ -1,5 +1,5 @@
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
-import { Layout, PrevHeader, Text, View } from "@/Components";
+import { FlatList } from "react-native-gesture-handler";
+import { Layout, PrevHeader, Text, TouchableOpacity, View } from "@/Components";
 import { StyleSheet } from "react-native";
 import { Item } from "./Item";
 

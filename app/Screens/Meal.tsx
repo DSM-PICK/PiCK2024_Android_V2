@@ -14,7 +14,7 @@ export const Meal = () => {
   const { color } = useTheme();
 
   return (
-    <Layout Header={<Header />} style={{ paddingHorizontal: 0, alignItems: "flex-start", gap: 0 }} bottomPad>
+    <Layout Header={<Header />} scrollAble style={{ paddingHorizontal: 0, alignItems: "flex-start", gap: 0 }} bottomPad>
       <WeekCalander onSelect={setDate} selected={date} direction="up" />
       <ScrollView style={{ width: "100%", flex: 1 }}>
         <View style={{ gap: 24, marginTop: 30 }}>

@@ -10,7 +10,7 @@ export const Apply = ({ navigation: navigate }) => {
   const [opened, setOpened] = useState(null);
 
   return (
-    <Layout Header={<Header />} style={{ gap: 20 }} bottomPad>
+    <Layout Header={<Header />} style={{ gap: 20 }} scrollAble bottomPad>
       <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4} style={{ alignSelf: "flex-start" }}>
         신청
       </Text>

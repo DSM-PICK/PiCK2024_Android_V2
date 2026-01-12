@@ -60,7 +60,7 @@ export const My = () => {
   };
 
   return (
-    <Layout Header={<PrevHeader title="마이 페이지" />}>
+    <Layout Header={<PrevHeader title="마이 페이지" />} scrollAble>
       <View style={{ gap: 20, alignItems: "center" }}>
         <TouchableOpacity activeOpacity={0.6} style={{ position: "relative" }} onPress={update}>
           <ProfileImage size={85} uri={userData?.profile} />

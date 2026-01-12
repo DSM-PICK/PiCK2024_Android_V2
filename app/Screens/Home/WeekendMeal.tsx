@@ -1,19 +1,22 @@
-import { Icon, Text, View } from "@/Components";
+import { Icon, Text, TouchableOpacity, View } from "@/Components";
 import { useMyQuery, useTheme } from "@/hooks";
 import { IWeekendMealPeriod } from "@/apis";
 import { StyleSheet } from "react-native";
 import { getToday } from "@/utils";
+import { useNavigation } from "@react-navigation/native";
 
 const { month } = getToday();
 
 export const WeekendMeal = () => {
   const { color } = useTheme();
+  const navigation = useNavigation();
   const { data: weekendMealDateData } = useMyQuery<IWeekendMealPeriod>("weekendMeal", "/period");
 
   return (
     weekendMealDateData?.status && (
       <View style={{ width: "100%", paddingHorizontal: 24 }}>
-        <View
+        <TouchableOpacity
+          onPress={() => navigation.navigate("주말급식" as never)}
           style={{
             ...styles.barContainer,
             backgroundColor: color("main", 50),
@@ -27,7 +30,7 @@ export const WeekendMeal = () => {
             </Text>
             입니다 ({month + ""}월 {weekendMealDateData?.start?.split("-")[2]}일 ~ {month + ""}월 {weekendMealDateData?.end?.split("-")[2]}일)
           </Text>
-        </View>
+        </TouchableOpacity>
       </View>
     )
   );

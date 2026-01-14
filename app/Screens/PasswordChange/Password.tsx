@@ -24,7 +24,10 @@ export const Password = ({ navigation }) => {
       return;
     }
     setPassword(data.password);
-    mutate(state, {
+    mutate({
+      ...state,
+      password: data.password
+    }, {
       onError: (err) => {
         if (err === 400) {
           error("정보가 잘못되었습니다");

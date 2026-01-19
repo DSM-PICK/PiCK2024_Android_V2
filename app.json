@@ -52,8 +52,7 @@
         "backgroundColor": "#ffffff"
       },
       "googleServicesFile": "./google-services.json",
-      "package": "com.sixstandard.PICK",
-      "versionCode": 43
+      "versionCode": 44
     },
     "extra": {
       "eas": {

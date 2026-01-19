@@ -41,7 +41,6 @@ export default function App() {
   const { getTheme, load: loadTheme } = useTheme();
   const { close, isOpened } = useBottomSheet();
   const { load: loadOptions } = useOptions();
-  const toast = useToast();
 
   const [token, setToken] = useState<null | undefined | string>(undefined);
   const [splash, setSplash] = useState(true);
@@ -53,8 +52,7 @@ export default function App() {
       if (result.shouldUpdate) {
         await inAppUpdatesRef.current.startUpdate({
           updateType: AndroidUpdateType.IMMEDIATE,
-        }).catch((e) => {
-          console.error('In-App Update failed:', e);
+        }).catch(() => {
           Alert.alert(
             "업데이트 필요",
             "최신 버전 이용을 위해 스토어로 이동합니다.",
@@ -116,7 +114,7 @@ export default function App() {
               barStyle={getTheme() === "dark" ? "light-content" : "dark-content"}
             />
             {splash && <Splash fade={fade} />}
-            {fontsLoaded && token !== undefined && token !== null && (
+            {fontsLoaded && token !== undefined && (
               <Navigation token={token} />
             )}
             <ToastManager />

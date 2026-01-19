@@ -9,7 +9,6 @@ import { memo } from "react";
 
 const today = new Date().toISOString().split("T")[0];
 
-// Memoize the Item component to prevent unnecessary re-renders
 const MemoizedItem = memo(({ item }: { item: any }) => (
   <View style={{ padding: 24 }}>
     <Item id={item.id} title={item.title} showNew={item.create_at === today} date={item.create_at} />

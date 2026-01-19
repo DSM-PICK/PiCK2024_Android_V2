@@ -3,7 +3,7 @@ import { ToastManager, BottomSheetManager, ModalManager } from "@/Components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Animated, BackHandler, StatusBar } from "react-native";
-import { useBottomSheet, useOptions, useTheme } from "@/hooks";
+import { useBottomSheet, useOptions, useTheme, useToast } from "@/hooks";
 import { NavigationContainer } from "@react-navigation/native";
 import { useMediaLibraryPermissions } from "expo-image-picker";
 import { enableScreens } from "react-native-screens";
@@ -34,53 +34,64 @@ export default function App() {
   });
 
   const fade = useRef(new Animated.Value(1)).current;
+  const inAppUpdatesRef = useRef(new InAppUpdates(false));
+  const isMountedRef = useRef(true);
 
   const [status, requestPermission] = useMediaLibraryPermissions();
   const { getTheme, load: loadTheme } = useTheme();
   const { close, isOpened } = useBottomSheet();
   const { load: loadOptions } = useOptions();
+  const toast = useToast();
 
   const [token, setToken] = useState<null | undefined | string>(undefined);
   const [splash, setSplash] = useState(true);
 
-  const inAppUpdates = new InAppUpdates(false);
+  const setupFlow = useCallback(async () => {
+    try {
+      const result = await inAppUpdatesRef.current.checkNeedsUpdate();
 
-  const setupFlow = useCallback(
-    async () => {
-      try {
-        const result = await inAppUpdates.checkNeedsUpdate();
-
-        if (result.shouldUpdate) {
-          await inAppUpdates.startUpdate({
-            updateType: AndroidUpdateType.FLEXIBLE
-          });
-        }
-
-        const accessToken = await getItem("access_token");
-        setToken(accessToken);
-      } catch {
-        setToken("");
-      } finally {
-        setTimeout(
-          () =>
-            Animated.timing(fade, {
-              toValue: 0,
-              duration: 300,
-              useNativeDriver: false,
-            }).start(() => setSplash(false)),
-          1500
-        );
+      if (result.shouldUpdate) {
+        await inAppUpdatesRef.current.startUpdate({
+          updateType: AndroidUpdateType.IMMEDIATE
+        });
       }
-    },
-    []
-  );
+
+      const accessToken = await getItem("access_token");
+      if (isMountedRef.current) {
+        setToken(accessToken ?? null);
+      }
+    } catch (error) {
+      toast.error("예상치 못한 오류가 발생했습니다.");
+      if (isMountedRef.current) {
+        setToken(null);
+      }
+    } finally {
+      setTimeout(() => {
+        if (!isMountedRef.current) return;
+        
+        Animated.timing(fade, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }).start(() => {
+          if (isMountedRef.current) {
+            setSplash(false);
+          }
+        });
+      }, 1500);
+    }
+  }, [fade]);
 
   useEffect(() => {
     setupFlow();
     loadTheme();
     loadOptions();
     if (!status?.granted) requestPermission();
-  }, []);
+
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, [setupFlow, loadTheme, loadOptions, status, requestPermission]);
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
@@ -88,11 +99,11 @@ export default function App() {
       return isOpened;
     });
     return () => backHandler.remove();
-  }, [isOpened]);
+  }, [isOpened, close]);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <GestureHandlerRootView>
+      <GestureHandlerRootView style={{ flex: 1 }}>
         <SafeAreaProvider>
           <NavigationContainer ref={navigationRef}>
             <StatusBar
@@ -101,7 +112,9 @@ export default function App() {
               barStyle={getTheme() === "dark" ? "light-content" : "dark-content"}
             />
             {splash && <Splash fade={fade} />}
-            {fontsLoaded && token !== undefined && <Navigation token={token} />}
+            {fontsLoaded && token !== undefined && token !== null && (
+              <Navigation token={token} />
+            )}
             <ToastManager />
             <ModalManager />
             <BottomSheetManager />

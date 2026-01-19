@@ -2,7 +2,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ToastManager, BottomSheetManager, ModalManager } from "@/Components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Animated, BackHandler, StatusBar } from "react-native";
+import { Alert, Animated, BackHandler, Linking, StatusBar } from "react-native";
 import { useBottomSheet, useOptions, useTheme, useToast } from "@/hooks";
 import { NavigationContainer } from "@react-navigation/native";
 import { useMediaLibraryPermissions } from "expo-image-picker";
@@ -49,34 +49,38 @@ export default function App() {
   const setupFlow = useCallback(async () => {
     try {
       const result = await inAppUpdatesRef.current.checkNeedsUpdate();
-
+  
       if (result.shouldUpdate) {
         await inAppUpdatesRef.current.startUpdate({
-          updateType: AndroidUpdateType.IMMEDIATE
+          updateType: AndroidUpdateType.IMMEDIATE,
+        }).catch((e) => {
+          console.error('In-App Update failed:', e);
+          Alert.alert(
+            "업데이트 필요",
+            "최신 버전 이용을 위해 스토어로 이동합니다.",
+            [{ text: "확인", onPress: () => Linking.openURL('market://details?id=com.sixstandard.PICK') }]
+          );
         });
       }
-
+  
       const accessToken = await getItem("access_token");
       if (isMountedRef.current) {
         setToken(accessToken ?? null);
       }
     } catch (error) {
-      toast.error("예상치 못한 오류가 발생했습니다.");
+      const accessToken = await getItem("access_token");
       if (isMountedRef.current) {
-        setToken(null);
+        setToken(accessToken ?? null);
       }
     } finally {
       setTimeout(() => {
         if (!isMountedRef.current) return;
-        
         Animated.timing(fade, {
           toValue: 0,
           duration: 300,
           useNativeDriver: true,
         }).start(() => {
-          if (isMountedRef.current) {
-            setSplash(false);
-          }
+          if (isMountedRef.current) setSplash(false);
         });
       }, 1500);
     }

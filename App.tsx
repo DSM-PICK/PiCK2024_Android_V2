@@ -47,39 +47,33 @@ export default function App() {
 
   const setupFlow = useCallback(async () => {
     try {
-      const result = await inAppUpdatesRef.current.checkNeedsUpdate();
-  
-      if (result.shouldUpdate) {
-        await inAppUpdatesRef.current.startUpdate({
-          updateType: AndroidUpdateType.IMMEDIATE,
-        }).catch(() => {
-          Alert.alert(
-            "업데이트 필요",
-            "최신 버전 이용을 위해 스토어로 이동합니다.",
-            [{ text: "확인", onPress: () => Linking.openURL('market://details?id=com.sixstandard.PICK') }]
-          );
-        });
-      }
-  
+      inAppUpdatesRef.current.checkNeedsUpdate()
+        .then(result => {
+          if (result.shouldUpdate) {
+            inAppUpdatesRef.current.startUpdate({
+              updateType: AndroidUpdateType.IMMEDIATE,
+            }).catch(() => {
+              Alert.alert(
+                "업데이트 필요",
+                "최신 버전 이용을 위해 스토어로 이동합니다.",
+                [{ text: "확인", onPress: () => Linking.openURL('market://details?id=com.sixstandard.PICK') }]
+              );
+            });
+          }
+        })
+
       const accessToken = await getItem("access_token");
-      if (isMountedRef.current) {
-        setToken(accessToken ?? null);
-      }
+      setToken(accessToken ?? null);
     } catch (error) {
-      const accessToken = await getItem("access_token");
-      if (isMountedRef.current) {
-        setToken(accessToken ?? null);
-      }
+      console.error('Setup error:', error);
+      setToken(null);
     } finally {
       setTimeout(() => {
-        if (!isMountedRef.current) return;
         Animated.timing(fade, {
           toValue: 0,
           duration: 300,
           useNativeDriver: true,
-        }).start(() => {
-          if (isMountedRef.current) setSplash(false);
-        });
+        }).start(() => setSplash(false));
       }, 1500);
     }
   }, [fade]);
@@ -93,7 +87,7 @@ export default function App() {
     return () => {
       isMountedRef.current = false;
     };
-  }, [setupFlow, loadTheme, loadOptions, status, requestPermission]);
+  }, []);
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
@@ -101,7 +95,7 @@ export default function App() {
       return isOpened;
     });
     return () => backHandler.remove();
-  }, [isOpened, close]);
+  }, [isOpened]);
 
   return (
     <QueryClientProvider client={queryClient}>

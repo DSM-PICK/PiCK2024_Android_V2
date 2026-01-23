@@ -72,6 +72,7 @@ export const EarlyReturn = ({ navigation }) => {
         <LabelLayout label="귀가 사유를 입력하세요" type="black">
           <TextInput 
             value={data.reason} 
+            maxLength={200}
             onChange={(e) => setData({ ...data, reason: e })} 
             multiLine={6} 
             placeholder="자세히 입력해주세요" 

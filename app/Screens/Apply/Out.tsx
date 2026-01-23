@@ -82,7 +82,7 @@ export const Out = ({ navigation }) => {
           )}
         </LabelLayout>
         <LabelLayout label="외출 사유를 입력하세요" type="black">
-          <TextInput value={data.reason} onChange={(e) => setData({ ...data, reason: e })} multiLine={6} placeholder="자세히 입력해주세요" />
+          <TextInput value={data.reason} maxLength={200} onChange={(e) => setData({ ...data, reason: e })} multiLine={6} placeholder="자세히 입력해주세요" />
         </LabelLayout>
         <Button
           style={{ position: "absolute", bottom: 30, alignSelf: "center" }}

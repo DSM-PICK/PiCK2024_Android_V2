@@ -12,9 +12,24 @@ interface IProp {
   type?: "gray" | "black";
 }
 
-export const LabelLayout = ({ label, subLabel, padding, onlyLabelPadding, noGap, children, required, type = "gray" }: IProp) => {
+export const LabelLayout = ({
+  label,
+  subLabel,
+  padding,
+  onlyLabelPadding,
+  noGap,
+  children,
+  required,
+  type = "gray",
+}: IProp) => {
   return (
-    <View style={{ width: "100%", paddingHorizontal: padding ? 24 : 0, gap: noGap ? 0 : 12 }}>
+    <View
+      style={{
+        width: "100%",
+        paddingHorizontal: padding ? 24 : 0,
+        gap: noGap ? 0 : 12,
+      }}
+    >
       <View
         style={{
           ...styles.labelContainer,
@@ -22,7 +37,12 @@ export const LabelLayout = ({ label, subLabel, padding, onlyLabelPadding, noGap,
           marginBottom: noGap ? 12 : 0,
         }}
       >
-        <Text colorType={type === "gray" ? "gray" : "normal"} colorLevel={type === "gray" ? 600 : "black"} fontType="label" fontLevel={1}>
+        <Text
+          colorType={type === "gray" ? "gray" : "normal"}
+          colorLevel={type === "gray" ? 600 : "black"}
+          fontType="label"
+          fontLevel={1}
+        >
           {label}
           {required && (
             <Text colorType="error" fontType="label" fontLevel={1}>
@@ -38,5 +58,9 @@ export const LabelLayout = ({ label, subLabel, padding, onlyLabelPadding, noGap,
 };
 
 const styles = StyleSheet.create({
-  labelContainer: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
+  labelContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 });

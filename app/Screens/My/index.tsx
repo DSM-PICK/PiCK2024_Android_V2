@@ -7,17 +7,23 @@ import * as ImagePicker from "expo-image-picker";
 import { Item } from "./Item";
 export * from "./Item";
 
-const formats = ["년", "월", "일"];
-
 export const My = () => {
   const { color } = useTheme();
-  const { data: userData, refetch: userRefetch } = useMyQuery<IUserDetails>("user", "/details");
-  const { refetch: userSimpleRefetch } = useMyQuery<IUserSimple>("user", "/simple");
+  const { data: userData, refetch: userRefetch } = useMyQuery<IUserDetails>(
+    "user",
+    "/details",
+  );
+  const { refetch: userSimpleRefetch } = useMyQuery<IUserSimple>(
+    "user",
+    "/simple",
+  );
   const [status] = ImagePicker.useMediaLibraryPermissions();
   const { error } = useToast();
   const { mutate: profileMutate } = useMutation({
     mutationFn: async (data: FormData) =>
-      instance.patch("/user/profile", data, { headers: { "Content-Type": "multipart/form-data" } }),
+      instance.patch("/user/profile", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      }),
   });
 
   const { success } = useToast();
@@ -62,10 +68,24 @@ export const My = () => {
   return (
     <Layout Header={<PrevHeader title="마이 페이지" />} scrollAble>
       <View style={{ gap: 20, alignItems: "center" }}>
-        <TouchableOpacity activeOpacity={0.6} style={{ position: "relative" }} onPress={update}>
+        <TouchableOpacity
+          activeOpacity={0.6}
+          style={{ position: "relative" }}
+          onPress={update}
+        >
           <ProfileImage size={85} uri={userData?.profile} />
-          <View style={{ ...styles.profileIconContainer, backgroundColor: color("bg") }}>
-            <Icon name="Camera" size={20} colorType="normal" colorLevel="black" />
+          <View
+            style={{
+              ...styles.profileIconContainer,
+              backgroundColor: color("bg"),
+            }}
+          >
+            <Icon
+              name="Camera"
+              size={20}
+              colorType="normal"
+              colorLevel="black"
+            />
           </View>
         </TouchableOpacity>
       </View>

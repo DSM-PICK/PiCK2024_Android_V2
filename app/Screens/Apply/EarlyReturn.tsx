@@ -1,11 +1,33 @@
-import { useBottomSheet, useMyMutation, useOptions, useTheme, useToast } from "@/hooks";
+import {
+  useBottomSheet,
+  useMyMutation,
+  useOptions,
+  useTheme,
+  useToast,
+} from "@/hooks";
 import { IEarlyReturnIn } from "@/apis";
 import { useState } from "react";
-import { Button, changePropType, LabelLayout, Layout, PrevHeader, Text, TextInput, KeyboardDismiss, TimePickerButton, TouchableOpacity, TimePicker } from "@/Components";
+import {
+  Button,
+  changePropType,
+  LabelLayout,
+  Layout,
+  PrevHeader,
+  Text,
+  TextInput,
+  KeyboardDismiss,
+  TimePickerButton,
+  TouchableOpacity,
+  TimePicker,
+} from "@/Components";
 import { StyleSheet } from "react-native";
 
 export const EarlyReturn = ({ navigation }) => {
-  const { mutate: outMutate } = useMyMutation<IEarlyReturnIn, null>("post", "earlyReturn", "/create");
+  const { mutate: outMutate } = useMyMutation<IEarlyReturnIn, null>(
+    "post",
+    "earlyReturn",
+    "/create",
+  );
   const { periodType } = useOptions();
   const { open } = useBottomSheet();
   const { success, error } = useToast();
@@ -14,7 +36,7 @@ export const EarlyReturn = ({ navigation }) => {
   const [data, setData] = useState<IEarlyReturnIn>({
     reason: "",
     start: "",
-    application_type: !!periodType ? "PERIOD" : "TIME"
+    application_type: !!periodType ? "PERIOD" : "TIME",
   });
 
   const handleChange = (e: changePropType) => {
@@ -26,17 +48,28 @@ export const EarlyReturn = ({ navigation }) => {
 
   return (
     <KeyboardDismiss>
-      <Layout Header={<PrevHeader title="조기 귀가 신청" />} style={{ alignItems: "flex-start" }}>
-        <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4}>
+      <Layout
+        Header={<PrevHeader title="조기 귀가 신청" />}
+        style={{ alignItems: "flex-start" }}
+      >
+        <Text
+          colorType="normal"
+          colorLevel="black"
+          fontType="heading"
+          fontLevel={4}
+        >
           조기 귀가 신청
         </Text>
-        <LabelLayout label={`희망 귀가 ${!!periodType ? "교시를" : "시간을"} 선택하세요`} type="black">
+        <LabelLayout
+          label={`희망 귀가 ${!!periodType ? "교시를" : "시간을"} 선택하세요`}
+          type="black"
+        >
           {periodType === 0 ? (
-            <TimePickerButton 
-              title={`귀가 ${!!periodType ? "교시를" : "시간을"} 선택하세요`} 
-              type={!!periodType ? "class" : "time"} 
-              value={data.start} 
-              onChange={handleChange} 
+            <TimePickerButton
+              title={`귀가 ${!!periodType ? "교시를" : "시간을"} 선택하세요`}
+              type={!!periodType ? "class" : "time"}
+              value={data.start}
+              onChange={handleChange}
             />
           ) : (
             <TouchableOpacity
@@ -46,23 +79,33 @@ export const EarlyReturn = ({ navigation }) => {
                 justifyContent: data.start ? "center" : "flex-start",
               }}
               activeOpacity={1}
-              onPress={() => 
+              onPress={() =>
                 open(
-                  <TimePicker 
-                    title="귀가 교시를 선택해주세요" 
-                    buttonTitle="선택 완료" 
-                    type="class" 
-                    onEnd={(e) => setData({ ...data, start: e.hour + "교시" })} 
-                  />
+                  <TimePicker
+                    title="귀가 교시를 선택해주세요"
+                    buttonTitle="선택 완료"
+                    type="class"
+                    onEnd={(e) => setData({ ...data, start: e.hour + "교시" })}
+                  />,
                 )
               }
             >
               {data.start ? (
-                <Text colorType="normal" colorLevel="black" fontType="body" fontLevel={1}>
+                <Text
+                  colorType="normal"
+                  colorLevel="black"
+                  fontType="body"
+                  fontLevel={1}
+                >
                   {data.start}
                 </Text>
               ) : (
-                <Text colorType="gray" colorLevel={500} fontType="body" fontLevel={1}>
+                <Text
+                  colorType="gray"
+                  colorLevel={500}
+                  fontType="body"
+                  fontLevel={1}
+                >
                   선택
                 </Text>
               )}
@@ -70,21 +113,21 @@ export const EarlyReturn = ({ navigation }) => {
           )}
         </LabelLayout>
         <LabelLayout label="귀가 사유를 입력하세요" type="black">
-          <TextInput 
-            value={data.reason} 
+          <TextInput
+            value={data.reason}
             maxLength={200}
-            onChange={(e) => setData({ ...data, reason: e })} 
-            multiLine={6} 
-            placeholder="자세히 입력해주세요" 
+            onChange={(e) => setData({ ...data, reason: e })}
+            multiLine={6}
+            placeholder="자세히 입력해주세요"
           />
         </LabelLayout>
         <Button
           style={styles.button}
           onPress={() =>
             outMutate(
-              { 
-                ...data, 
-                start: periodType === 0 ? data.start + ":00" : data.start 
+              {
+                ...data,
+                start: periodType === 0 ? data.start + ":00" : data.start,
               },
               {
                 onSuccess: () => success("조기 귀가 신청이 완료되었습니다!"),
@@ -94,7 +137,7 @@ export const EarlyReturn = ({ navigation }) => {
                   }
                 },
                 onSettled: () => navigation.replace("메인"),
-              }
+              },
             )
           }
           disabled={!(data.reason && data.start)}

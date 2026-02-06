@@ -7,8 +7,11 @@ interface IModal {
   close: () => void;
   set: {
     (
-      partial: IModal | Partial<IModal> | ((state: IModal) => IModal | Partial<IModal>),
-      replace?: false
+      partial:
+        | IModal
+        | Partial<IModal>
+        | ((state: IModal) => IModal | Partial<IModal>),
+      replace?: false,
     ): void;
     (state: IModal | ((state: IModal) => IModal), replace: true): void;
   };

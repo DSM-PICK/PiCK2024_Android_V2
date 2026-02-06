@@ -10,7 +10,14 @@ export const Profile = ({ size = 60 }: IProp) => {
   const { color } = useTheme();
 
   return (
-    <View style={{ width: size, height: size, overflow: "hidden", borderRadius: 100 }}>
+    <View
+      style={{
+        width: size,
+        height: size,
+        overflow: "hidden",
+        borderRadius: 100,
+      }}
+    >
       <Svg
         width={size}
         height={size}

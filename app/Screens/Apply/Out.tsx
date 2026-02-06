@@ -1,11 +1,34 @@
-import { useBottomSheet, useMyMutation, useOptions, useTheme, useToast } from "@/hooks";
+import {
+  useBottomSheet,
+  useMyMutation,
+  useOptions,
+  useTheme,
+  useToast,
+} from "@/hooks";
 import { StyleSheet } from "react-native";
 import { IApplicationIn } from "@/apis";
 import { useState } from "react";
-import { Button, changePropType, LabelLayout, Layout, PrevHeader, Text, TextInput, TimePicker, TouchableOpacity, View, KeyboardDismiss, TimePickerButton } from "@/Components";
+import {
+  Button,
+  changePropType,
+  LabelLayout,
+  Layout,
+  PrevHeader,
+  Text,
+  TextInput,
+  TimePicker,
+  TouchableOpacity,
+  View,
+  KeyboardDismiss,
+  TimePickerButton,
+} from "@/Components";
 
 export const Out = ({ navigation }) => {
-  const { mutate: outMutate } = useMyMutation<IApplicationIn, null>("post", "application", "");
+  const { mutate: outMutate } = useMyMutation<IApplicationIn, null>(
+    "post",
+    "application",
+    "",
+  );
 
   const { periodType } = useOptions();
   const { open } = useBottomSheet();
@@ -28,19 +51,52 @@ export const Out = ({ navigation }) => {
 
   return (
     <KeyboardDismiss>
-      <Layout Header={<PrevHeader title="외출 신청" />} style={{ alignItems: "flex-start" }}>
-        <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4}>
+      <Layout
+        Header={<PrevHeader title="외출 신청" />}
+        style={{ alignItems: "flex-start" }}
+      >
+        <Text
+          colorType="normal"
+          colorLevel="black"
+          fontType="heading"
+          fontLevel={4}
+        >
           외출 신청
         </Text>
-        <LabelLayout label={`희망 외출 ${!!periodType ? "교시를" : "시간을"} 선택하세요`} type="black">
+        <LabelLayout
+          label={`희망 외출 ${!!periodType ? "교시를" : "시간을"} 선택하세요`}
+          type="black"
+        >
           {periodType === 0 ? (
             <View style={styles.periodPickerContainer}>
-              <TimePickerButton title={`외출 시작 ${!!periodType ? "교시를" : "시간을"} 선택하세요`} type={!!periodType ? "class" : "time"} value={data.start} id="start" onChange={handleChange} />
-              <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={1}>
+              <TimePickerButton
+                title={`외출 시작 ${!!periodType ? "교시를" : "시간을"} 선택하세요`}
+                type={!!periodType ? "class" : "time"}
+                value={data.start}
+                id="start"
+                onChange={handleChange}
+              />
+              <Text
+                colorType="normal"
+                colorLevel="black"
+                fontType="label"
+                fontLevel={1}
+              >
                 부터
               </Text>
-              <TimePickerButton title={`외출 종료 ${!!periodType ? "교시를" : "시간을"} 선택하세요`} type={!!periodType ? "class" : "time"} value={data.end} id="end" onChange={handleChange} />
-              <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={1}>
+              <TimePickerButton
+                title={`외출 종료 ${!!periodType ? "교시를" : "시간을"} 선택하세요`}
+                type={!!periodType ? "class" : "time"}
+                value={data.end}
+                id="end"
+                onChange={handleChange}
+              />
+              <Text
+                colorType="normal"
+                colorLevel="black"
+                fontType="label"
+                fontLevel={1}
+              >
                 까지
               </Text>
             </View>
@@ -49,32 +105,73 @@ export const Out = ({ navigation }) => {
               style={{
                 ...styles.classPickerContainer,
                 backgroundColor: color("gray", 50),
-                justifyContent: data.start && data.end ? "center" : "flex-start",
+                justifyContent:
+                  data.start && data.end ? "center" : "flex-start",
               }}
               activeOpacity={1}
-              onPress={() => open(<TimePicker title="외출 시작과 복귀 교시를 선택해주세요" buttonTitle="선 완료" type="classMulti" onEnd={(e) => setData({ ...data, start: e.hour + "교시", end: e.minute + "교시" })} />)}
+              onPress={() =>
+                open(
+                  <TimePicker
+                    title="외출 시작과 복귀 교시를 선택해주세요"
+                    buttonTitle="선 완료"
+                    type="classMulti"
+                    onEnd={(e) =>
+                      setData({
+                        ...data,
+                        start: e.hour + "교시",
+                        end: e.minute + "교시",
+                      })
+                    }
+                  />,
+                )
+              }
             >
               {data.start && data.end ? (
                 <>
                   <View style={styles.classPickerInnerContainer}>
-                    <Text colorType="normal" colorLevel="black" fontType="body" fontLevel={1}>
+                    <Text
+                      colorType="normal"
+                      colorLevel="black"
+                      fontType="body"
+                      fontLevel={1}
+                    >
                       {data.start}{" "}
                     </Text>
-                    <Text colorType="gray" colorLevel={800} fontType="label" fontLevel={1}>
+                    <Text
+                      colorType="gray"
+                      colorLevel={800}
+                      fontType="label"
+                      fontLevel={1}
+                    >
                       부터
                     </Text>
                   </View>
                   <View style={styles.classPickerInnerContainer}>
-                    <Text colorType="normal" colorLevel="black" fontType="body" fontLevel={1}>
+                    <Text
+                      colorType="normal"
+                      colorLevel="black"
+                      fontType="body"
+                      fontLevel={1}
+                    >
                       {data.end}{" "}
                     </Text>
-                    <Text colorType="gray" colorLevel={800} fontType="label" fontLevel={1}>
+                    <Text
+                      colorType="gray"
+                      colorLevel={800}
+                      fontType="label"
+                      fontLevel={1}
+                    >
                       까지
                     </Text>
                   </View>
                 </>
               ) : (
-                <Text colorType="gray" colorLevel={500} fontType="body" fontLevel={1}>
+                <Text
+                  colorType="gray"
+                  colorLevel={500}
+                  fontType="body"
+                  fontLevel={1}
+                >
                   선택
                 </Text>
               )}
@@ -82,7 +179,13 @@ export const Out = ({ navigation }) => {
           )}
         </LabelLayout>
         <LabelLayout label="외출 사유를 입력하세요" type="black">
-          <TextInput value={data.reason} maxLength={200} onChange={(e) => setData({ ...data, reason: e })} multiLine={6} placeholder="자세히 입력해주세요" />
+          <TextInput
+            value={data.reason}
+            maxLength={200}
+            onChange={(e) => setData({ ...data, reason: e })}
+            multiLine={6}
+            placeholder="자세히 입력해주세요"
+          />
         </LabelLayout>
         <Button
           style={{ position: "absolute", bottom: 30, alignSelf: "center" }}

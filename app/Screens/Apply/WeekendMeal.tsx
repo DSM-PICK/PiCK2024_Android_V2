@@ -1,6 +1,10 @@
 import { useMyMutation, useMyQuery, useTheme, useToast } from "@/hooks";
 import { Button, Layout, PrevHeader, Text, View } from "@/Components";
-import { IWeekendMeal, IWeekendMealPeriod, weekendMealChangeStatusIn } from "@/apis";
+import {
+  IWeekendMeal,
+  IWeekendMealPeriod,
+  weekendMealChangeStatusIn,
+} from "@/apis";
 import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { getToday } from "@/utils";
@@ -12,12 +16,22 @@ export const WeekendMeal = ({ navigation }) => {
 
   const [data, setData] = useState<weekendMealChangeStatusIn>("NO");
 
-  const { data: weekendMealData, refetch: weekendMealRefetch } = useMyQuery<IWeekendMeal>("weekendMeal", "/my");
-  const { data: weekendMealPeriodData, refetch: weekendMealPeriodRefetch } = useMyQuery<IWeekendMealPeriod>("weekendMeal", "/period");
+  const { data: weekendMealData, refetch: weekendMealRefetch } =
+    useMyQuery<IWeekendMeal>("weekendMeal", "/my");
+  const { data: weekendMealPeriodData } = useMyQuery<IWeekendMealPeriod>(
+    "weekendMeal",
+    "/period",
+  );
 
-  useEffect(() => weekendMealData && setData(weekendMealData?.status), [weekendMealData]);
+  useEffect(
+    () => weekendMealData && setData(weekendMealData?.status),
+    [weekendMealData],
+  );
 
-  const { mutate: weekendMealMutate } = useMyMutation<weekendMealChangeStatusIn, null>("patch", "weekendMeal", "/my-status?status=");
+  const { mutate: weekendMealMutate } = useMyMutation<
+    weekendMealChangeStatusIn,
+    null
+  >("patch", "weekendMeal", "/my-status?status=");
 
   const onSuccess = () => {
     weekendMealRefetch();
@@ -26,8 +40,16 @@ export const WeekendMeal = ({ navigation }) => {
   };
 
   return (
-    <Layout Header={<PrevHeader title="주말 급식 신청" />} style={{ alignItems: "flex-start", gap: 20 }}>
-      <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4}>
+    <Layout
+      Header={<PrevHeader title="주말 급식 신청" />}
+      style={{ alignItems: "flex-start", gap: 20 }}
+    >
+      <Text
+        colorType="normal"
+        colorLevel="black"
+        fontType="heading"
+        fontLevel={4}
+      >
         주말 급식
       </Text>
       <Text colorType="gray" colorLevel={600} fontType="body" fontLevel={2}>
@@ -42,14 +64,29 @@ export const WeekendMeal = ({ navigation }) => {
       >
         {weekendMealPeriodData?.status === true ? (
           <>
-            <Text colorType="gray" colorLevel={600} fontType="body" fontLevel={2}>
+            <Text
+              colorType="gray"
+              colorLevel={600}
+              fontType="body"
+              fontLevel={2}
+            >
               {`${month + 1}월 주말 급식 신청`}
             </Text>
             <View style={styles.buttonContainer}>
-              <Button type={data === "OK" ? "main" : "gray"} onPress={() => setData("OK")} textProps={{ fontLevel: 2 }} style={styles.button}>
+              <Button
+                type={data === "OK" ? "main" : "gray"}
+                onPress={() => setData("OK")}
+                textProps={{ fontLevel: 2 }}
+                style={styles.button}
+              >
                 신청
               </Button>
-              <Button type={data === "NO" ? "main" : "gray"} onPress={() => setData("NO")} textProps={{ fontLevel: 2 }} style={styles.button}>
+              <Button
+                type={data === "NO" ? "main" : "gray"}
+                onPress={() => setData("NO")}
+                textProps={{ fontLevel: 2 }}
+                style={styles.button}
+              >
                 미신청
               </Button>
             </View>
@@ -57,7 +94,12 @@ export const WeekendMeal = ({ navigation }) => {
         ) : (
           <Text colorType="gray" colorLevel={600} fontType="body" fontLevel={2}>
             주말 급식 상태는{" "}
-            <Text colorType="main" colorLevel={600} fontType="body" fontLevel={2}>
+            <Text
+              colorType="main"
+              colorLevel={600}
+              fontType="body"
+              fontLevel={2}
+            >
               {weekendMealData?.status === "OK" ? "신청" : "미신청"}
             </Text>
             입니다
@@ -65,7 +107,10 @@ export const WeekendMeal = ({ navigation }) => {
         )}
       </View>
       {weekendMealPeriodData?.status === true && (
-        <Button onPress={() => weekendMealMutate(data, { onSuccess })} style={styles.saveButton}>
+        <Button
+          onPress={() => weekendMealMutate(data, { onSuccess })}
+          style={styles.saveButton}
+        >
           저장하기
         </Button>
       )}

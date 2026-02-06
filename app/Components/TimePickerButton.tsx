@@ -10,7 +10,13 @@ interface IProp {
   id?: string;
 }
 
-export const TimePickerButton = ({ title, type, value, onChange, id }: IProp) => {
+export const TimePickerButton = ({
+  title,
+  type,
+  value,
+  onChange,
+  id,
+}: IProp) => {
   const { open } = useBottomSheet();
   const { color } = useTheme();
 
@@ -31,7 +37,7 @@ export const TimePickerButton = ({ title, type, value, onChange, id }: IProp) =>
             buttonTitle="선택 완료"
             type={type}
             onEnd={(e, id) => onChange(e, id)}
-          />
+          />,
         )
       }
     >

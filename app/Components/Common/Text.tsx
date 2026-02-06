@@ -9,6 +9,7 @@ interface IProp extends Omit<TextProps, "children">, IColorProp {
   children: string | (string | React.ReactElement)[];
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ITextProp extends Partial<IProp> {}
 
 export const Text = ({

@@ -25,7 +25,7 @@ export const Icon = ({
   size = 36,
   ...props
 }: IProp) => {
-  const _Icon = Icons[name];
+  const _Icon = (Icons as any)[name];
   const { color } = useTheme();
   const fillColor = color(colorType || "gray", colorLevel || 400, true);
 
@@ -40,7 +40,6 @@ export const Icon = ({
         props.style,
         {
           transform: [{ rotate: rotateTable[rotate] }],
-          //@ts-expect-error
           color: color(colorType || "gray", colorLevel || 400, true),
         },
       ]}

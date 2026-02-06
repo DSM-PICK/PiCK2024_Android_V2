@@ -1,11 +1,13 @@
 import { ActivityIndicator, Animated, Easing, StyleSheet } from "react-native";
 import { typeType, useToast, useTheme } from "@/hooks";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { Text } from "../Text";
 import { Icon } from "../Icon";
 
 const typeTable: Record<typeType, React.ReactElement> = {
-  success: <Icon name="ToastCheck" colorType="main" colorLevel={500} size={20} />,
+  success: (
+    <Icon name="ToastCheck" colorType="main" colorLevel={500} size={20} />
+  ),
   error: <Icon name="ToastX" colorType="error" size={20} />,
   wait: <ActivityIndicator size={20} />,
 };
@@ -18,37 +20,42 @@ interface IProp {
 }
 
 export const Toast = ({ id, type, message, wasWait }: IProp) => {
-  const pos = useRef(new Animated.Value(wasWait ? -80 : 100, { useNativeDriver: false })).current;
+  const pos = useRef(
+    new Animated.Value(wasWait ? -80 : 100, { useNativeDriver: false }),
+  ).current;
   const { color } = useTheme();
   const { close } = useToast();
 
-  let timer: any;
+  const timer = useRef(null);
 
-  const debounce = (action: () => void, delay: number) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
+  const debounce = useCallback((action: () => void, delay: number) => {
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
       action();
     }, delay);
-  };
+  }, []);
 
-  useEffect(() => (wasWait ? debounce(hideT, 1000) : showT()), []);
+  const hideT = useCallback(() => {
+    Animated.timing(pos, {
+      toValue: 100,
+      duration: 500,
+      useNativeDriver: false,
+    }).start(() => close(id));
+  }, [close, id, pos]);
 
-  const showT = () => {
+  const showT = useCallback(() => {
     Animated.timing(pos, {
       toValue: -80,
       duration: 300,
       easing: Easing.out(Easing.exp),
       useNativeDriver: false,
     }).start(() => type !== "wait" && debounce(hideT, 1000));
-  };
+  }, [debounce, hideT, pos, type]);
 
-  const hideT = () => {
-    Animated.timing(pos, {
-      toValue: 100,
-      duration: 500,
-      useNativeDriver: false,
-    }).start(() => close(id));
-  };
+  useEffect(
+    () => (wasWait ? debounce(hideT, 1000) : showT()),
+    [debounce, hideT, showT, wasWait],
+  );
 
   return (
     <Animated.View

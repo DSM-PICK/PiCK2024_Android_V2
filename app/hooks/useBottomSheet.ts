@@ -11,9 +11,12 @@ interface IBottomSheet {
         | IBottomSheet
         | Partial<IBottomSheet>
         | ((state: IBottomSheet) => IBottomSheet | Partial<IBottomSheet>),
-      replace?: false
+      replace?: false,
     ): void;
-    (state: IBottomSheet | ((state: IBottomSheet) => IBottomSheet), replace: true): void;
+    (
+      state: IBottomSheet | ((state: IBottomSheet) => IBottomSheet),
+      replace: true,
+    ): void;
   };
 }
 const defaultData = {

@@ -13,7 +13,12 @@ export const Item = ({ message, create_at, read }: IProp) => {
   const { color } = useTheme();
 
   return (
-    <View style={{ ...styles.container, backgroundColor: read ? color("bg") : color("main", 50) }}>
+    <View
+      style={{
+        ...styles.container,
+        backgroundColor: read ? color("bg") : color("main", 50),
+      }}
+    >
       <Text colorType="normal" colorLevel="black" fontType="body" fontLevel={1}>
         {message}
       </Text>

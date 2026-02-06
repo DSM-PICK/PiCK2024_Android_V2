@@ -1,6 +1,25 @@
-import { Button, Layout, PrevHeader, Text, TimePicker, TouchableOpacity, View } from "@/Components";
-import { Dimensions, NativeScrollEvent, NativeSyntheticEvent, StyleSheet } from "react-native";
-import { useBottomSheet, useDebounce, useMyMutation, useTheme, useToast } from "@/hooks";
+import {
+  Button,
+  Layout,
+  PrevHeader,
+  Text,
+  TimePicker,
+  TouchableOpacity,
+  View,
+} from "@/Components";
+import {
+  Dimensions,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  StyleSheet,
+} from "react-native";
+import {
+  useBottomSheet,
+  useDebounce,
+  useMyMutation,
+  useTheme,
+  useToast,
+} from "@/hooks";
 import { FlatList } from "react-native-gesture-handler";
 import { IClassRoomMoveIn } from "@/apis";
 import { useRef, useState } from "react";
@@ -24,7 +43,11 @@ export const Move = ({ navigation }) => {
 
   const ref = useRef(null);
 
-  const { mutate: moveMutate } = useMyMutation<IClassRoomMoveIn, null>("post", "classroom", "/move");
+  const { mutate: moveMutate } = useMyMutation<IClassRoomMoveIn, null>(
+    "post",
+    "classroom",
+    "/move",
+  );
 
   const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const index = Math.round(e.nativeEvent.contentOffset.x / width);
@@ -36,9 +59,17 @@ export const Move = ({ navigation }) => {
   };
 
   return (
-    <Layout Header={<PrevHeader title="교실 이동 신청" />} style={{ paddingHorizontal: 0, gap: 20 }}>
+    <Layout
+      Header={<PrevHeader title="교실 이동 신청" />}
+      style={{ paddingHorizontal: 0, gap: 20 }}
+    >
       <View style={styles.titleContainer}>
-        <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4}>
+        <Text
+          colorType="normal"
+          colorLevel="black"
+          fontType="heading"
+          fontLevel={4}
+        >
           교실 이동
         </Text>
         <Text colorType="gray" colorLevel={600} fontType="body" fontLevel={2}>
@@ -49,16 +80,25 @@ export const Move = ({ navigation }) => {
         <View style={{ width: "100%", flexDirection: "row" }}>
           {moveTable.map((_, index) => (
             <TouchableOpacity
+              key={index}
               style={{
                 ...styles.floorButton,
                 width: `${100 / moveTable.length}%`,
                 borderBottomColor: color("main", 400, true),
                 borderBottomWidth: index + 1 === data.floor ? 1 : 0,
               }}
-              onPress={() => ref?.current && ref.current.scrollToOffset({ offset: width * index })}
+              onPress={() =>
+                ref?.current &&
+                ref.current.scrollToOffset({ offset: width * index })
+              }
               activeOpacity={0.6}
             >
-              <Text colorType="normal" colorLevel="black" fontType="body" fontLevel={1}>
+              <Text
+                colorType="normal"
+                colorLevel="black"
+                fontType="body"
+                fontLevel={1}
+              >
                 {index + 1 + "층"}
               </Text>
             </TouchableOpacity>
@@ -79,15 +119,24 @@ export const Move = ({ navigation }) => {
             <View style={styles.itemsContainer}>
               {item.map((i) => (
                 <TouchableOpacity
+                  key={i}
                   style={{
                     ...styles.item,
                     borderColor: color("main", 100, true),
-                    backgroundColor: data.classroom_name === i ? color("main", 100, true) : "transparent",
+                    backgroundColor:
+                      data.classroom_name === i
+                        ? color("main", 100, true)
+                        : "transparent",
                   }}
                   onPress={() => setData({ ...data, classroom_name: i })}
                   activeOpacity={0.6}
                 >
-                  <Text colorType="normal" colorLevel="black" fontType="body" fontLevel={1}>
+                  <Text
+                    colorType="normal"
+                    colorLevel="black"
+                    fontType="body"
+                    fontLevel={1}
+                  >
                     {i}
                   </Text>
                 </TouchableOpacity>
@@ -114,10 +163,10 @@ export const Move = ({ navigation }) => {
                         navigation.goBack();
                         success("교실 이동 신청이 완료되었습니다!");
                       },
-                    }
+                    },
                   )
                 }
-              />
+              />,
             )
           }
         >

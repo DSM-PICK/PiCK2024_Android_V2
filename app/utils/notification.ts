@@ -1,5 +1,8 @@
-import * as Notifications from 'expo-notifications';
-import { getToken as getFCMToken, getMessaging } from "@react-native-firebase/messaging";
+import * as Notifications from "expo-notifications";
+import {
+  getToken as getFCMToken,
+  getMessaging,
+} from "@react-native-firebase/messaging";
 
 const checkPermission = async () => {
   const result = await Notifications.getPermissionsAsync();

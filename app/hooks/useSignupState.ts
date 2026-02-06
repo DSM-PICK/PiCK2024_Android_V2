@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 interface ISignupState {
   state: {
@@ -13,7 +13,12 @@ interface ISignupState {
   };
   setAccountInfo: (email: string, code: string) => void;
   setPassword: (password: string) => void;
-  setStudentInfo: (name: string, grade: number, class_num: number, num: number) => void;
+  setStudentInfo: (
+    name: string,
+    grade: number,
+    class_num: number,
+    num: number,
+  ) => void;
   clear: () => void;
 }
 
@@ -26,52 +31,57 @@ export const useSignupState = create<ISignupState>((set) => ({
     class_num: 0,
     num: 0,
     code: "",
-    os: "AOS" as const
+    os: "AOS" as const,
   },
-  
+
   setAccountInfo: (email: string, code: string) => {
     set((current) => ({
       state: {
         ...current.state,
         account_id: email,
-        code: code
-      }
+        code: code,
+      },
     }));
   },
-  
+
   setPassword: (password: string) => {
     set((current) => ({
       state: {
         ...current.state,
-        password: password
-      }
+        password: password,
+      },
     }));
   },
-  
-  setStudentInfo: (name: string, grade: number, class_num: number, num: number) => {
+
+  setStudentInfo: (
+    name: string,
+    grade: number,
+    class_num: number,
+    num: number,
+  ) => {
     set((current) => ({
       state: {
         ...current.state,
         name: name,
         grade: grade,
         class_num: class_num,
-        num: num
-      }
+        num: num,
+      },
     }));
   },
-  
+
   clear: () => {
     set({
       state: {
-        account_id: '',
-        password: '',
-        name: '',
+        account_id: "",
+        password: "",
+        name: "",
         grade: 0,
         class_num: 0,
         num: 0,
-        code: '',
-        os: "AOS" as const
-      }
+        code: "",
+        os: "AOS" as const,
+      },
     });
   },
 }));

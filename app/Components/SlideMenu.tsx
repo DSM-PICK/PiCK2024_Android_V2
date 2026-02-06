@@ -1,6 +1,6 @@
 import { View, Text, Icon, TouchableOpacity, iconType, Button } from "./Common";
 import { Animated, Easing, StyleSheet } from "react-native";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useTheme } from "@/hooks";
 
 interface IProp {
@@ -14,18 +14,22 @@ interface IProp {
   onPressButton: () => void;
 }
 
-export const SlideMenu = ({ open, setOpened, icon, title, id, content, buttonContent, onPressButton }: IProp) => {
+export const SlideMenu = ({
+  open,
+  setOpened,
+  icon,
+  title,
+  id,
+  content,
+  buttonContent,
+  onPressButton,
+}: IProp) => {
   const height = useRef(0);
   const { color } = useTheme();
 
   const heightAnim = useRef(new Animated.Value(0)).current;
   const borderAnim = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    start();
-  }, [open]);
-
-  const start = () => {
+  const start = useCallback(() => {
     Animated.timing(heightAnim, {
       toValue: open === id ? 1 : 0,
       duration: 600,
@@ -37,7 +41,11 @@ export const SlideMenu = ({ open, setOpened, icon, title, id, content, buttonCon
       duration: 300,
       useNativeDriver: false,
     }).start(() => borderAnim.setValue(open === id ? 1 : 0));
-  };
+  }, [borderAnim, heightAnim, id, open]);
+
+  useEffect(() => {
+    start();
+  }, [open, start]);
 
   const heightValue = heightAnim.interpolate({
     inputRange: [0, 1],
@@ -60,11 +68,19 @@ export const SlideMenu = ({ open, setOpened, icon, title, id, content, buttonCon
     >
       <View style={styles.titleContainer}>
         <Icon name={icon} size={34} colorType="gray" colorLevel={800} />
-        <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={1}>
+        <Text
+          colorType="normal"
+          colorLevel="black"
+          fontType="label"
+          fontLevel={1}
+        >
           {title}
         </Text>
       </View>
-      <View style={styles.contentContainer} onLayout={(event) => (height.current = event.nativeEvent.layout.height)}>
+      <View
+        style={styles.contentContainer}
+        onLayout={(event) => (height.current = event.nativeEvent.layout.height)}
+      >
         <Text colorType="gray" colorLevel={800} fontType="body" fontLevel={2}>
           {content.replace(/\\n/g, "\n")}
         </Text>

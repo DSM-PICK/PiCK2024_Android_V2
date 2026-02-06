@@ -11,7 +11,13 @@ export const Apply = ({ navigation: navigate }) => {
 
   return (
     <Layout Header={<Header />} style={{ gap: 20 }} scrollAble bottomPad>
-      <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4} style={{ alignSelf: "flex-start" }}>
+      <Text
+        colorType="normal"
+        colorLevel="black"
+        fontType="heading"
+        fontLevel={4}
+        style={{ alignSelf: "flex-start" }}
+      >
         신청
       </Text>
       <SlideMenu

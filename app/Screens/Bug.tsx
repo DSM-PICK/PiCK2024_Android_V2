@@ -5,15 +5,33 @@ import { Image, StyleSheet } from "react-native";
 import * as Picker from "expo-image-picker";
 import { IBugIn, instance } from "@/apis";
 import { useState, memo } from "react";
-import { Button, Icon, LabelLayout, Layout, PrevHeader, Text, TextInput, View, TouchableOpacity, KeyboardDismiss } from "@/Components";
+import {
+  Button,
+  Icon,
+  LabelLayout,
+  Layout,
+  PrevHeader,
+  Text,
+  TextInput,
+  View,
+  TouchableOpacity,
+  KeyboardDismiss,
+} from "@/Components";
 
-const ImageItem = memo(({ uri, onRemove }: { uri: string; fileName: string; onRemove: () => void }) => {
+const ImageItem = memo(function ImageItemOrigin({
+  uri,
+  onRemove,
+}: {
+  uri: string;
+  fileName: string;
+  onRemove: () => void;
+}) {
   const { color } = useTheme();
-  
+
   return (
     <View style={styles.imageContainer}>
-      <TouchableOpacity 
-        activeOpacity={0.3} 
+      <TouchableOpacity
+        activeOpacity={0.3}
         style={{ ...styles.removeContainer, backgroundColor: color("bg") }}
         onPress={onRemove}
       >
@@ -31,9 +49,16 @@ export const Bug = ({ navigation }) => {
   const { error, success } = useToast();
   const { color } = useTheme();
   const { mutate: bugImageMutate } = useMutation({
-    mutationFn: async (data: FormData) => instance.post("/bug/upload", data, { headers: { "Content-Type": "multipart/form-data" } }),
+    mutationFn: async (data: FormData) =>
+      instance.post("/bug/upload", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      }),
   });
-  const { mutate: bugMutate } = useMyMutation<IBugIn, null>("post", "bug", "/message");
+  const { mutate: bugMutate } = useMyMutation<IBugIn, null>(
+    "post",
+    "bug",
+    "/message",
+  );
 
   const [image, setImage] = useState([]);
   const [data, setData] = useState<IBugIn>({
@@ -67,7 +92,7 @@ export const Bug = ({ navigation }) => {
           uri: i.uri,
           type: i.mimeType,
           name: i.fileName,
-        } as unknown as Blob)
+        } as unknown as Blob),
       );
 
       bugImageMutate(formData, {
@@ -94,10 +119,21 @@ export const Bug = ({ navigation }) => {
     <KeyboardDismiss>
       <Layout Header={<PrevHeader title="버그 제보" />}>
         <LabelLayout required label="어디서 버그가 발생했나요?" type="black">
-          <TextInput placeholder="예: 메인, 외출 신청" value={data.title} id="title" onChange={handleChange} />
+          <TextInput
+            placeholder="예: 메인, 외출 신청"
+            value={data.title}
+            id="title"
+            onChange={handleChange}
+          />
         </LabelLayout>
         <LabelLayout required label="버그에 대해 설명해 주세요" type="black">
-          <TextInput placeholder="자세히 설명해 주세요" value={data.content} multiLine={4} id="content" onChange={handleChange} />
+          <TextInput
+            placeholder="자세히 설명해 주세요"
+            value={data.content}
+            multiLine={4}
+            id="content"
+            onChange={handleChange}
+          />
         </LabelLayout>
         <LabelLayout label="버그 사진을 첨부해 주세요" type="black">
           <View style={styles.imageListContainer}>
@@ -118,9 +154,9 @@ export const Bug = ({ navigation }) => {
               horizontal
               contentContainerStyle={{ gap: 10 }}
               renderItem={({ item, index }) => (
-                <ImageItem 
-                  uri={image[index].uri} 
-                  fileName={item} 
+                <ImageItem
+                  uri={image[index].uri}
+                  fileName={item}
                   onRemove={() => {
                     setData({
                       ...data,

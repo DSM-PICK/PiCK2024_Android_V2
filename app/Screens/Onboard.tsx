@@ -15,7 +15,9 @@ export const Onboard = ({ navigation }) => {
             : require("@/assets/images/SplashDark.gif")
         }
       />
-      <Button onPress={() => navigation.navigate("로그인")}>로그인하고 PiCK사용하기</Button>
+      <Button onPress={() => navigation.navigate("로그인")}>
+        로그인하고 PiCK사용하기
+      </Button>
     </Layout>
   );
 };

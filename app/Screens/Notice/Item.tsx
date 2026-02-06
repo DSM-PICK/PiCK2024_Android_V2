@@ -18,15 +18,26 @@ export const Item = ({ id, title, showNew, date }: IProp) => {
     <TouchableOpacity
       style={styles.container}
       activeOpacity={0.6}
-      onPress={() => navigate.navigate(...(["상세보기", { id, title: formedTitle }] as never))}
+      onPress={() =>
+        navigate.navigate(
+          ...(["상세보기", { id, title: formedTitle }] as never),
+        )
+      }
     >
       <Icon name="Chat" size={40} colorType="main" colorLevel={600} />
       <View style={{ gap: 4 }}>
         <View style={styles.titleContainer}>
-          <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={1}>
+          <Text
+            colorType="normal"
+            colorLevel="black"
+            fontType="label"
+            fontLevel={1}
+          >
             {formedTitle}
           </Text>
-          {showNew && <Icon name="New" size={20} colorType="main" colorLevel={300} />}
+          {showNew && (
+            <Icon name="New" size={20} colorType="main" colorLevel={300} />
+          )}
         </View>
         <Text colorType="gray" colorLevel={600} fontType="label" fontLevel={2}>
           {getDiff(date)}

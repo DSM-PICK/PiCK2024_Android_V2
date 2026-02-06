@@ -8,9 +8,17 @@ export const Custom = ({ navigation }) => {
   const [open, setOpen] = useState(null);
 
   return (
-    <Layout Header={<PrevHeader title="커스텀" />} style={{ alignItems: "flex-start" }}>
+    <Layout
+      Header={<PrevHeader title="커스텀" />}
+      style={{ alignItems: "flex-start" }}
+    >
       <View style={{ gap: 12 }}>
-        <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4}>
+        <Text
+          colorType="normal"
+          colorLevel="black"
+          fontType="heading"
+          fontLevel={4}
+        >
           커스텀
         </Text>
         <Text colorType="gray" colorLevel={500} fontType="body" fontLevel={1}>

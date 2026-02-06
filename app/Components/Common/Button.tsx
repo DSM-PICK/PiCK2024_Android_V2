@@ -1,4 +1,8 @@
-import { GestureResponderEvent, TouchableOpacityProps, StyleSheet } from "react-native";
+import {
+  GestureResponderEvent,
+  TouchableOpacityProps,
+  StyleSheet,
+} from "react-native";
 import { TouchableOpacity } from "./AnimatedComponents";
 import { ITextProp, Text } from "./Text";
 import { useTheme } from "@/hooks";
@@ -34,7 +38,7 @@ export const Button = ({
         setInternalDisabled(false);
       }, 3000);
     },
-    [internalDisabled, onPress]
+    [internalDisabled, onPress],
   );
 
   const isDisabled = disabled || internalDisabled;

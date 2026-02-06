@@ -17,7 +17,13 @@ export interface IProp {
 
 const { fullDay, year, month, date: todate, dayNum } = getToday();
 
-export const Calander = ({ selected, pointed, weekOnly, onSelect, onMonthChange }: IProp) => {
+export const Calander = ({
+  selected,
+  pointed,
+  weekOnly,
+  onSelect,
+  onMonthChange,
+}: IProp) => {
   const { color } = useTheme();
   const [date, setDate] = useState([year, month]);
   const { close, isOpened } = useBottomSheet();
@@ -31,8 +37,8 @@ export const Calander = ({ selected, pointed, weekOnly, onSelect, onMonthChange 
           ? [currYear - 1, 12]
           : [currYear, currMonth - 1]
         : currMonth === 12
-        ? [currYear + 1, 1]
-        : [currYear, currMonth + 1];
+          ? [currYear + 1, 1]
+          : [currYear, currMonth + 1];
 
     setDate(newDate);
     onMonthChange && onMonthChange(newDate);
@@ -70,7 +76,8 @@ export const Calander = ({ selected, pointed, weekOnly, onSelect, onMonthChange 
           fontLevel={1}
           style={{
             ...styles.day,
-            backgroundColor: formedDate === fullDay ? color("main", 100, true) : "transparent",
+            backgroundColor:
+              formedDate === fullDay ? color("main", 100, true) : "transparent",
             borderWidth: selected === formedDate ? 1 : 0,
             borderColor: color("main", 100, true),
           }}
@@ -79,7 +86,12 @@ export const Calander = ({ selected, pointed, weekOnly, onSelect, onMonthChange 
           {dayInMonth + ""}
         </Text>
         {pointed?.includes(formedDate) && (
-          <View style={{ ...styles.pointMarker, backgroundColor: color("main", 500, true) }} />
+          <View
+            style={{
+              ...styles.pointMarker,
+              backgroundColor: color("main", 500, true),
+            }}
+          />
         )}
       </View>
     );
@@ -102,7 +114,7 @@ export const Calander = ({ selected, pointed, weekOnly, onSelect, onMonthChange 
       weeks.push(
         <View key={week} style={styles.weekContainer}>
           {weekRow}
-        </View>
+        </View>,
       );
     }
     return weeks;
@@ -121,7 +133,12 @@ export const Calander = ({ selected, pointed, weekOnly, onSelect, onMonthChange 
             onPress={() => handleChangeDate("left")}
           />
         )}
-        <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={1}>
+        <Text
+          colorType="normal"
+          colorLevel="black"
+          fontType="label"
+          fontLevel={1}
+        >
           {`${date[0]}년 ${date[1]}월`}
         </Text>
         {!weekOnly && (

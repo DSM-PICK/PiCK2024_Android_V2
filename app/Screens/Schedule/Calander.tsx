@@ -8,21 +8,43 @@ import { useState, memo } from "react";
 
 const { year, month, fullDay } = getToday();
 
-const EventItem = memo(({ item, color }: { item: any; color: any }) => (
-  <View style={{ ...styles.event, borderLeftColor: color("main", 500, true) }}>
-    <Text colorType="normal" colorLevel="black" fontType="subTitle" fontLevel={2}>
-      {item.event_name}
-    </Text>
-  </View>
-));
+const EventItem = memo(function Item({
+  item,
+  color,
+}: {
+  item: any;
+  color: any;
+}) {
+  return (
+    <View
+      style={{ ...styles.event, borderLeftColor: color("main", 500, true) }}
+    >
+      <Text
+        colorType="normal"
+        colorLevel="black"
+        fontType="subTitle"
+        fontLevel={2}
+      >
+        {item.event_name}
+      </Text>
+    </View>
+  );
+});
 
 export const Calander = () => {
   const { color } = useTheme();
   const [date, setDate] = useState([year, month]);
   const [day, setDay] = useState(fullDay);
-  const { data: scheduleData } = useMyQuery<scheduleType>("schedule", `/month?year=${date[0]}&month=${monthTable[date[1] - 1]}`);
+  const { data: scheduleData } = useMyQuery<scheduleType>(
+    "schedule",
+    `/month?year=${date[0]}&month=${monthTable[date[1] - 1]}`,
+  );
 
-  const filteredItem = scheduleData?.filter((i) => `${date[0]}-${i.month.toString().padStart(2, "0")}-${i.day.toString().padStart(2, "0")}` === day);
+  const filteredItem = scheduleData?.filter(
+    (i) =>
+      `${date[0]}-${i.month.toString().padStart(2, "0")}-${i.day.toString().padStart(2, "0")}` ===
+      day,
+  );
 
   return (
     <View style={{ paddingHorizontal: 24, gap: 24 }}>
@@ -30,20 +52,46 @@ export const Calander = () => {
         onMonthChange={setDate}
         onSelect={setDay}
         selected={day}
-        pointed={scheduleData?.map((i) => `${date[0]}-${date[1].toString().padStart(2, "0")}-${i.day.toString().padStart(2, "0")}`)}
+        pointed={scheduleData?.map(
+          (i) =>
+            `${date[0]}-${date[1].toString().padStart(2, "0")}-${i.day.toString().padStart(2, "0")}`,
+        )}
       />
       <View style={{ gap: 12 }}>
-        <Text colorType="normal" colorLevel="black" fontType="caption" fontLevel={1}>
+        <Text
+          colorType="normal"
+          colorLevel="black"
+          fontType="caption"
+          fontLevel={1}
+        >
           {day === fullDay && (
-            <Text colorType="main" colorLevel={500} fontType="caption" fontLevel={1}>
+            <Text
+              colorType="main"
+              colorLevel={500}
+              fontType="caption"
+              fontLevel={1}
+            >
               오늘{" "}
             </Text>
           )}
           {day.split("-")[1]}월 {day.split("-")[2]}일
         </Text>
         {!filteredItem?.length && (
-          <View style={{ width: "100%", height: "40%", alignItems: "center", justifyContent: "center", display: "flex" }}>
-            <Text colorType="gray" colorLevel={800} fontType="caption" fontLevel={2}>
+          <View
+            style={{
+              width: "100%",
+              height: "40%",
+              alignItems: "center",
+              justifyContent: "center",
+              display: "flex",
+            }}
+          >
+            <Text
+              colorType="gray"
+              colorLevel={800}
+              fontType="caption"
+              fontLevel={2}
+            >
               일정이 없습니다
             </Text>
           </View>

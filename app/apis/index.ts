@@ -24,35 +24,43 @@ const refreshTokenCache = async () => {
     getItem("access_token"),
     getItem("refresh_token"),
   ]);
-  
+
   tokenCache = {
     access_token,
     refresh_token,
     timestamp: Date.now(),
   };
-  
+
   return tokenCache;
 };
 
 const getToken = async () => {
-  if (!tokenCache.access_token || !tokenCache.timestamp || Date.now() - tokenCache.timestamp > CACHE_EXPIRATION) {
+  if (
+    !tokenCache.access_token ||
+    !tokenCache.timestamp ||
+    Date.now() - tokenCache.timestamp > CACHE_EXPIRATION
+  ) {
     await refreshTokenCache();
   }
-  
+
   return tokenCache;
 };
 
 instance.interceptors.request.use(
   async (res) => {
     const { access_token } = await getToken();
-    if (access_token && res.url !== "/user/login" && res.url !== "/user/refresh") {
+    if (
+      access_token &&
+      res.url !== "/user/login" &&
+      res.url !== "/user/refresh"
+    ) {
       res.headers["Authorization"] = `Bearer ${access_token}`;
     }
     return res;
   },
   (err) => {
     throw err;
-  }
+  },
 );
 
 instance.interceptors.response.use(
@@ -62,7 +70,9 @@ instance.interceptors.response.use(
       // 토큰만료 값 뭔지 모름, 있다가 도경이에게 물어볼 것
       const { refresh_token } = await getToken();
       axios
-        .put(process.env.EXPO_PUBLIC_BASE_URL + "/user/refresh", null, { headers: { "X-Refresh-Token": refresh_token } })
+        .put(process.env.EXPO_PUBLIC_BASE_URL + "/user/refresh", null, {
+          headers: { "X-Refresh-Token": refresh_token },
+        })
         .then(async (res) => {
           const { data } = res.data!;
 
@@ -86,5 +96,5 @@ instance.interceptors.response.use(
     } else {
       throw err;
     }
-  }
+  },
 );

@@ -23,11 +23,21 @@ export const TimePicker = ({ type, title, buttonTitle, onEnd, id }: IProp) => {
   const { close } = useBottomSheet();
   const { color } = useTheme();
 
-  const [time, setTime] = useState(type === "classMulti" ? { hour: "1", minute: "1" } : { hour: "8", minute: "0" });
+  const [time, setTime] = useState(
+    type === "classMulti"
+      ? { hour: "1", minute: "1" }
+      : { hour: "8", minute: "0" },
+  );
 
   return (
     <>
-      <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={1} style={{ alignSelf: "flex-start" }}>
+      <Text
+        colorType="normal"
+        colorLevel="black"
+        fontType="label"
+        fontLevel={1}
+        style={{ alignSelf: "flex-start" }}
+      >
         {title}
       </Text>
       <View
@@ -39,7 +49,9 @@ export const TimePicker = ({ type, title, buttonTitle, onEnd, id }: IProp) => {
           justifyContent: "center",
         }}
       >
-        <View style={{ width: "100%", position: "absolute", alignSelf: "center" }}>
+        <View
+          style={{ width: "100%", position: "absolute", alignSelf: "center" }}
+        >
           <View
             style={{
               position: "relative",
@@ -54,21 +66,59 @@ export const TimePicker = ({ type, title, buttonTitle, onEnd, id }: IProp) => {
 
         {type === "time" && (
           <>
-            <ScrollPicker items={timeTable.hour.map(String)} onScroll={(e) => setTime({ ...time, hour: e })} suffix="시" id="hour" />
-            <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4} style={{ height: 30 }}>
+            <ScrollPicker
+              items={timeTable.hour.map(String)}
+              onScroll={(e) => setTime({ ...time, hour: e })}
+              suffix="시"
+              id="hour"
+            />
+            <Text
+              colorType="normal"
+              colorLevel="black"
+              fontType="heading"
+              fontLevel={4}
+              style={{ height: 30 }}
+            >
               -
             </Text>
-            <ScrollPicker items={timeTable.minute.map(String)} onScroll={(e) => setTime({ ...time, minute: e })} suffix="분" id="minute" />
+            <ScrollPicker
+              items={timeTable.minute.map(String)}
+              onScroll={(e) => setTime({ ...time, minute: e })}
+              suffix="분"
+              id="minute"
+            />
           </>
         )}
-        {type === "class" && <ScrollPicker items={timeTable.class.map(String)} onScroll={(e) => setTime({ ...time, hour: e })} suffix="교시" />}
+        {type === "class" && (
+          <ScrollPicker
+            items={timeTable.class.map(String)}
+            onScroll={(e) => setTime({ ...time, hour: e })}
+            suffix="교시"
+          />
+        )}
         {type === "classMulti" && (
           <>
-            <ScrollPicker items={timeTable.class.map(String)} onScroll={(e) => setTime({ ...time, hour: e })} suffix="교시" id="start" />
-            <Text colorType="normal" colorLevel="black" fontType="heading" fontLevel={4} style={{ height: 30 }}>
+            <ScrollPicker
+              items={timeTable.class.map(String)}
+              onScroll={(e) => setTime({ ...time, hour: e })}
+              suffix="교시"
+              id="start"
+            />
+            <Text
+              colorType="normal"
+              colorLevel="black"
+              fontType="heading"
+              fontLevel={4}
+              style={{ height: 30 }}
+            >
               -
             </Text>
-            <ScrollPicker items={timeTable.class.map(String)} onScroll={(e) => setTime({ ...time, minute: e })} suffix="교시" id="end" />
+            <ScrollPicker
+              items={timeTable.class.map(String)}
+              onScroll={(e) => setTime({ ...time, minute: e })}
+              suffix="교시"
+              id="end"
+            />
           </>
         )}
       </View>
@@ -78,7 +128,9 @@ export const TimePicker = ({ type, title, buttonTitle, onEnd, id }: IProp) => {
           close();
           onEnd(time, id);
         }}
-        disabled={type === "classMulti" && Number(time.hour) > Number(time.minute)}
+        disabled={
+          type === "classMulti" && Number(time.hour) > Number(time.minute)
+        }
       >
         {buttonTitle}
       </Button>

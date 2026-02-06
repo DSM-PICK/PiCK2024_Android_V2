@@ -11,7 +11,12 @@ export const Home = () => {
   const { mainType } = useOptions();
 
   return (
-    <Layout Header={<Header />} scrollAble bottomPad style={{ paddingHorizontal: 0 }}>
+    <Layout
+      Header={<Header />}
+      scrollAble
+      bottomPad
+      style={{ paddingHorizontal: 0 }}
+    >
       <WeekendMeal />
       <Profile style={{ paddingHorizontal: 24, width: "100%" }} />
       <Pass />

@@ -17,17 +17,30 @@ export const WeekCalander = (props: IProp) => {
     if (!!component) {
       set({ component: <Calander {...props} /> });
     }
-  }, [props]);
+  }, [props, component, set]);
 
   return (
     <View style={{ width: "100%", position: "relative" }}>
-      {direction === "up" && <View style={{ width: "100%", height: 50, backgroundColor: color("bg"), position: "absolute", zIndex: 20, top: -50 }} />}
+      {direction === "up" && (
+        <View
+          style={{
+            width: "100%",
+            height: 50,
+            backgroundColor: color("bg"),
+            position: "absolute",
+            zIndex: 20,
+            top: -50,
+          }}
+        />
+      )}
       <View
         style={{
           width: "100%",
           padding: 20,
           paddingTop: 10,
-          ...(direction === "up" ? { borderBottomLeftRadius: 20, borderBottomRightRadius: 20 } : { borderTopLeftRadius: 20, borderTopRightRadius: 20 }),
+          ...(direction === "up"
+            ? { borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }
+            : { borderTopLeftRadius: 20, borderTopRightRadius: 20 }),
 
           elevation: 20,
           flexDirection: direction === "up" ? "column-reverse" : "column",
@@ -36,7 +49,12 @@ export const WeekCalander = (props: IProp) => {
           gap: 20,
         }}
       >
-        <Icon name="Arrrow" rotate={direction === "up" ? "down" : "up"} size={20} onPress={() => open(<Calander {...props} />)} />
+        <Icon
+          name="Arrrow"
+          rotate={direction === "up" ? "down" : "up"}
+          size={20}
+          onPress={() => open(<Calander {...props} />)}
+        />
         <Calander {...props} weekOnly />
       </View>
     </View>

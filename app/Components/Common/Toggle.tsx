@@ -1,6 +1,6 @@
 import { View, TouchableWithoutFeedback } from "./AnimatedComponents";
 import { Animated, Easing, StyleSheet } from "react-native";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useTheme } from "@/hooks";
 
 interface IProp {
@@ -13,27 +13,30 @@ export const Toggle = ({ value, onPress }: IProp) => {
   const moveValue = useRef(new Animated.Value(0)).current;
   const bgValue = useRef(new Animated.Value(0)).current;
 
-  const anim = () =>
-    Animated.parallel([
-      Animated.timing(moveValue, {
-        toValue: value === false ? 0 : 28,
-        duration: 500,
-        easing: Easing.out(Easing.exp),
-        useNativeDriver: false,
-      }),
-      Animated.timing(bgValue, {
-        toValue: value === false ? 0 : 1,
-        duration: 200,
-        useNativeDriver: false,
-      }),
-    ]).start(() => bgValue.setValue(value === false ? 0 : 1));
+  const anim = useCallback(
+    () =>
+      Animated.parallel([
+        Animated.timing(moveValue, {
+          toValue: value === false ? 0 : 28,
+          duration: 500,
+          easing: Easing.out(Easing.exp),
+          useNativeDriver: false,
+        }),
+        Animated.timing(bgValue, {
+          toValue: value === false ? 0 : 1,
+          duration: 200,
+          useNativeDriver: false,
+        }),
+      ]).start(() => bgValue.setValue(value === false ? 0 : 1)),
+    [bgValue, moveValue, value],
+  );
 
   const bgInter = bgValue.interpolate({
     inputRange: [0, 1],
     outputRange: [color("gray", 100, true), color("main", 500, true)],
   });
 
-  useEffect(() => anim(), [value]);
+  useEffect(() => anim(), [anim, value]);
 
   return (
     <TouchableWithoutFeedback

@@ -22,7 +22,11 @@ type optionsType = {
   id?: string;
 };
 
-const createToast = (type: typeType, message: string, options?: optionsType) => ({
+const createToast = (
+  type: typeType,
+  message: string,
+  options?: optionsType,
+) => ({
   type,
   message,
   id: options?.id || Math.random() + "",
@@ -52,12 +56,16 @@ export const useToast = create<IToast>((set, get) => ({
   update: (id, type, message) => {
     const realId = get()
       .toasts.filter((i) => i.id.includes(id))
-      .sort((a, b) => Number(a.id.split("_")[1]) - Number(b.id.split("_")[1]))[0].id;
+      .sort(
+        (a, b) => Number(a.id.split("_")[1]) - Number(b.id.split("_")[1]),
+      )[0].id;
 
     set((prev) => ({
       ...prev,
       toasts: prev.toasts.map((i) => {
-        return i.id === realId ? createToast(type, message, { wasWait: true }) : i;
+        return i.id === realId
+          ? createToast(type, message, { wasWait: true })
+          : i;
       }),
     }));
   },

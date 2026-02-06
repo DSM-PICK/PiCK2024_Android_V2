@@ -9,14 +9,23 @@ export const Detail = ({ route }) => {
   const { color } = useTheme();
 
   return (
-    <Layout Header={<PrevHeader title={title} />} style={styles.container} scrollAble>
+    <Layout
+      Header={<PrevHeader title={title} />}
+      style={styles.container}
+      scrollAble
+    >
       <View
         style={{
           ...styles.titleContainer,
           borderBottomColor: color("gray", 50),
         }}
       >
-        <Text colorType="normal" colorLevel="black" fontType="subTitle" fontLevel={1}>
+        <Text
+          colorType="normal"
+          colorLevel="black"
+          fontType="subTitle"
+          fontLevel={1}
+        >
           {detailData?.title}
         </Text>
         <View style={styles.titleInformContainer}>

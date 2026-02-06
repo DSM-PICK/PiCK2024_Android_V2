@@ -13,7 +13,7 @@ export interface IUserLoginOut {
 
 export interface IUserSignupIn {
   account_id: string;
-  password : string;
+  password: string;
   name: string;
   grade: number;
   class_num: number;
@@ -71,35 +71,34 @@ export interface IWeekendMealPeriod {
 export interface IWeekendMeal {
   status: "OK" | "NO";
 }
-export interface IWeekendMealPeriod {
-  status: boolean;
-  start: string;
-  end: string;
-}
 
 export type weekendMealChangeStatusIn = "OK" | "NO";
 
 // selfStudy
-export type selfStudyType = Array<{ floor: number; teacher_name: string }>;
+export type selfStudyType = { floor: number; teacher_name: string }[];
 
-export type selfStudyMonthType = Array<{ floor: number; teacher_name: string; date: string }>;
+export type selfStudyMonthType = {
+  floor: number;
+  teacher_name: string;
+  date: string;
+}[];
 
 // schedule
-export type scheduleType = Array<{
+export type scheduleType = {
   id: string;
   event_name: string;
   month: number;
   day: 0;
   day_name: string;
-}>;
+}[];
 
 // notice
-export type noticeSimpleType = Array<{
+export type noticeSimpleType = {
   id: string;
   title: string;
   create_at: string;
   teacher: string;
-}>;
+}[];
 
 export interface INoticeDetail {
   title: string;
@@ -149,7 +148,10 @@ export interface IClassRoomPass {
   end: number;
 }
 
-export interface IClassRoomMoveIn extends Omit<IClassRoomPass, "user_name" | "classroom"> {
+export interface IClassRoomMoveIn extends Omit<
+  IClassRoomPass,
+  "user_name" | "classroom"
+> {
   floor: number;
   move: string;
   classroom_name: string;

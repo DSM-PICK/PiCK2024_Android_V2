@@ -9,14 +9,22 @@ type componentType = ({ navigation }: { navigation: any }) => React.JSX.Element;
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
-const getOption = (name: string, component: componentType, iconName: iconType) => ({
+const getOption = (
+  name: string,
+  component: componentType,
+  iconName: iconType,
+) => ({
   name,
   component,
   options: {
     tabBarIcon: ({ focused }) => (
-      <Icon name={iconName} colorType={focused ? "main" : "gray"} colorLevel={500} />
+      <Icon
+        name={iconName}
+        colorType={focused ? "main" : "gray"}
+        colorLevel={500}
+      />
     ),
-    unmountOnBlur: false
+    unmountOnBlur: false,
   },
 });
 
@@ -33,7 +41,7 @@ export const MainTabs = () => {
           fontSize: 10,
           fontFamily: "Medium",
         },
-        
+
         tabBarStyle: {
           backgroundColor: color("normal", "white", true),
           position: "absolute",

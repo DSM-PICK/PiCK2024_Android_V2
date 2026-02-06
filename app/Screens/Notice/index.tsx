@@ -1,22 +1,32 @@
 import { Layout, PrevHeader, View } from "@/Components";
 import { FlatList, StyleSheet } from "react-native";
-export { Detail as NoticeDetail } from "./Detail";
-export { Item as NoticeItem } from "./Item";
 import { noticeSimpleType } from "@/apis";
 import { useMyQuery } from "@/hooks";
 import { Item } from "./Item";
 import { memo } from "react";
+export { Detail as NoticeDetail } from "./Detail";
+export { Item as NoticeItem } from "./Item";
 
 const today = new Date().toISOString().split("T")[0];
 
-const MemoizedItem = memo(({ item }: { item: any }) => (
-  <View style={{ padding: 24 }}>
-    <Item id={item.id} title={item.title} showNew={item.create_at === today} date={item.create_at} />
-  </View>
-));
+const MemoizedItem = memo(function ItemOrigin({ item }: { item: any }) {
+  return (
+    <View style={{ padding: 24 }}>
+      <Item
+        id={item.id}
+        title={item.title}
+        showNew={item.create_at === today}
+        date={item.create_at}
+      />
+    </View>
+  );
+});
 
 export const Notice = () => {
-  const { data: noticeData } = useMyQuery<noticeSimpleType>("notice", "/simple");
+  const { data: noticeData } = useMyQuery<noticeSimpleType>(
+    "notice",
+    "/simple",
+  );
 
   return (
     <Layout Header={<PrevHeader title="공지사항" />} style={styles.container}>

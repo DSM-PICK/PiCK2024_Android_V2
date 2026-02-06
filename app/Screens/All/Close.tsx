@@ -11,11 +11,18 @@ export const Close = ({ navigation }) => {
 
   return (
     <View style={{ ...styles.container, backgroundColor: color("bg") }}>
-      <Text colorType="normal" colorLevel="black" fontType="subTitle" fontLevel={2}>
+      <Text
+        colorType="normal"
+        colorLevel="black"
+        fontType="subTitle"
+        fontLevel={2}
+      >
         정말 로그아웃하시겠습니까?
       </Text>
       <Text colorType="gray" colorLevel={700} fontType="body" fontLevel={1}>
-        {"기기내 계정에서 로그아웃 할 수 있어요\n다음 이용 시에는 다시 로그인 해야합니다."}
+        {
+          "기기내 계정에서 로그아웃 할 수 있어요\n다음 이용 시에는 다시 로그인 해야합니다."
+        }
       </Text>
       <View style={styles.buttonContainer}>
         <Button type="gray" onPress={() => close()} style={styles.button}>

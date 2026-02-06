@@ -9,14 +9,23 @@ interface IProp {
 
 export const Item = ({ icon, children, onPress }: IProp) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.container} activeOpacity={0.6}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={styles.container}
+      activeOpacity={0.6}
+    >
       <Icon
         name={icon}
         colorType={icon === "Exit" ? "error" : "main"}
         colorLevel={icon !== "Exit" ? 600 : null}
         size={34}
       />
-      <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={1}>
+      <Text
+        colorType="normal"
+        colorLevel="black"
+        fontType="label"
+        fontLevel={1}
+      >
         {children}
       </Text>
     </TouchableOpacity>

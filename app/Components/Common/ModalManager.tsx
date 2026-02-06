@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, useCallback, memo } from "react";
-import { Animated, Easing, StyleSheet } from "react-native";
+import { Animated, Easing, StyleSheet, Dimensions } from "react-native";
 import { View } from "./AnimatedComponents";
-import { Dimensions } from "react-native";
 import { useModal } from "@/hooks";
 
 const ModalManagerComponent = () => {
@@ -28,7 +27,7 @@ const ModalManagerComponent = () => {
         useNativeDriver: true,
       }),
     ]).start();
-  }, [contentHeight, height]);
+  }, [bgValue, contentHeight, height, yValue]);
 
   const close = useCallback(() => {
     Animated.parallel([
@@ -47,7 +46,7 @@ const ModalManagerComponent = () => {
     ]).start(() => {
       set({ component: undefined });
     });
-  }, [height]);
+  }, [bgValue, height, set, yValue]);
 
   const animValue = bgValue.interpolate({
     inputRange: [0, 1],
@@ -57,7 +56,7 @@ const ModalManagerComponent = () => {
   useEffect(() => {
     if (isOpened) open();
     else if (component) close();
-  }, [isOpened, contentHeight, open, close]);
+  }, [isOpened, contentHeight, open, close, component]);
 
   return (
     <View

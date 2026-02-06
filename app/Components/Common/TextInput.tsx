@@ -19,7 +19,20 @@ interface IProp extends Omit<TextInputProps, "onChange"> {
   id?: string;
 }
 
-export const TextInput = ({ value, onChange, placeholder, multiLine, password, disabled, required, after, error, label, id, ...props }: IProp) => {
+export const TextInput = ({
+  value,
+  onChange,
+  placeholder,
+  multiLine,
+  password,
+  disabled,
+  required,
+  after,
+  error,
+  label,
+  id,
+  ...props
+}: IProp) => {
   const [visible, setVisible] = useState(false);
   const [focus, setFocus] = useState(false);
   const { color } = useTheme();
@@ -29,7 +42,12 @@ export const TextInput = ({ value, onChange, placeholder, multiLine, password, d
     <View style={styles.container}>
       {label && (
         <>
-          <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={1}>
+          <Text
+            colorType="normal"
+            colorLevel="black"
+            fontType="label"
+            fontLevel={1}
+          >
             {label}
           </Text>
           {required && (
@@ -53,7 +71,9 @@ export const TextInput = ({ value, onChange, placeholder, multiLine, password, d
             style={{
               ...styles.border,
               height,
-              borderColor: !!error ? color("error") : focus && color("main", 500),
+              borderColor: !!error
+                ? color("error")
+                : focus && color("main", 500),
             }}
           />
         )}
@@ -69,14 +89,31 @@ export const TextInput = ({ value, onChange, placeholder, multiLine, password, d
           multiline={!!multiLine}
           numberOfLines={!!multiLine ? multiLine : 1}
           editable={!!!disabled}
-          style={[props.style, styles.input, { color: color("normal", "black") }]}
+          style={[
+            props.style,
+            styles.input,
+            { color: color("normal", "black") },
+          ]}
           placeholderTextColor={color("gray", 400)}
         />
         {after || <></>}
-        {password && <Icon name={visible ? "Eye" : "EyeOff"} size={24} colorType="gray" colorLevel={900} onPress={() => setVisible((prev) => !prev)} />}
+        {password && (
+          <Icon
+            name={visible ? "Eye" : "EyeOff"}
+            size={24}
+            colorType="gray"
+            colorLevel={900}
+            onPress={() => setVisible((prev) => !prev)}
+          />
+        )}
       </AnimView>
       {error && (
-        <Text colorType="error" fontType="body" fontLevel={1} style={{ alignSelf: "flex-end" }}>
+        <Text
+          colorType="error"
+          fontType="body"
+          fontLevel={1}
+          style={{ alignSelf: "flex-end" }}
+        >
           {error}
         </Text>
       )}

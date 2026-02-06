@@ -29,10 +29,16 @@ export const All = ({ navigation }) => {
         <Item icon="Person" onPress={() => navigation.navigate("마이페이지")}>
           마이 페이지
         </Item>
-        <Item icon="Password" onPress={() => navigation.navigate("비번변경이메일")}>
+        <Item
+          icon="Password"
+          onPress={() => navigation.navigate("비번변경이메일")}
+        >
           비밀번호 변경
         </Item>
-        <Item icon="Exit" onPress={() => open(<Close navigation={navigation} />)}>
+        <Item
+          icon="Exit"
+          onPress={() => open(<Close navigation={navigation} />)}
+        >
           로그아웃
         </Item>
       </LabelLayout>

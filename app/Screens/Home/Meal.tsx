@@ -8,7 +8,10 @@ const nameTable = ["조식", "중식", "석식"];
 const timeTable = [8, 13, 19];
 
 export const Meal = () => {
-  const { data: mealData } = useMyQuery<IMeal>("meal", `/date?date=${getToday().fullDay}`);
+  const { data: mealData } = useMyQuery<IMeal>(
+    "meal",
+    `/date?date=${getToday().fullDay}`,
+  );
   const { color } = useTheme();
   const date = new Date();
 
@@ -21,12 +24,18 @@ export const Meal = () => {
             style={{
               ...styles.itemContainer,
               backgroundColor:
-                date.getHours() < timeTable[index] && date.getHours() > timeTable[index - 1]
+                date.getHours() < timeTable[index] &&
+                date.getHours() > timeTable[index - 1]
                   ? color("main", 50)
                   : "transparent",
             }}
           >
-            <Text colorType="main" colorLevel={700} fontType="subTitle" fontLevel={1}>
+            <Text
+              colorType="main"
+              colorLevel={700}
+              fontType="subTitle"
+              fontLevel={1}
+            >
               {nameTable[index]}
             </Text>
             <Text
@@ -45,7 +54,12 @@ export const Meal = () => {
                   backgroundColor: color("main", 500),
                 }}
               >
-                <Text colorType="normal" colorLevel="white" fontType="body" fontLevel={1}>
+                <Text
+                  colorType="normal"
+                  colorLevel="white"
+                  fontType="body"
+                  fontLevel={1}
+                >
                   {!!item.menu.length ? item.cal : "0 Kcal"}
                 </Text>
               </View>

@@ -6,7 +6,11 @@ import { useToast } from "./useToast";
 
 type apiType = "post" | "patch" | "delete" | "put";
 
-export const useMyMutation = <T, K>(type: apiType, pathname: keyof typeof paths, url: string): UseMutationResult<K, number, T> => {
+export const useMyMutation = <T, K>(
+  type: apiType,
+  pathname: keyof typeof paths,
+  url: string,
+): UseMutationResult<K, number, T> => {
   const { error } = useToast();
 
   return useMutation<K, number, T>({

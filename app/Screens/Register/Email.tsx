@@ -1,4 +1,13 @@
-import { Button, Layout, Text, TextInput, View, KeyboardDismiss, TouchableOpacity, PrevHeader } from "@/Components";
+import {
+  Button,
+  Layout,
+  Text,
+  TextInput,
+  View,
+  KeyboardDismiss,
+  TouchableOpacity,
+  PrevHeader,
+} from "@/Components";
 import { IMailCheckIn, IMailSendIn } from "@/apis";
 import { useMyMutation, useTheme, useToast, useSignupState } from "@/hooks";
 import { useEffect, useRef, useState } from "react";
@@ -7,8 +16,16 @@ export const Email = ({ navigation }) => {
   const { color } = useTheme();
   const { error } = useToast();
   const { setAccountInfo } = useSignupState();
-  const { mutate: mailSendMutate } = useMyMutation<IMailSendIn, null>("post", "mail", "/send");
-  const { mutate: mailCheckMutate } = useMyMutation<IMailCheckIn, boolean>("post", "mail", "/check");
+  const { mutate: mailSendMutate } = useMyMutation<IMailSendIn, null>(
+    "post",
+    "mail",
+    "/send",
+  );
+  const { mutate: mailCheckMutate } = useMyMutation<IMailCheckIn, boolean>(
+    "post",
+    "mail",
+    "/check",
+  );
 
   const [data, setData] = useState({
     email: "",
@@ -28,7 +45,7 @@ export const Email = ({ navigation }) => {
     if (sendDisabled) return;
     setSendDisabled(true);
     setRemaining(60);
-    
+
     if (intervalRef.current) clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
       setRemaining((prev) => {
@@ -44,10 +61,10 @@ export const Email = ({ navigation }) => {
     mailSendMutate({
       mail: data.email,
       message: "회원가입",
-      title: "인증 코드"
+      title: "인증 코드",
     });
     setDidSent(true);
-  }
+  };
 
   const handlePress = () => {
     mailCheckMutate(data, {
@@ -56,14 +73,14 @@ export const Email = ({ navigation }) => {
           setAccountInfo(data.email, data.code);
           navigation.navigate("회원가입비밀번호");
         } else {
-          error("인증코드가 일치하지 않습니다")
+          error("인증코드가 일치하지 않습니다");
         }
       },
       onError(err) {
         if (err === 401) {
           error("인증코드가 만료되었습니다.");
         }
-      }
+      },
     });
   };
 
@@ -77,8 +94,18 @@ export const Email = ({ navigation }) => {
     <KeyboardDismiss>
       <Layout Header={<PrevHeader title="" />} style={{ gap: 40 }}>
         <View style={{ width: "100%", marginTop: 80, gap: 12 }}>
-          <Text fontType="heading" fontLevel={2} colorType="normal" colorLevel="black">
-            <Text fontType="heading" fontLevel={2} colorType="main" colorLevel={500}>
+          <Text
+            fontType="heading"
+            fontLevel={2}
+            colorType="normal"
+            colorLevel="black"
+          >
+            <Text
+              fontType="heading"
+              fontLevel={2}
+              colorType="main"
+              colorLevel={500}
+            >
               PiCK
             </Text>
             에 회원가입하기
@@ -94,13 +121,41 @@ export const Email = ({ navigation }) => {
           placeholder="메일을 입력해주세요"
           onChange={handleChange}
           after={
-            <View style={{ display: "flex", flexDirection: "row", gap: 10, alignItems: "center", position: "absolute", right: 16 }}>
-              <Text fontType="caption" fontLevel={2} colorType="gray" colorLevel={400}>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: 10,
+                alignItems: "center",
+                position: "absolute",
+                right: 16,
+              }}
+            >
+              <Text
+                fontType="caption"
+                fontLevel={2}
+                colorType="gray"
+                colorLevel={400}
+              >
                 @dsm.hs.kr
               </Text>
-              <TouchableOpacity onPress={() => handleSend()} disabled={!!!data.email || sendDisabled} style={{ backgroundColor: color(!!!data.email ? "gray" : "main", 50), paddingHorizontal: 10, paddingVertical: 4, borderRadius: 5 }}>
-                <Text fontType="button" fontLevel={2} colorType={"main"} colorLevel={900}>
-                {didSent
+              <TouchableOpacity
+                onPress={() => handleSend()}
+                disabled={!!!data.email || sendDisabled}
+                style={{
+                  backgroundColor: color(!!!data.email ? "gray" : "main", 50),
+                  paddingHorizontal: 10,
+                  paddingVertical: 4,
+                  borderRadius: 5,
+                }}
+              >
+                <Text
+                  fontType="button"
+                  fontLevel={2}
+                  colorType={"main"}
+                  colorLevel={900}
+                >
+                  {didSent
                     ? sendDisabled
                       ? `${String(Math.floor(remaining / 60)).padStart(2, "0")}:${String(remaining % 60).padStart(2, "0")}`
                       : "재발송"
@@ -110,8 +165,18 @@ export const Email = ({ navigation }) => {
             </View>
           }
         />
-        <TextInput label="인증 코드" value={data.code} id="code" placeholder="인증 코드를 입력해주세요" onChange={handleChange} />
-        <Button disabled={!!!data.email || !!!data.code} onPress={() => handlePress()} style={{ position: "absolute", bottom: 30 }}>
+        <TextInput
+          label="인증 코드"
+          value={data.code}
+          id="code"
+          placeholder="인증 코드를 입력해주세요"
+          onChange={handleChange}
+        />
+        <Button
+          disabled={!!!data.email || !!!data.code}
+          onPress={() => handlePress()}
+          style={{ position: "absolute", bottom: 30 }}
+        >
           다음
         </Button>
       </Layout>

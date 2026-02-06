@@ -3,7 +3,7 @@ import { ToastManager, BottomSheetManager, ModalManager } from "@/Components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Alert, Animated, BackHandler, Linking, StatusBar } from "react-native";
-import { useBottomSheet, useOptions, useTheme, useToast } from "@/hooks";
+import { useBottomSheet, useOptions, useTheme } from "@/hooks";
 import { NavigationContainer } from "@react-navigation/native";
 import { useMediaLibraryPermissions } from "expo-image-picker";
 import { enableScreens } from "react-native-screens";
@@ -12,7 +12,9 @@ import { getItem, navigationRef } from "@/utils";
 import { Navigation } from "@/Navigation";
 import { useFonts } from "expo-font";
 import { Splash } from "@/Screens";
-import InAppUpdates, { AndroidUpdateType } from "sp-react-native-in-app-updates";
+import InAppUpdates, {
+  AndroidUpdateType,
+} from "sp-react-native-in-app-updates";
 
 enableScreens(true);
 
@@ -47,25 +49,34 @@ export default function App() {
 
   const setupFlow = useCallback(async () => {
     try {
-      inAppUpdatesRef.current.checkNeedsUpdate()
-        .then(result => {
-          if (result.shouldUpdate) {
-            inAppUpdatesRef.current.startUpdate({
+      inAppUpdatesRef.current.checkNeedsUpdate().then((result) => {
+        if (result.shouldUpdate) {
+          inAppUpdatesRef.current
+            .startUpdate({
               updateType: AndroidUpdateType.IMMEDIATE,
-            }).catch(() => {
+            })
+            .catch(() => {
               Alert.alert(
                 "업데이트 필요",
                 "최신 버전 이용을 위해 스토어로 이동합니다.",
-                [{ text: "확인", onPress: () => Linking.openURL('market://details?id=com.sixstandard.PICK') }]
+                [
+                  {
+                    text: "확인",
+                    onPress: () =>
+                      Linking.openURL(
+                        "market://details?id=com.sixstandard.PICK",
+                      ),
+                  },
+                ],
               );
             });
-          }
-        })
+        }
+      });
 
       const accessToken = await getItem("access_token");
       setToken(accessToken ?? null);
     } catch (error) {
-      console.error('Setup error:', error);
+      console.error("Setup error:", error);
       setToken(null);
     } finally {
       setTimeout(() => {
@@ -87,15 +98,18 @@ export default function App() {
     return () => {
       isMountedRef.current = false;
     };
-  }, []);
+  }, [loadOptions, loadTheme, requestPermission, setupFlow, status]);
 
   useEffect(() => {
-    const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      close();
-      return isOpened;
-    });
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        close();
+        return isOpened;
+      },
+    );
     return () => backHandler.remove();
-  }, [isOpened]);
+  }, [isOpened, close]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -105,12 +119,12 @@ export default function App() {
             <StatusBar
               translucent
               backgroundColor="transparent"
-              barStyle={getTheme() === "dark" ? "light-content" : "dark-content"}
+              barStyle={
+                getTheme() === "dark" ? "light-content" : "dark-content"
+              }
             />
             {splash && <Splash fade={fade} />}
-            {fontsLoaded && token !== undefined && (
-              <Navigation token={token} />
-            )}
+            {fontsLoaded && token !== undefined && <Navigation token={token} />}
             <ToastManager />
             <ModalManager />
             <BottomSheetManager />

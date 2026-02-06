@@ -5,18 +5,35 @@ import { Item } from "./Item";
 
 export const Alert = () => {
   return (
-    <Layout Header={<PrevHeader title="알림" />} style={{ paddingHorizontal: 0 }}>
+    <Layout
+      Header={<PrevHeader title="알림" />}
+      style={{ paddingHorizontal: 0 }}
+    >
       <View style={styles.contentContainer}>
-        <Text colorType="normal" colorLevel="black" fontType="subTitle" fontLevel={2}>
+        <Text
+          colorType="normal"
+          colorLevel="black"
+          fontType="subTitle"
+          fontLevel={2}
+        >
           읽지 않은 알림 ({[].filter((i) => !i.read).length.toString()})
         </Text>
         <TouchableOpacity activeOpacity={0.6} onPress={() => {}}>
-          <Text colorType="main" colorLevel={500} fontType="subTitle" fontLevel={2}>
+          <Text
+            colorType="main"
+            colorLevel={500}
+            fontType="subTitle"
+            fontLevel={2}
+          >
             모두 읽음
           </Text>
         </TouchableOpacity>
       </View>
-      <FlatList data={[]} style={{ width: "100%" }} renderItem={({ item }) => <Item {...item} />} />
+      <FlatList
+        data={[]}
+        style={{ width: "100%" }}
+        renderItem={({ item }) => <Item {...item} />}
+      />
     </Layout>
   );
 };

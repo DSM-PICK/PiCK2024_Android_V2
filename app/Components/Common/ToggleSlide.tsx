@@ -18,11 +18,13 @@ export const ToggleSlide = ({ items, onPress, padding }: IProp) => {
 
   useEffect(() => {
     Animated.timing(animation, {
-      toValue: Math.round(selected * ((width - (padding ? padding * 2 : 0)) / items.length)),
+      toValue: Math.round(
+        selected * ((width - (padding ? padding * 2 : 0)) / items.length),
+      ),
       useNativeDriver: true,
       duration: 200,
     }).start();
-  }, [animation, selected]);
+  }, [animation, items.length, padding, selected, width]);
 
   const handlePress = (index: number, item: string) => {
     setSelected(index);
@@ -49,7 +51,12 @@ export const ToggleSlide = ({ items, onPress, padding }: IProp) => {
             style={[styles.buttonElement, { width: widthBySize }]}
             onPress={() => handlePress(index, item)}
           >
-            <Text colorType="normal" colorLevel="black" fontType="label" fontLevel={1}>
+            <Text
+              colorType="normal"
+              colorLevel="black"
+              fontType="label"
+              fontLevel={1}
+            >
               {item}
             </Text>
           </Pressable>

@@ -1,4 +1,4 @@
-const { getDefaultConfig } = require('expo/metro-config');
+const { getDefaultConfig } = require("expo/metro-config");
 
 metroConfig = (() => {
   const config = getDefaultConfig(__dirname);

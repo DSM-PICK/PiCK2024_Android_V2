@@ -11,7 +11,14 @@ interface IProp extends ScrollViewProps {
   scrollAble?: boolean;
 }
 
-export const Layout = ({ children, Header, Footer, bottomPad, scrollAble, ...props }: IProp) => {
+export const Layout = ({
+  children,
+  Header,
+  Footer,
+  bottomPad,
+  scrollAble,
+  ...props
+}: IProp) => {
   const { top, bottom } = useSafeAreaInsets();
   const { color } = useTheme();
 
@@ -51,7 +58,9 @@ export const Layout = ({ children, Header, Footer, bottomPad, scrollAble, ...pro
           }}
         >
           <View style={{ width: "100%", zIndex: 200 }}>{Header}</View>
-          <View style={[styles.childrenContainer, props.style, { zIndex: 10 }]}>{children}</View>
+          <View style={[styles.childrenContainer, props.style, { zIndex: 10 }]}>
+            {children}
+          </View>
           {Footer}
         </View>
       )}

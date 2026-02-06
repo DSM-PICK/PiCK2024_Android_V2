@@ -7,7 +7,11 @@ interface IProp {
 
 export const KeyboardDismiss = ({ children }: IProp) => {
   return (
-    <TouchableOpacity style={{ flex: 1 }} onPress={() => Keyboard.dismiss()} activeOpacity={1}>
+    <TouchableOpacity
+      style={{ flex: 1 }}
+      onPress={() => Keyboard.dismiss()}
+      activeOpacity={1}
+    >
       {children}
     </TouchableOpacity>
   );

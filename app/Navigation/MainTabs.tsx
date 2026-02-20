@@ -1,10 +1,12 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  createBottomTabNavigator,
+  type BottomTabScreenProps,
+} from "@react-navigation/bottom-tabs";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { All, Apply, Home, Meal, Schedule } from "@/Screens";
 import { Icon, iconType } from "@/Components";
 import { Platform } from "react-native";
 import { useTheme } from "@/hooks";
-import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
 type MainTabParamList = {
   홈: undefined;

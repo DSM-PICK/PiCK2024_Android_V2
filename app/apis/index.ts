@@ -67,34 +67,40 @@ instance.interceptors.response.use(
   (res) => res,
   async (err: AxiosError) => {
     if (err.response?.status === 401 && err.config?.url !== "/user/login") {
-      // 토큰만료 값 뭔지 모름, 있다가 도경이에게 물어볼 것
       const { refresh_token } = await getToken();
-      axios
-        .put(process.env.EXPO_PUBLIC_BASE_URL + "/user/refresh", null, {
-          headers: { "X-Refresh-Token": refresh_token },
-        })
-        .then(async (res) => {
-          const { data } = res.data!;
+      try {
+        const res = await axios.put(
+          process.env.EXPO_PUBLIC_BASE_URL + "/user/refresh",
+          null,
+          {
+            headers: { "X-Refresh-Token": refresh_token },
+          },
+        );
+        const { data } = res.data!;
 
-          await bulkSetItem([
-            ["access_token", data.access_token],
-            ["refresh_token", data.refresh_token],
-          ]);
+        await bulkSetItem([
+          ["access_token", data.access_token],
+          ["refresh_token", data.refresh_token],
+        ]);
 
-          tokenCache = {
-            access_token: res?.data.access_token,
-            refresh_token: res?.data.refresh_token,
-            timestamp: Date.now(),
-          };
-        })
-        .catch(async () => {
-          await bulkDelItem(["access_token", "refresh_token"]);
-          tokenCache.access_token = null;
-          tokenCache.refresh_token = null;
-          navigate("로그인");
-        });
-    } else {
-      throw err;
+        tokenCache = {
+          access_token: data.access_token,
+          refresh_token: data.refresh_token,
+          timestamp: Date.now(),
+        };
+
+        if (err.config) {
+          err.config.headers["Authorization"] = `Bearer ${data.access_token}`;
+          return instance(err.config);
+        }
+      } catch {
+        await bulkDelItem(["access_token", "refresh_token"]);
+        tokenCache.access_token = null;
+        tokenCache.refresh_token = null;
+        navigate("로그인");
+        throw err;
+      }
     }
+    throw err;
   },
 );

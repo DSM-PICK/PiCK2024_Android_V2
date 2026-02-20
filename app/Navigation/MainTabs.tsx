@@ -4,8 +4,19 @@ import { All, Apply, Home, Meal, Schedule } from "@/Screens";
 import { Icon, iconType } from "@/Components";
 import { Platform } from "react-native";
 import { useTheme } from "@/hooks";
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
-type componentType = ({ navigation }: { navigation: any }) => React.JSX.Element;
+type MainTabParamList = {
+  홈: undefined;
+  급식: undefined;
+  신청: undefined;
+  일정: undefined;
+  전체: undefined;
+};
+
+type componentType = ({
+  navigation,
+}: BottomTabScreenProps<MainTabParamList>) => React.JSX.Element;
 
 const { Navigator, Screen } = createBottomTabNavigator();
 

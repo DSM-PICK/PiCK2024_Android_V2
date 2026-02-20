@@ -1,6 +1,6 @@
 import { Calander as NativeCalander, Text, View } from "@/Components";
 import { FlatList, StyleSheet } from "react-native";
-import { useMyQuery, useTheme } from "@/hooks";
+import { useMyQuery, useTheme, IColorProp } from "@/hooks";
 import { monthTable } from "@/constants";
 import { scheduleType } from "@/apis";
 import { getToday } from "@/utils";
@@ -8,13 +8,16 @@ import { useState, memo } from "react";
 
 const { year, month, fullDay } = getToday();
 
-const EventItem = memo(function Item({
-  item,
-  color,
-}: {
-  item: any;
-  color: any;
-}) {
+interface IEventItemProps {
+  item: scheduleType[number];
+  color: (
+    type: IColorProp["colorType"],
+    level: IColorProp["colorLevel"],
+    noAnim?: boolean,
+  ) => string;
+}
+
+const EventItem = memo(function Item({ item, color }: IEventItemProps) {
   return (
     <View
       style={{ ...styles.event, borderLeftColor: color("main", 500, true) }}

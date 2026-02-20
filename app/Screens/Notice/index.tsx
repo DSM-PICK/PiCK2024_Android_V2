@@ -9,7 +9,11 @@ export { Item as NoticeItem } from "./Item";
 
 const today = new Date().toISOString().split("T")[0];
 
-const MemoizedItem = memo(function ItemOrigin({ item }: { item: any }) {
+const MemoizedItem = memo(function ItemOrigin({
+  item,
+}: {
+  item: noticeSimpleType[number];
+}) {
   return (
     <View style={{ padding: 24 }}>
       <Item
@@ -35,7 +39,6 @@ export const Notice = () => {
         data={noticeData || []}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <MemoizedItem item={item} />}
-        // Add performance optimizations
         initialNumToRender={10}
         maxToRenderPerBatch={10}
         windowSize={5}

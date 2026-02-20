@@ -16,6 +16,5 @@ export const useMyQuery = <T>(
         throw e;
       }
     },
-    placeholderData: (prev) => prev,
   });
 };

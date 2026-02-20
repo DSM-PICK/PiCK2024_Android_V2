@@ -1,5 +1,6 @@
 import BottomSheet, {
   BottomSheetBackdrop,
+  BottomSheetBackdropProps,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -25,10 +26,13 @@ const BottomSheetManagerComponent = () => {
   }, [isOpened]);
 
   const renderBackdrop = useCallback(
-    (props: any) => (
+    (props: BottomSheetBackdropProps) => (
       <BottomSheetBackdrop
         {...props}
-        style={{ ...props.style, backgroundColor: "#00000000" }}
+        style={[
+          props.style,
+          { backgroundColor: "#00000000" },
+        ]}
         pressBehavior="close"
         opacity={0.5}
         appearsOnIndex={0}

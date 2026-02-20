@@ -29,7 +29,7 @@ const createToast = (
 ) => ({
   type,
   message,
-  id: options?.id || Math.random() + "",
+  id: options?.id || globalThis.crypto.randomUUID(),
   wasWait: options?.wasWait,
 });
 

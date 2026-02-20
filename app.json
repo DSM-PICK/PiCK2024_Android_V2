@@ -52,7 +52,7 @@
         "backgroundColor": "#ffffff"
       },
       "googleServicesFile": "./google-services.json",
-      "versionCode": 47
+      "versionCode": 48
     },
     "extra": {
       "eas": {

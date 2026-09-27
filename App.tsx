@@ -15,7 +15,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useMediaLibraryPermissions } from "expo-image-picker";
 import { enableScreens } from "react-native-screens";
 import { useEffect, useRef, useState } from "react";
-import { getItem, navigationRef } from "@/utils";
+import { getItem, initSentry, navigationRef } from "@/utils";
+import * as Sentry from "@sentry/react-native";
 import { Navigation } from "@/Navigation";
 import { useFonts } from "expo-font";
 import { Splash } from "@/Screens";
@@ -24,6 +25,7 @@ import InAppUpdates, {
 } from "sp-react-native-in-app-updates";
 
 enableScreens(true);
+initSentry();
 
 const ANDROID_STORE_URL = "market://details?id=com.sixstandard.PICK";
 
@@ -136,7 +138,7 @@ const checkInAppUpdate = async (
   }
 };
 
-export default function App() {
+function App() {
   const [fontsLoaded] = useFonts({
     Medium: require("./app/assets/font/Medium.ttf"),
     Regular: require("./app/assets/font/Regular.ttf"),
@@ -229,3 +231,5 @@ export default function App() {
     </QueryClientProvider>
   );
 }
+
+export default Sentry.wrap(App);

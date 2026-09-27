@@ -1,4 +1,10 @@
-import { bulkSetItem, bulkDelItem, getItem, navigate } from "@/utils";
+import {
+  bulkSetItem,
+  bulkDelItem,
+  getItem,
+  navigate,
+  reportForcedLogout,
+} from "@/utils";
 import axios, { AxiosError } from "axios";
 export * from "./types";
 
@@ -18,6 +24,10 @@ let tokenCache: {
 };
 
 const CACHE_EXPIRATION = 5 * 60 * 1000;
+
+// 강제 로그아웃 원인 분석용 (동작에는 관여하지 않음)
+let refreshInFlight = 0;
+let lastRefreshSuccessAt = 0;
 
 const refreshTokenCache = async () => {
   const [access_token, refresh_token] = await Promise.all([
@@ -67,7 +77,9 @@ instance.interceptors.response.use(
   (res) => res,
   async (err: AxiosError) => {
     if (err.response?.status === 401 && err.config?.url !== "/user/login") {
-      const { refresh_token } = await getToken();
+      const { access_token, refresh_token } = await getToken();
+      const concurrentRefreshes = refreshInFlight;
+      refreshInFlight += 1;
       try {
         const res = await axios.put(
           process.env.EXPO_PUBLIC_BASE_URL + "/user/refresh",
@@ -88,17 +100,28 @@ instance.interceptors.response.use(
           refresh_token: data.refresh_token,
           timestamp: Date.now(),
         };
+        lastRefreshSuccessAt = Date.now();
 
         if (err.config) {
           err.config.headers["Authorization"] = `Bearer ${data.access_token}`;
           return instance(err.config);
         }
-      } catch {
+      } catch (refreshError) {
+        reportForcedLogout({
+          error: refreshError,
+          accessToken: access_token,
+          refreshToken: refresh_token,
+          request: err.config,
+          concurrentRefreshes,
+          lastRefreshSuccessAt,
+        });
         await bulkDelItem(["access_token", "refresh_token"]);
         tokenCache.access_token = null;
         tokenCache.refresh_token = null;
         navigate("로그인");
         throw err;
+      } finally {
+        refreshInFlight -= 1;
       }
     }
     throw err;
